@@ -1,0 +1,140 @@
+@use "../../../helper/style/mixin";
+@use "../../../helper/style/media";
+
+.component {
+  padding: 2.5rem 0;
+
+  @include mixin.from(media.$md) {
+    padding: 5rem 0;
+  }
+}
+
+.wrapper {
+  --grid: 100%;
+
+  align-content: start;
+  justify-items: center;
+}
+
+.title {
+  margin: 0;
+
+  text-align: center;
+}
+
+.text {
+  width: 100%;
+  max-width: 37.5rem;
+  margin: 0;
+  margin-top: 1.5rem;
+
+  text-align: center;
+}
+
+.form {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+
+  min-height: 3rem;
+  width: 100%;
+  max-width: 36.25rem;
+  margin-top: 2.375rem;
+  padding: 0 0.75rem;
+
+  box-sizing: border-box;
+
+  font-family: "Roboto", sans-serif;
+
+  border: 2px solid rgba(var(--white), 0.2);
+  border-radius: 3.0625rem;
+
+  @include mixin.from(media.$md) {
+    min-height: 3.75rem;
+  }
+}
+
+.input {
+  height: 100%;
+}
+
+.input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+
+  box-sizing: border-box;
+
+  font-size: var(--body-1);
+  line-height: 1.4;
+  color: rgba(var(--white), 1);
+
+  border: 0;
+  background-color: transparent;
+
+  &::placeholder {
+    color: rgba(var(--white), 0.5);
+    opacity: 1;
+  }
+}
+
+.submit {
+  position: relative;
+
+  padding: 0.25rem 1rem;
+
+  font-family: inherit;
+  font-size: var(--body-1);
+  line-height: var(--line-140);
+  color: rgba(var(--pink), 0.2);
+
+  border: 0;
+  border-radius: 3.0625rem;
+
+  background-color: transparent;
+}
+
+.submit::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  content: "";
+
+  border-radius: 3.0625rem;
+
+  background-color: rgba(var(--pink), 0.2);
+
+  filter: blur(1rem);
+}
+
+.videoWrapper {
+  width: calc(100% + var(--gutters) * 2);
+
+  @include mixin.until(media.$sm) {
+    margin-top: 2rem;
+  }
+}
+
+.ratio {
+  position: relative;
+
+  width: 100%;
+  height: 0;
+  padding-top: 27.5%;
+}
+
+.video {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 100%;
+  height: auto;
+}
+

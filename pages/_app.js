@@ -1,7 +1,13 @@
-import '../styles/globals.css'
+import { Component, cloneElement, Fragment } from "react";
+import "../src/theme/globals.scss";
+import "../src/theme/variables.scss";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
-}
+const FragmentLayout = <Fragment />;
 
-export default MyApp
+const MyApp = ({ Component, pageProps }) => {
+	const Layout = "layout" in Component ? Component.layout() : FragmentLayout;
+
+	return cloneElement(Layout, { children: <Component {...pageProps} /> });
+};
+
+export default MyApp;

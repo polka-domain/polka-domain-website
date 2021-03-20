@@ -1,0 +1,30 @@
+@use "../../helper/style/mixin";
+@use "../../helper/style/media";
+
+.primary {
+  font-family: "Roboto", sans-serif;
+}
+
+.secondary {
+  font-family: "Work Sans", sans-serif;
+}
+
+.lighten-100 {
+  opacity: 1;
+}
+
+.lighten-90 {
+  opacity: 0.9;
+}
+
+.lighten-80 {
+  opacity: 0.8;
+}
+
+.lighten-60 {
+  opacity: 0.6;
+}
+
+.lighten-50 {
+  opacity: 0.5;
+}

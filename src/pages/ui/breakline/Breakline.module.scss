@@ -1,0 +1,23 @@
+@use "../../../helper/style/mixin";
+@use "../../../helper/style/media";
+
+.component {
+  padding: 3.125rem 0;
+
+  @include mixin.from(media.$md) {
+    padding: 6.25rem 0;
+  }
+}
+
+.breakline {
+  grid-column: -1/1;
+
+  height: 2px;
+  margin: 0;
+
+  border: 0;
+
+  background-image: linear-gradient(90deg, rgba(var(--white), 1) 51.79%, rgba(var(--white), 0) 100%);
+
+  opacity: 0.3;
+}

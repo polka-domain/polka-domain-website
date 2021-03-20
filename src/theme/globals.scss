@@ -1,0 +1,28 @@
+@use "../helper/style/mixin";
+@use "../helper/style/media";
+
+html {
+  font-family: "Roc Grotesk", sans-serif;
+  font-size: 16px;
+  color: rgba(var(--white), 1);
+
+  background-color: rgba(var(--black), 1);
+
+  @include mixin.between(media.$md, media.$xl) {
+    font-size: 14px;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+
+  &::-moz-focus-inner {
+    border: 0;
+  }
+}
