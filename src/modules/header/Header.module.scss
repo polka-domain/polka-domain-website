@@ -1,1 +1,40 @@
+@use "../../helper/style/mixin";
+@use "../../helper/style/media";
 
+.component {
+  padding: 0.5rem 0;
+
+  border-bottom: 1px solid rgba(var(--white), 0.1);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  max-width: var(--max-width);
+  padding: 0 var(--small-gutters);
+  margin: 0 auto;
+
+  box-sizing: border-box;
+}
+
+.logo {
+  width: 13rem;
+
+  color: rgba(var(--white), 1);
+}
+
+
+.logo svg {
+  width: 100%;
+  height: auto;
+}
+
+.navigation {
+  margin-left: auto;
+}
+
+.launch {
+  margin-left: 2.25rem;
+}

@@ -1,0 +1,88 @@
+@use "../../helper/style/mixin";
+@use "../../helper/style/media";
+
+.button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  font-family: "Roboto", sans-serif;
+  line-height: var(--line-118);
+  text-decoration: none;
+
+  border: 0;
+
+  background-color: transparent;
+
+  cursor: pointer;
+
+  &:disabled {
+    cursor: initial;
+    pointer-events: none;
+  }
+}
+
+.icon {
+  position: relative;
+}
+
+.icon span {
+  @include mixin.visuallyHidden();
+}
+
+.text {
+  padding: 0;
+}
+
+.medium {
+  font-size: 1rem;
+}
+
+.small {
+  font-size: 0.875rem;
+}
+
+.icon-medium svg {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.iconBefore-medium svg {
+  width: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.iconAfter-medium svg {
+  width: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+.contained {
+  min-height: 2.5rem;
+  padding: 0.625rem 1.5rem;
+
+  box-sizing: border-box;
+
+  border-radius: 2.625rem;
+}
+
+.text-grey {
+  color: rgba(var(--white), 0.5);
+
+  transition-timing-function: linear;
+  transition-duration: 250ms;
+  transition-property: color;
+
+  &:hover,
+  &:focus {
+    color: rgba(var(--pink), 1);
+  }
+}
+
+.contained-grey {
+  color: rgba(var(--white), 0.5);
+
+  background-color: rgba(var(--white), 0.2);
+}
+
+

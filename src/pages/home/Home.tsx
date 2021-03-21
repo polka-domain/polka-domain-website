@@ -14,7 +14,7 @@ export const Home: FC<HomeType> = () => {
 			<Promo />
 			<Services />
 			<Breakline />
-			<Features />
+			<Features className={styles.features} />
 		</>
 	);
 };

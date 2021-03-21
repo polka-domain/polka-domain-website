@@ -1,1 +1,43 @@
+@use "../../helper/style/mixin";
+@use "../../helper/style/media";
 
+.component {
+  padding: 2.25rem 0;
+
+  border-top: 1px solid rgba(var(--white), 0.1);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  max-width: var(--max-width);
+  padding: 0 var(--small-gutters);
+  margin: 0 auto;
+
+  box-sizing: border-box;
+}
+
+.logo {
+  width: 13rem;
+}
+
+
+.logo svg {
+  width: 100%;
+  height: auto;
+}
+
+.list {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  grid-column-gap: 3rem;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}

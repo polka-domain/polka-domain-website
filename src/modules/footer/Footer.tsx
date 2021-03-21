@@ -1,11 +1,49 @@
 import classNames from "classnames";
-import { FC } from "react";
+import React, { FC } from "react";
 
 import styles from "./Footer.module.scss";
 import { MaybeWithClassName } from "../../helper/react/types";
+import { GitHub, Logo, Medium, Telegram, Twitter } from "../../ui/icons/Icons";
+import { NavLink } from "../../ui/button";
+import { SOCIAL } from "../../const/const";
 
 type FooterType = {};
 
+export const ICONS = {
+	Github: <GitHub />,
+	Twitter: <Twitter />,
+	Telegram: <Telegram />,
+	Medium: <Medium />,
+};
+
 export const Footer: FC<FooterType & MaybeWithClassName> = ({ className }) => {
-	return <footer className={classNames(styles.component, className)}>footer</footer>;
+	return (
+		<footer className={classNames(styles.component, className)}>
+			<div className={styles.wrapper}>
+				<NavLink className={styles.logo} href="/" icon={<Logo />} variant="text" color="grey">
+					Home
+				</NavLink>
+				<ul className={styles.list}>
+					{Object.keys(SOCIAL).map((key) => {
+						const subItem = SOCIAL[key];
+						return (
+							<li key={key} className={styles.item}>
+								<NavLink
+									className={styles.link}
+									activeClassName={styles.active}
+									href={subItem}
+									variant="text"
+									size="medium"
+									color="grey"
+									icon={ICONS[key]}
+								>
+									{key}
+								</NavLink>
+							</li>
+						);
+					})}
+				</ul>
+			</div>
+		</footer>
+	);
 };

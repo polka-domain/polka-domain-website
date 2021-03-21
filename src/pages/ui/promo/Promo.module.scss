@@ -58,6 +58,8 @@
 }
 
 .input {
+  position: relative;
+
   display: grid;
   grid-auto-flow: column;
   grid-template-columns: auto 1fr;
@@ -81,6 +83,10 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.label {
+  @include mixin.visuallyHidden();
 }
 
 .input input {

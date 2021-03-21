@@ -43,6 +43,7 @@ export const Promo: FC<PromoType & MaybeWithClassName> = ({ className }) => {
 				</Body1>
 				<form className={styles.form}>
 					<label className={styles.input}>
+						<span className={styles.label}>Connect to the domain specific to you</span>
 						<input type="text" placeholder="Connect to the domain specific to you" disabled />
 					</label>
 					<button className={styles.submit} type="submit" disabled>

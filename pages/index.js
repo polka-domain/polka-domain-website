@@ -4,7 +4,12 @@ import { Home } from "../src/pages/home";
 
 const Index = pageWithLayout(
 	() => <Home />,
-	() => <Layout title="" description="" />
+	() => (
+		<Layout
+			title="Polka.Domain"
+			description="Take ownership of your digital identity and assets."
+		/>
+	)
 );
 
 export default Index;

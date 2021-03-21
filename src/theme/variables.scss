@@ -47,6 +47,7 @@ html {
     --headline-1: 2.2rem;
 
     --gutters: 2rem;
+    --small-gutters: 1rem;
   }
 
   @media (min-width: 768px) {
@@ -60,6 +61,7 @@ html {
 
   @media (min-width: 1024px) {
     --gutters: 5rem;
+    --small-gutters: 1.5rem;
 
     --headline-1: 3.625rem;
     --headline-2: 3.125rem;
@@ -70,11 +72,13 @@ html {
 
   @media (min-width: 1200px) {
     --gutters: 7.5rem;
+    --small-gutters: 2rem;
     --gap: 5rem;
   }
 
   @media (min-width: 1350px) {
     --gutters: 10.5rem;
+    --small-gutters: 2.5rem;
     --gap: 7rem;
   }
 }
