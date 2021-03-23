@@ -38,6 +38,14 @@
 
 .item {
   position: relative;
+
+  &:hover::before {
+    transform: rotateZ(100deg);
+  }
+
+  &:nth-child(3):hover::before {
+    transform: rotate(15deg) rotateZ(100deg);
+  }
 }
 
 .item::before {
@@ -52,6 +60,10 @@
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+
+  transition-timing-function: linear;
+  transition-duration: 6s;
+  transition-property: transform;
 }
 
 .item:nth-child(1)::before {

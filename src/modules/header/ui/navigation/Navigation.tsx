@@ -20,7 +20,7 @@ type ComponentType = NavigationType & MaybeWithClassName;
 const HEADER_LINKS = {
 	Docs: "/PD mind map ENG ver.pdf",
 	Social: SOCIAL,
-	Testate: TESTNET_PATH,
+	Testnet: TESTNET_PATH,
 };
 
 const ICONS = {
