@@ -5,6 +5,10 @@
   padding-bottom: 5.625rem;
 
   @include mixin.from(media.$sm) {
+    padding: 5rem 0;
+  }
+
+  @include mixin.from(media.$md) {
     padding: 5rem 0 7rem;
   }
 }
@@ -182,8 +186,9 @@
     grid-row: 1/2;
   }
 
-  @include mixin.from(media.$sm) {
+  @include mixin.from(media.$md) {
     width: calc(100% + var(--gutters) * 2);
+    height: auto;
   }
 }
 

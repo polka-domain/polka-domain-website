@@ -2,7 +2,9 @@
 @use "../../../helper/style/media";
 
 .componentWrapper {
-  overflow: hidden;
+  @include mixin.until(media.$sm) {
+    overflow: hidden;
+  }
 }
 
 .title {
