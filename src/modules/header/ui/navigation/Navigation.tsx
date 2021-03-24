@@ -18,7 +18,7 @@ type NavigationType = {
 type ComponentType = NavigationType & MaybeWithClassName;
 
 const HEADER_LINKS = {
-	Docs: "/PD mind map ENG ver.pdf",
+	Docs: "/Flowchart Polkadomain.pdf",
 	Social: SOCIAL,
 	Testnet: TESTNET_PATH,
 };

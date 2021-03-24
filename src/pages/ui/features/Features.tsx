@@ -45,7 +45,7 @@ export const Features: FC<FeaturesType & MaybeWithClassName> = ({ className }) =
 								key={key}
 								style={{ "--icon": `url(${ICONS[key]})` } as CSSProperties}
 							>
-								<Heading4 className={styles.caption} Component="h3" lighten={90}>
+								<Heading4 className={styles.caption} Component="h3" lighten={90} weight="semi-bold">
 									{key}
 								</Heading4>
 								<Body1 className={styles.text} lighten={80}>

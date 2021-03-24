@@ -78,7 +78,7 @@ export const Heading3: FC<HeadingType> = ({ Component = "h3", ...props }) => {
 	);
 };
 
-export const Heading4: FC<HeadingType & { weight: WeightType }> = ({
+export const Heading4: FC<HeadingType & { weight?: WeightType }> = ({
 	Component = "h4",
 	weight = "bold",
 	...props
