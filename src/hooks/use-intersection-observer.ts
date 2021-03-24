@@ -1,5 +1,5 @@
 import { useEffect, useState, RefObject } from "react";
-import { callBatched } from "./useBatch";
+import { callBatched } from "./use-batch";
 
 const withIntersectionObserver = (cb: (observer: typeof IntersectionObserver) => void) => {
 	if ("IntersectionObserver" in window) {

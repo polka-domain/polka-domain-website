@@ -7,7 +7,7 @@ import { GutterBox } from "../../../ui/gutter-box";
 import { Body1, Heading1 } from "../../../ui/typography";
 import { TextColor } from "../../../ui/text-color";
 import { Video } from "../../../ui/video";
-import { useIntersectionObserver } from "../../../hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "../../../hooks/use-intersection-observer";
 
 import video from "./assets/video.mp4";
 

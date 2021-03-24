@@ -26,13 +26,10 @@ export const Footer: FC<FooterType & MaybeWithClassName> = ({ className }) => {
 				</Body1>
 				<ul className={styles.list}>
 					{Object.keys(SOCIAL).map((key) => {
-						const subItem = SOCIAL[key];
 						return (
 							<li key={key} className={styles.item}>
 								<NavLink
-									className={styles.link}
-									activeClassName={styles.active}
-									href={subItem}
+									href={SOCIAL[key]}
 									variant="text"
 									size="medium"
 									color="grey"

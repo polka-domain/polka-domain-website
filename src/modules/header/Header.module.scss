@@ -2,25 +2,44 @@
 @use "../../helper/style/media";
 
 .component {
-  padding: 0.5rem 0;
+  position: relative;
 
-  border-bottom: 1px solid rgba(var(--white), 0.1);
+  &::after {
+    position: absolute;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    content: "";
+
+    display: block;
+    height: 1px;
+    background-color:  rgba(var(--white), 0.1);
+  }
 }
 
 .wrapper {
+  position: relative;
+  z-index: 10;
+
   display: flex;
   flex-direction: row;
   align-items: center;
 
   max-width: var(--max-width);
+  height: var(--header-height);
   padding: 0 var(--small-gutters);
   margin: 0 auto;
 
   box-sizing: border-box;
+
+  background-color: rgba(var(--black), 1);
 }
 
 .logo {
   width: 13rem;
+  margin-top: -5px;
+  margin-right: auto;
 
   color: rgba(var(--white), 1);
 }
@@ -32,9 +51,73 @@
 }
 
 .navigation {
-  margin-left: auto;
+  @include mixin.until(media.$sm) {
+    display: none;
+  }
 }
 
 .launch {
   margin-left: 2.25rem;
+
+  @include mixin.until(media.$sm) {
+    display: none;
+  }
+}
+
+.toggle {
+  position: relative;
+
+  padding: 0;
+  margin: 0;
+
+  color: rgba(var(--white), 1);
+
+  border: 0;
+
+  background-color: transparent;
+
+  transition-timing-function: linear;
+  transition-duration: 250ms;
+  transition-property: color;
+
+  @include mixin.from(media.$sm) {
+    display: none;
+  }
+
+  &:hover,
+  &:focus {
+    color: rgba(var(--pink), 1);
+  }
+}
+
+.toggle span {
+  @include mixin.visuallyHidden();
+}
+
+.dropdown {
+  position: absolute;
+  z-index: 5;
+
+  width: 100%;
+
+  transform: translateY(-100%);
+  pointer-events: none;
+  visibility: hidden;
+
+  transition-timing-function: linear;
+  transition-duration: 350ms;
+  transition-property: transform;
+
+  @include mixin.from(media.$lg) {
+    display: none;
+  }
+}
+
+.animation {
+  transform: translateY(0);
+}
+
+.visible {
+  pointer-events: all;
+  visibility: visible;
 }

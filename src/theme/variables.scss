@@ -28,9 +28,14 @@ html {
   --spacing-unit: 0.5rem;
   --max-width: 1440px;
 
+  --small-gutters: 1.5rem;
   --gutters: 1rem;
 
   --grid: 100%;
+
+  //header
+
+  --header-height: 5rem;
 
   //breakpoints
 
@@ -45,7 +50,6 @@ html {
 
   @media (min-width: 414px) {
     --gutters: 2rem;
-    --small-gutters: 1rem;
   }
 
   @media (min-width: 768px) {

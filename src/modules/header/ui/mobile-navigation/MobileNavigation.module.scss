@@ -1,0 +1,48 @@
+.component {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  height: calc(var(--window-height) - var(--header-height));
+  padding: 2rem;
+
+  box-sizing: border-box;
+
+  background-color: rgba(var(--black), 1);
+}
+
+
+.list {
+  display: grid;
+  justify-content: start;
+  grid-row-gap: 2rem;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.item {
+  position: relative;
+}
+
+.launch {
+  margin-top: 2.25rem;
+  height: 2.75rem;
+
+  text-align: center;
+}
+
+.socialList {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  grid-column-gap: 3rem;
+
+  margin: 0;
+  margin-top: auto;
+  padding: 0;
+
+  list-style: none;
+}
+
+

@@ -125,3 +125,34 @@ export const Twitter = (props: SVGAttributes<SVGElement>) => {
 		</svg>
 	);
 };
+
+export const Toggle = (props: SVGAttributes<SVGElement>) => {
+	return (
+		<svg
+			width={24}
+			height={10}
+			viewBox="0 0 24 10"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			{...props}
+		>
+			<path fill="currentColor" d="M0 0h24v1H0zM0 9h24v1H0z" />
+		</svg>
+	);
+};
+
+export const Close = (props: SVGAttributes<SVGElement>) => {
+	return (
+		<svg
+			width={33}
+			height={33}
+			viewBox="0 0 33 33"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			{...props}
+		>
+			<path fill="currentColor" d="M8.723 8.015L24.986 24.28l-.707.707L8.016 8.722z" />
+			<path fill="currentColor" d="M24.984 8.721L8.721 24.985l-.707-.707L24.277 8.014z" />
+		</svg>
+	);
+};

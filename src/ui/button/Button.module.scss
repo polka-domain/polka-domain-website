@@ -30,10 +30,6 @@
   @include mixin.visuallyHidden();
 }
 
-.text {
-  padding: 0;
-}
-
 .medium {
   font-size: 1rem;
 }
@@ -57,7 +53,15 @@
   margin-left: 0.5rem;
 }
 
+.text {
+  justify-content: start;
+
+  padding: 0;
+}
+
 .contained {
+  justify-content: center;
+
   min-height: 2.5rem;
   padding: 0.625rem 1.5rem;
 

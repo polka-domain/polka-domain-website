@@ -1,5 +1,5 @@
 import { FC, RefObject, useCallback, useRef } from "react";
-import { useIntersectionObserver } from "../../hooks/useIntersectionObserver";
+import { useIntersectionObserver } from "../../hooks/use-intersection-observer";
 
 import { Video } from "../video";
 import type { VideoType } from "../video";

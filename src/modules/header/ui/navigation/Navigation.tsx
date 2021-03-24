@@ -32,7 +32,6 @@ const ICONS = {
 
 const settings = {
 	className: styles.link,
-	activeClassName: styles.active,
 	variant: "text" as "text" | "contained",
 	size: "medium" as "medium" | "small",
 	color: "grey" as "grey",
@@ -42,7 +41,7 @@ export const Navigation: FC<ComponentType> = ({ className, links = HEADER_LINKS 
 	return (
 		<div className={className}>
 			<ul className={styles.list}>
-				{Object.keys(HEADER_LINKS).map((key) => {
+				{Object.keys(links).map((key) => {
 					const item = links[key];
 					const hasDropdown = typeof item !== "string";
 					const href = typeof item !== "string" ? undefined : item;
@@ -65,12 +64,7 @@ export const Navigation: FC<ComponentType> = ({ className, links = HEADER_LINKS 
 											const subItem = subLinks[subKey];
 											return (
 												<li key={subKey} className={styles.subItem}>
-													<NavLink
-														className={styles.subLink}
-														activeClassName={styles.active}
-														href={subItem}
-														variant="text"
-													>
+													<NavLink className={styles.subLink} href={subItem} variant="text">
 														<span className={styles.icon}>{ICONS[subKey]}</span>
 														{subKey}
 													</NavLink>
