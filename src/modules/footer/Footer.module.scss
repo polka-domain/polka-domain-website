@@ -18,16 +18,16 @@
   margin: 0 auto;
 
   box-sizing: border-box;
+
+  @include mixin.until(media.$sm) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
-.logo {
-  width: 13rem;
-}
-
-
-.logo svg {
-  width: 100%;
-  height: auto;
+.text {
+  margin: 0;
 }
 
 .list {
@@ -40,4 +40,8 @@
   padding: 0;
 
   list-style: none;
+
+  @include mixin.until(media.$sm) {
+    margin-top: 2.25rem;
+  }
 }

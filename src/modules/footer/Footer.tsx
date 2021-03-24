@@ -6,6 +6,7 @@ import { MaybeWithClassName } from "../../helper/react/types";
 import { GitHub, Logo, Medium, Telegram, Twitter } from "../../ui/icons/Icons";
 import { NavLink } from "../../ui/button";
 import { SOCIAL } from "../../const/const";
+import { Body1 } from "../../ui/typography";
 
 type FooterType = {};
 
@@ -20,9 +21,9 @@ export const Footer: FC<FooterType & MaybeWithClassName> = ({ className }) => {
 	return (
 		<footer className={classNames(styles.component, className)}>
 			<div className={styles.wrapper}>
-				<NavLink className={styles.logo} href="/" icon={<Logo />} variant="text" color="grey">
-					Home
-				</NavLink>
+				<Body1 className={styles.text} lighten={60} color="white">
+					Polkadomain. All rights reserved
+				</Body1>
 				<ul className={styles.list}>
 					{Object.keys(SOCIAL).map((key) => {
 						const subItem = SOCIAL[key];
