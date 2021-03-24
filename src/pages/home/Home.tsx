@@ -13,7 +13,7 @@ export const Home: FC<HomeType> = () => {
 		<>
 			<Promo />
 			<Services />
-			<Breakline />
+			<Breakline className={styles.breakline} />
 			<Features className={styles.features} />
 		</>
 	);

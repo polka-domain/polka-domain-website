@@ -30,10 +30,9 @@ export const Services: FC<ServicesType & MaybeWithClassName> = ({ className }) =
 	const keys = Object.keys(SERVICES);
 	return (
 		<section className={className}>
-			<GutterBox>
+			<GutterBox className={styles.componentWrapper}>
 				<Heading2 className={styles.title}>
-					Our
-					<br />
+					Our <br />
 					Servises
 				</Heading2>
 				<ul className={styles.list} style={{ "--count": keys.length } as CSSProperties}>

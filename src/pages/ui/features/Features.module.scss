@@ -5,6 +5,10 @@
   grid-column: -1/1;
 
   margin: 0;
+
+  @include mixin.until(media.$sm) {
+    text-align: center;
+  }
 }
 
 .list {
@@ -13,13 +17,17 @@
   display: grid;
   grid-template-columns: var(--grid);
   grid-column-gap: var(--gap);
-  grid-row-gap: 2.5rem;
+  grid-row-gap: 3.25rem;
 
   margin: 0;
-  margin-top: 4rem;
+  margin-top: 3.25rem;
   padding: 0;
 
   list-style: none;
+
+  @include mixin.until(media.$sm) {
+    padding: 0 1rem;
+  }
 
   @include mixin.between(media.$sm, media.$md) {
     grid-template-columns: repeat(2, 1fr);
