@@ -58,13 +58,13 @@ export const Navigation: FC<ComponentType> = ({ className, links = HEADER_LINKS 
 								</Button>
 							)}
 							{hasDropdown && subLinks && (
-								<div className={styles.dropdown} color="bright-idea">
+								<div className={styles.dropdown}>
 									<ul className={styles.subList}>
 										{Object.keys(subLinks).map((subKey) => {
 											const subItem = subLinks[subKey];
 											return (
 												<li key={subKey} className={styles.subItem}>
-													<NavLink className={styles.subLink} href={subItem} variant="text">
+													<NavLink className={styles.subLink} href={subItem}>
 														<span className={styles.icon}>{ICONS[subKey]}</span>
 														{subKey}
 													</NavLink>

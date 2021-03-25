@@ -63,13 +63,8 @@ export const Logo = (props) => {
 
 export const Arrow = (props: SVGAttributes<SVGElement>) => {
 	return (
-		<svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-			<path
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M4.95 1.8L.9 5.85l-.9-.9L4.95 0 9.9 4.95l-.9.9L4.95 1.8z"
-				fill="currentColor"
-			/>
+		<svg viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+			<path d="M1 0L0 1l5 5 5-5-1-1-4 4-4-4z" fill="currentColor" />
 		</svg>
 	);
 };

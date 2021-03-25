@@ -26,7 +26,7 @@
 
   &:hover .arrow,
   &:focus .arrow {
-    transform: rotate(0);
+    transform: rotate(180deg);
   }
 }
 
@@ -35,7 +35,6 @@
 }
 
 .arrow {
-  transform: rotate(180deg);
   transform-origin: center;
 }
 
