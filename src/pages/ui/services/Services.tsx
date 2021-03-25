@@ -12,17 +12,17 @@ import icon3 from "./assets/3.png";
 type ServicesType = {};
 
 const SERVICES = {
-	"Decentralized domain name service":
-		"Your identity under one recognisable domain. Claim your digital identity as an NFT.",
-	"Cross-chain transactions":
-		"Execute cross-chain transactions, receive any asset on your domain. BTC, ETH, DOT, Kusama, and more. All while keeping your real wallet anonymous",
+	"Decentralized Domain Name Service":
+		"Take control of your identity with Polka.Domain. Claim and save your unique domain as NFT.",
+	"Cross-chain Transactions":
+		"Execute cross-chain transactions while keeping your crypto address anonymous. Send and receive with your domain on BTC, ETH, DOT, Kusama and more.",
 	"Domain and NFT Marketplace":
-		"Aquire, exchange and sell Polkadomains through fixed swaps or an auction. ",
+		"Aquire, exchange and sell Polka.domains through fixed swaps or auctions.",
 };
 
 const ICONS = {
-	"Decentralized domain name service": icon1,
-	"Cross-chain transactions": icon2,
+	"Decentralized Domain Name Service": icon1,
+	"Cross-chain Transactions": icon2,
 	"Domain and NFT Marketplace": icon3,
 };
 
@@ -33,7 +33,7 @@ export const Services: FC<ServicesType & MaybeWithClassName> = ({ className }) =
 			<GutterBox className={styles.componentWrapper}>
 				<Heading2 className={styles.title}>
 					Our <br />
-					Servises
+					Services
 				</Heading2>
 				<ul className={styles.list} style={{ "--count": keys.length } as CSSProperties}>
 					{keys.map((key) => {
