@@ -47,7 +47,6 @@ export const Typography: FC<TypographyType> = ({
 			//
 			styles[`lighten-${lighten}`]
 		)}
-		color={color}
 		{...props}
 	>
 		{children}
