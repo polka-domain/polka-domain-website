@@ -38,8 +38,8 @@ export const Promo: FC<PromoType & MaybeWithClassName> = ({ className }) => {
 					<TextColor color="pink">Your Digital Identity</TextColor> and Assets
 				</Heading1>
 				<Body1 className={styles.text} lighten={90}>
-					Polka.Domain is a decentralized, privacy preserving blockchain naming service built on
-					Polkadot for everyone.
+					We are the decentralized, privacy preserving blockchain DNS and NFT marketplace built on
+					Polkadot.
 				</Body1>
 				<form className={styles.form}>
 					<label className={styles.input}>

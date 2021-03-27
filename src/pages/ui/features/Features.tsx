@@ -5,30 +5,25 @@ import { MaybeWithClassName } from "../../../helper/react/types";
 import { GutterBox } from "../../../ui/gutter-box";
 import { Body1, Heading2, Heading4 } from "../../../ui/typography";
 
-import icon1 from "./assets/1.png";
-import icon2 from "./assets/2.png";
-import icon3 from "./assets/3.png";
-import icon4 from "./assets/4.png";
-import icon5 from "./assets/5.png";
+import icon1 from "./assets/icon1.png";
+import icon2 from "./assets/icon2.png";
+import icon3 from "./assets/icon3.png";
 
 type FeaturesType = {};
 
 const FEATURES = {
-	"DeFi powered NFT & Domain Mining": "DeFi mechanism allowing for domain / identity mining ",
-	"Cross-chain & on-chain": "Execute on-chain and cross-chain transactions with your domain",
-	"NFT & Domain Marketplace":
-		"Polkadomain marketplace allows you to buy, sell and exchange Polkadomains though auction or fixed swaps",
 	"Built on Polkadot":
-		"PolkaDomain is built on substrate offering cross chain compatibility and interoperability backed by Polkadot",
-	Privacy: "Your domain keeps your real wallet address hidden providing anonymity",
+		"Polka.Domain is built on substrate offering cross-chain compatibility and interoperability backed by Polkadot.",
+	"Scalable and Efficient":
+		"Polka.Domain nodes will provide an efficient and scalable consensus mechanism which supports hundreds of nodes with thousands of transactions per seconds.",
+	"Privacy and Ownership":
+		"Integrate crypto addresses to a decentralized domain while preserving your privacy. Completely owned and controlled by you.",
 };
 
 const ICONS = {
-	"DeFi powered NFT & Domain Mining": icon1,
-	"Cross-chain & on-chain": icon2,
-	"NFT & Domain Marketplace": icon3,
-	"Built on Polkadot": icon4,
-	Privacy: icon5,
+	"Built on Polkadot": icon1,
+	"Scalable and Efficient": icon2,
+	"Privacy and Ownership": icon3,
 };
 
 export const Features: FC<FeaturesType & MaybeWithClassName> = ({ className }) => {

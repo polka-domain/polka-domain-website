@@ -13,11 +13,11 @@ type ServicesType = {};
 
 const SERVICES = {
 	"Decentralized Domain Name Service":
-		"Take control of your identity with Polka.Domain. Claim and save your unique domain as NFT.",
+		"Take control of your digital identity and data with Polka.Domain. Claim and save your unique domain as NFT.",
 	"Cross-chain Transactions":
-		"Execute cross-chain transactions while keeping your crypto address anonymous. Send and receive with your domain on BTC, ETH, DOT, Kusama and more.",
+		"Execute cross-chain transactions while keeping your real addresses anonymous. Send and receive with your domain on BTC, ETH, Kusama, and more.",
 	"Domain and NFT Marketplace":
-		"Aquire, exchange and sell Polka.domains through fixed swaps or auctions.",
+		"Acquire, exchange and sell domains through fixed swaps or auctions.",
 };
 
 const ICONS = {
@@ -48,7 +48,7 @@ export const Services: FC<ServicesType & MaybeWithClassName> = ({ className }) =
 									<Heading3 className={styles.caption} Component="h3" lighten={90}>
 										{key}
 									</Heading3>
-									<Body1 className={styles.text} lighten={80}>
+									<Body1 className={styles.text} lighten={60}>
 										{item}
 									</Body1>
 								</div>
