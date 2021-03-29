@@ -10,6 +10,7 @@ import { Video } from "../../../ui/video";
 import { useIntersectionObserver } from "../../../hooks/use-intersection-observer";
 
 import video from "./assets/video.mp4";
+import image from "./assets/image.jpg";
 
 type PromoType = {};
 
@@ -51,8 +52,8 @@ export const Promo: FC<PromoType & MaybeWithClassName> = ({ className }) => {
 					</button>
 				</form>
 				<div className={styles.videoWrapper} ref={videoRef}>
-					<div className={styles.ratio}>
-						<Video className={styles.video} source={video} autoPlay={unblocked} loop />
+					<div className={styles.video}>
+						<Video source={video} autoPlay={unblocked} imageSource={image} loop />
 					</div>
 				</div>
 			</GutterBox>

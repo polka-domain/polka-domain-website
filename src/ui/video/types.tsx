@@ -8,6 +8,7 @@ export type VideoType = {
 	autoPlay?: boolean;
 	loop?: boolean;
 	style?: CSSProperties;
+	imageSource: string;
 
 	onPlay?(): void;
 } & MaybeWithClassName;

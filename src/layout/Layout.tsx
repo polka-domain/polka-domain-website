@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 import styles from "./Layout.module.scss";
 import { Header } from "../modules/header";
-import { Footer } from "../modules/footer";
+// import { Footer } from "../modules/footer";
 
 interface ILayoutProps {
 	children?: ReactNode;
@@ -30,7 +30,7 @@ export const Layout = ({
 			</Head>
 			<Header />
 			<main className={styles.content}>{children}</main>
-			<Footer />
+			{/*<Footer />*/}
 		</div>
 	);
 };
