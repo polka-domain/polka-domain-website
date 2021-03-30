@@ -52,9 +52,13 @@ export const Promo: FC<PromoType & MaybeWithClassName> = ({ className }) => {
 					</button>
 				</form>
 				<div className={styles.videoWrapper} ref={videoRef}>
-					<div className={styles.video}>
-						<Video source={video} autoPlay={unblocked} imageSource={image} loop />
-					</div>
+					<Video
+						className={styles.video}
+						source={video}
+						autoPlay={unblocked}
+						imageSource={image}
+						loop
+					/>
 				</div>
 			</GutterBox>
 		</section>

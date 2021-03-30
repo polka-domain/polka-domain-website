@@ -203,6 +203,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+
+    width: 162%;
+    margin-left: -31%;
   }
 
   @include mixin.from(media.$md) {
@@ -211,8 +214,8 @@
   }
 }
 
-.video > * {
-  width: 162%;
+.video video {
+  width: 100%;
   height: auto;
 
   @include mixin.from(media.$md) {
