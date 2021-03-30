@@ -59,7 +59,7 @@ export const MobileNavigation: FC<ComponentType> = ({ className, sideEffect }) =
 				})}
 			</ul>
 			<NavLink className={styles.launch} variant="contained" color="grey" href="" disabled>
-				Launch app
+				Launch App
 			</NavLink>
 			<ul className={styles.socialList}>
 				{Object.keys(SOCIAL).map((key) => {

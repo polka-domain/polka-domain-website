@@ -15,9 +15,9 @@ const FEATURES = {
 	"Built on Polkadot":
 		"Polka.Domain is built on substrate offering cross-chain compatibility and interoperability backed by Polkadot.",
 	"Scalable and Efficient":
-		"Polka.Domain nodes will provide an efficient and scalable consensus mechanism which supports hundreds of nodes with thousands of transactions per seconds.",
+		"Polka.Domain nodes provide efficient and scalable consensus mechanism that supports hundreds of nodes with thousands of transactions per seconds.",
 	"Privacy and Ownership":
-		"Integrate crypto addresses to a decentralized domain while preserving your privacy. Completely owned and controlled by you.",
+		"Polka.Domain integrates crypto addresses to a decentralized domain while preserving your privacy. Completely owned and controlled by you.",
 };
 
 const ICONS = {

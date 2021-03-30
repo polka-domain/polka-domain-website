@@ -41,7 +41,7 @@ export const Header: FC<HeaderType & MaybeWithClassName> = ({ className }) => {
 				<Navigation className={styles.navigation} />
 				<div className={styles.launch}>
 					<NavLink variant="contained" color="grey" href="" disabled>
-						Launch app
+						Launch App
 					</NavLink>
 				</div>
 				<button className={styles.toggle} onClick={toggleMobileNavigationDisplay} ref={toggleRef}>
