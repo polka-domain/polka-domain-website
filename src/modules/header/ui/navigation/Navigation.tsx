@@ -96,7 +96,7 @@ export const NavigationBase: FC<ComponentType> = ({ className, links = HEADER_LI
 };
 
 export const Navigation = withRouter(
-	({ router, ...props }: NavigationType & { router: NextRouter }) => {
+	({ router, ...props }: MaybeWithClassName & NavigationType & { router: NextRouter }) => {
 		return <NavigationBase router={router} {...props} />;
 	}
 );

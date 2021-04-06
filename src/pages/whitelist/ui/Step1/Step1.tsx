@@ -10,20 +10,28 @@ import { Input } from "../../../../ui/input";
 import { Body3 } from "../../../../ui/typography";
 import { useControlPopUp } from "../../../../ui/pop-up-container";
 import { ConnectMetaPopUp } from "../../../../modules/launch-pop-up";
+import { MetaActions } from "../../../../modules/launch-pop-up/ConnectMetaPopUp";
 
 type Step1Type = { nextStep?: () => void } & MaybeWithClassName;
 
 type ValuesType = "email" | "ethereumAddress";
 
 export const Step1Base: FC<Step1Type> = ({ className, nextStep }) => {
-	const [isMetaConnect, setMetaConnect] = useState(false);
+	const [metaConnect, setMetaConnect] = useState<MetaActions>(undefined);
 
 	const { popUp, close, toggle } = useControlPopUp();
 
 	return (
 		<>
 			<Form
-				onSubmit={nextStep}
+				onSubmit={async (values) => {
+					const eth = values["ethereumAddress"];
+					const sign = await metaConnect.signPersonalMessage(eth, eth);
+					console.log({
+						...values,
+						sign,
+					});
+				}}
 				validate={(values: Record<ValuesType, any>) => {
 					const errors: Partial<Record<ValuesType, string>> = {};
 					if (!values.ethereumAddress) {
@@ -34,7 +42,7 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep }) => {
 					}
 					return errors;
 				}}
-				render={({ handleSubmit }) => (
+				render={({ handleSubmit, form }) => (
 					<form className={classNames(className, styles.component)} onSubmit={handleSubmit}>
 						<Input
 							className={classNames(styles.input, styles.full)}
@@ -71,7 +79,7 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep }) => {
 							type="text"
 							placeholder="Enter your desire domain"
 						/>
-						{isMetaConnect ? (
+						{metaConnect ? (
 							<Button
 								className={classNames(styles.submit, styles.full)}
 								variant="contained"
@@ -103,10 +111,20 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep }) => {
 							</NavLink>
 							.
 						</Body3>
+						{popUp.defined && (
+							<ConnectMetaPopUp
+								control={popUp}
+								close={close}
+								next={(eth, actions) => {
+									setMetaConnect(actions);
+									form.change("ethereumAddress", eth);
+									close();
+								}}
+							/>
+						)}
 					</form>
 				)}
 			/>
-			{popUp.defined && <ConnectMetaPopUp control={popUp} close={close} />}
 		</>
 	);
 };
