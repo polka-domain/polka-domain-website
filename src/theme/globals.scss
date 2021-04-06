@@ -4,9 +4,6 @@
 html {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-  color: rgba(var(--white), 1);
-
-  background-color: rgba(var(--black), 1);
 
   @include mixin.between(media.$md, media.$xl) {
     font-size: 14px;

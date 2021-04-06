@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 
 import styles from "./Home.module.scss";
-import { Features } from "../ui/features";
-import { Services } from "../ui/services";
-import { Breakline } from "../ui/breakline";
-import { Promo } from "../ui/promo";
+import { Features } from "./ui/features";
+import { Services } from "./ui/services";
+import { Breakline } from "./ui/breakline";
+import { Promo } from "./ui/promo";
 
 type HomeType = {};
 

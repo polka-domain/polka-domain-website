@@ -1,0 +1,48 @@
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
+
+.component {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-column-gap: 1rem;
+  width: 100%;
+  padding: 3rem 3.75rem;
+
+  box-sizing: border-box;
+
+  border: 2px solid #E6E6E6;
+  border-radius: 3.0625rem;
+
+  background-color: rgba(var(--bg), 1);
+}
+
+.full {
+  grid-column: -1/1;
+}
+
+.input:not(:first-of-type) {
+  margin-top: 1.75rem;
+}
+
+.submit {
+  height: 3.75rem;
+  margin-top: 2.25rem;
+}
+
+.note {
+  max-width: 32.5rem;
+  margin: 0 auto;
+  margin-top: 1.5rem;
+
+  text-align: center;
+}
+
+.announce {
+  display: inline-flex;
+  justify-content: center;
+
+  margin: 0;
+  margin-top: 1.25rem;
+
+  text-align: center;
+}

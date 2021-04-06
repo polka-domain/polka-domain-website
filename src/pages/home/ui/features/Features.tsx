@@ -1,9 +1,9 @@
 import { CSSProperties, FC } from "react";
 
 import styles from "./Features.module.scss";
-import { MaybeWithClassName } from "../../../helper/react/types";
-import { GutterBox } from "../../../ui/gutter-box";
-import { Body1, Heading2, Heading4 } from "../../../ui/typography";
+import { MaybeWithClassName } from "../../../../helper/react/types";
+import { GutterBox } from "../../../../ui/gutter-box";
+import { Body1, Heading2, Heading4 } from "../../../../ui/typography";
 
 import icon1 from "./assets/icon1.png";
 import icon2 from "./assets/icon2.png";

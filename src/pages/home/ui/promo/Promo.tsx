@@ -2,12 +2,12 @@ import classNames from "classnames";
 import { FC, useRef, useState } from "react";
 
 import styles from "./Promo.module.scss";
-import { MaybeWithClassName } from "../../../helper/react/types";
-import { GutterBox } from "../../../ui/gutter-box";
-import { Body1, Heading1 } from "../../../ui/typography";
-import { TextColor } from "../../../ui/text-color";
-import { Video } from "../../../ui/video";
-import { useIntersectionObserver } from "../../../hooks/use-intersection-observer";
+import { MaybeWithClassName } from "../../../../helper/react/types";
+import { GutterBox } from "../../../../ui/gutter-box";
+import { Body1, Heading1 } from "../../../../ui/typography";
+import { TextColor } from "../../../../ui/text-color";
+import { Video } from "../../../../ui/video";
+import { useIntersectionObserver } from "../../../../hooks/use-intersection-observer";
 
 import video from "./assets/video.mp4";
 import image from "./assets/image.jpg";

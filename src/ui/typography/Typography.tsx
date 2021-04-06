@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import type { FC } from "react";
+import type { CSSProperties, FC } from "react";
 import { MaybeWithClassName, WithChildren } from "../../helper/react/types";
 
 import styles from "./Typography.module.scss";
@@ -18,6 +18,7 @@ export type TypographyType = {
 	size?: FontSizeType;
 	weight?: WeightType;
 	lighten?: 100 | 90 | 80 | 60 | 50;
+	style?: CSSProperties;
 } & WithChildren &
 	MaybeWithClassName;
 
@@ -29,6 +30,7 @@ export const Typography: FC<TypographyType> = ({
 	color = "white",
 	size = 18,
 	lighten = 100,
+	style,
 	children,
 	...props
 }) => (
@@ -43,10 +45,10 @@ export const Typography: FC<TypographyType> = ({
 			//
 			getWeightClassName(weight, weightStyles),
 			//
-			getColorClassName(color, colorStyles),
+			getColorClassName(color, colorStyles)
 			//
-			styles[`lighten-${lighten}`]
 		)}
+		style={{ ...style, "--lighten": lighten / 100 } as CSSProperties}
 		{...props}
 	>
 		{children}
@@ -96,5 +98,11 @@ type BodyType = Omit<TypographyType, "size" | "Component" | "variant"> & {
 export const Body1: FC<BodyType> = ({ Component = "p", ...props }) => {
 	return (
 		<Typography Component={Component} size={18} weight="regular" variant="primary" {...props} />
+	);
+};
+
+export const Body3: FC<BodyType> = ({ Component = "p", ...props }) => {
+	return (
+		<Typography Component={Component} size={14} weight="regular" variant="primary" {...props} />
 	);
 };

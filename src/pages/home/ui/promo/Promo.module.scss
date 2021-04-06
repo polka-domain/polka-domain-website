@@ -1,5 +1,5 @@
-@use "../../../helper/style/mixin";
-@use "../../../helper/style/media";
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
 
 .component {
   padding-bottom: 5.625rem;
@@ -63,7 +63,7 @@
 
   font-family: "Roboto", sans-serif;
 
-  border: 2px solid rgba(var(--white), 0.2);
+  border: 2px solid rgba(var(--text), 0.2);
   border-radius: 3.0625rem;
 
   @include mixin.until(media.$sm) {
@@ -122,13 +122,13 @@
 
   font-size: var(--body-1);
   line-height: 1.4;
-  color: rgba(var(--white), 1);
+  color: rgba(var(--text), 1);
 
   border: 0;
   background-color: transparent;
 
   &::placeholder {
-    color: rgba(var(--white), 0.5);
+    color: rgba(var(--text), 0.5);
     opacity: 1;
 
     @include mixin.until(media.$sm) {

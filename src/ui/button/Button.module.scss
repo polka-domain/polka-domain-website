@@ -30,6 +30,10 @@
   @include mixin.visuallyHidden();
 }
 
+.large {
+  font-size: 1.125rem;
+}
+
 .medium {
   font-size: 1rem;
 }
@@ -62,7 +66,6 @@
 .contained {
   justify-content: center;
 
-  min-height: 2.5rem;
   padding: 0.625rem 1.5rem;
 
   box-sizing: border-box;
@@ -70,8 +73,16 @@
   border-radius: 2.625rem;
 }
 
+.contained-medium {
+  min-height: 2.5rem;
+}
+
+.contained-large {
+  min-height: 3.75rem;
+}
+
 .text-grey {
-  color: rgba(var(--white), 0.5);
+  color: rgba(var(--text), 0.5);
 
   transition-timing-function: linear;
   transition-duration: 250ms;
@@ -83,10 +94,38 @@
   }
 }
 
-.contained-grey {
-  color: rgba(var(--white), 0.5);
+.text-pink {
+  color: rgba(var(--pink), 1);
 
-  background-color: rgba(var(--white), 0.2);
+  transition-timing-function: linear;
+  transition-duration: 250ms;
+  transition-property: color;
+
+  &:hover,
+  &:focus {
+    color: rgba(var(--pink), 0.8);
+  }
+}
+
+.contained-pink {
+  color: rgba(var(--bg), 1);
+
+  background-color: rgba(var(--pink), 1);
+
+  transition-timing-function: linear;
+  transition-duration: 250ms;
+  transition-property: background-color;
+
+  &:hover,
+  &:focus {
+    background-color: rgba(var(--pink), 0.8);
+  }
+}
+
+.contained-grey {
+  color: rgba(var(--text), 0.5);
+
+  background-color: rgba(var(--text), 0.2);
 }
 
 

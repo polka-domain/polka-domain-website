@@ -4,6 +4,7 @@ export const MEDIUM_PATH = "https://medium.com/@polkadomain";
 export const GITHUB_PATH = "https://github.com/polka-domain";
 export const TELEGRAM_PATH = "";
 export const TWITTER_PATH = "https://twitter.com/polkadomain";
+export const WHITELIST_PATH = "/whitelist";
 
 export const SOCIAL = {
 	Github: GITHUB_PATH,

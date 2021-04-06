@@ -11,9 +11,11 @@ import { useScatteredContinuousState } from "../../hooks/use-continuous-state";
 import { MobileNavigation } from "./ui/mobile-navigation";
 import { Toggle, Close } from "../../ui/icons/Icons";
 
-type HeaderType = {};
+type HeaderType = {
+	fixed?: boolean;
+};
 
-export const Header: FC<HeaderType & MaybeWithClassName> = ({ className }) => {
+export const Header: FC<HeaderType & MaybeWithClassName> = ({ className, fixed }) => {
 	const [mobileNavigationShown, setMobileNavigationVisibility] = useState(false);
 	const mobileNavigation = useScatteredContinuousState(mobileNavigationShown, {
 		timeout: 350,
@@ -33,14 +35,14 @@ export const Header: FC<HeaderType & MaybeWithClassName> = ({ className }) => {
 	const toggleRef = useRef<HTMLButtonElement>(null);
 
 	return (
-		<header className={classNames(styles.component, className)}>
+		<header className={classNames(styles.component, fixed && styles.fixed, className)}>
 			<div className={styles.wrapper}>
 				<NavLink className={styles.logo} href="/" icon={<ColorLogo />} variant="text">
 					Home
 				</NavLink>
 				<Navigation className={styles.navigation} />
 				<div className={styles.launch}>
-					<NavLink variant="contained" color="grey" href="" disabled>
+					<NavLink size="medium" variant="contained" color="grey" href="" disabled>
 						Launch app
 					</NavLink>
 				</div>

@@ -1,5 +1,5 @@
-@use "../../../helper/style/mixin";
-@use "../../../helper/style/media";
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
 
 .componentWrapper {
   @include mixin.until(media.$sm) {
@@ -122,10 +122,10 @@
 
   box-sizing: border-box;
 
-  border: 1px solid rgba(var(--white), 0.1);
+  border: 1px solid rgba(var(--text), 0.1);
   border-radius: 1.25rem;
 
-  background: rgba(var(--white), 0.01);
+  background: rgba(var(--text), 0.01);
 
   backdrop-filter: blur(54px);
 

@@ -1,8 +1,24 @@
 .component {
+  position: relative;
+
   display: flex;
   flex-direction: column;
 
   min-height: 100vh;
+
+  color: rgba(var(--text), 1);
+
+  background-color: rgba(var(--bg), 1);
+}
+
+.light {
+  color: rgba(var(--bg), 1);
+
+  background-color: transparent;
+}
+
+.header {
+  position: relative;
 }
 
 .main {

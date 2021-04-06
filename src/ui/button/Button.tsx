@@ -19,8 +19,8 @@ export type ButtonComponentType = {
 	iconBefore?: ReactNode;
 	icon?: ReactNode;
 	variant?: "contained" | "text";
-	color?: "grey";
-	size?: "medium" | "small";
+	color?: "grey" | "pink";
+	size?: "large" | "medium" | "small";
 };
 
 type ButtonProps<T extends EmptyObject> = ButtonComponentType &
