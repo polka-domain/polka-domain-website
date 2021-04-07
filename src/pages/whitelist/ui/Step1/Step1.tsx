@@ -8,7 +8,7 @@ import { Form } from "react-final-form";
 import { Button, NavLink } from "../../../../ui/button";
 import { Input } from "../../../../ui/input";
 import { Body3 } from "../../../../ui/typography";
-import { MetaActions } from "../../../../modules/launch-pop-up/ConnectMetaPopUp";
+import { MetaActions } from "../../../../modules/connect-wallet-pop-up/ConnectWalletPopUp";
 import { recordUserInformation } from "../../../../api/user";
 
 export type ValuesType = "email" | "ethereumAddress" | "twitter" | "telegram" | "domain";
@@ -18,6 +18,10 @@ type Step1Type = {
 	metaConnect: MetaActions;
 	nextStep?: () => void;
 } & MaybeWithClassName;
+
+const keyMap = {
+	eth_address: "ethereumAddress",
+};
 
 export const Step1Base: FC<Step1Type> = ({
 	className,
@@ -50,7 +54,7 @@ export const Step1Base: FC<Step1Type> = ({
 							const errors = Object.keys(errorMessage).reduce(
 								(acc, key) => ({
 									...acc,
-									[key]: errorMessage[key][0],
+									[keyMap[key] || key]: errorMessage[key][0],
 								}),
 								{}
 							);
@@ -73,6 +77,8 @@ export const Step1Base: FC<Step1Type> = ({
 					}
 					if (!values.telegram) {
 						errors.telegram = "The telegram field is required.";
+					} else if (!values.telegram.startsWith("@")) {
+						errors.telegram = "The telegram must start with one of the following: @";
 					}
 					if (!values.domain) {
 						errors.domain = "The domain field is required.";

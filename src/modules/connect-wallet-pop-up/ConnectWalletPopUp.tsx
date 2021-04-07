@@ -1,7 +1,7 @@
 import { RC } from "../../helper/react/types";
 import { ScatteredContinuousState } from "../../hooks/use-continuous-state";
 import { PopUpContainer } from "../../ui/pop-up-container";
-import styles from "./ConnectMetaPopUp.module.scss";
+import styles from "./ConnectWalletPopUp.module.scss";
 import { useState } from "react";
 import { hasMetaMask, useEthereum } from "../../helper/metamask";
 import { walletConnect } from "../../helper/wallet-connect";
@@ -10,7 +10,7 @@ export type MetaActions = {
 	signPersonalMessage(message: string, account: string): Promise<string>;
 };
 
-export const ConnectMetaPopUp: RC<{
+export const ConnectWalletPopUp: RC<{
 	control: ScatteredContinuousState<boolean>;
 	close(): void;
 	next(account: string, actions: MetaActions): void;
@@ -25,6 +25,9 @@ export const ConnectMetaPopUp: RC<{
 			next(accounts[0], {
 				async signPersonalMessage(message, account = accounts[0]) {
 					const msg = `0x${Buffer.from(account, "utf8").toString("hex")}`;
+					// const Personal = require("web3-eth-personal");
+					// const personal = new Personal(Personal.givenProvider || "ws://127.0.0.1:8546")
+					// return await personal.sign(msg, account, "");
 					return await eth.request({
 						method: "personal_sign",
 						params: [msg, account],
