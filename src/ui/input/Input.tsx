@@ -9,6 +9,8 @@ type InputType = {
 	label: string;
 	type: "text";
 	placeholder?: string;
+	readOnly?: boolean;
+	initialValue?: any;
 };
 
 export const Input: FC<InputType & MaybeWithClassName> = ({
@@ -17,17 +19,26 @@ export const Input: FC<InputType & MaybeWithClassName> = ({
 	label,
 	type,
 	placeholder,
+	readOnly,
+	initialValue,
 }) => {
 	return (
-		<Field name={name}>
+		<Field name={name} initialValue={initialValue}>
 			{({ input, meta }) => (
 				<div className={classNames(className, styles.component)}>
 					<label className={styles.label}>
 						{label}
-						<input {...input} className={styles.input} type={type} placeholder={placeholder} />
+						<input
+							{...input}
+							className={styles.input}
+							type={type}
+							placeholder={placeholder}
+							readOnly={readOnly}
+						/>
 					</label>
 					<div className={styles.error}>
 						{meta.error && meta.touched && <span>{meta.error}</span>}
+						{meta.submitError && <span>{meta.submitError}</span>}
 					</div>
 				</div>
 			)}

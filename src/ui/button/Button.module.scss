@@ -81,6 +81,26 @@
   min-height: 3.75rem;
 }
 
+.outlined {
+  justify-content: center;
+
+  padding: 0.625rem 1.5rem;
+
+  box-sizing: border-box;
+
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 2.625rem;
+}
+
+.outlined-medium {
+  min-height: 2.5rem;
+}
+
+.outlined-large {
+  min-height: 3.75rem;
+}
+
 .text-grey {
   color: rgba(var(--text), 0.5);
 
@@ -126,6 +146,23 @@
   color: rgba(var(--text), 0.5);
 
   background-color: rgba(var(--text), 0.2);
+}
+
+.outlined-pink {
+  color: rgba(var(--pink), 1);
+
+  border-color: rgba(var(--pink), 1);
+
+  background-color: rgba(var(--bg), 1);
+
+  transition-timing-function: linear;
+  transition-duration: 250ms;
+  transition-property: opacity;
+
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
 }
 
 

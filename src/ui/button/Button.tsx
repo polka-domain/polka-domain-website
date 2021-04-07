@@ -18,7 +18,7 @@ export type ButtonComponentType = {
 	iconAfter?: ReactNode;
 	iconBefore?: ReactNode;
 	icon?: ReactNode;
-	variant?: "contained" | "text";
+	variant?: "contained" | "text" | "outlined";
 	color?: "grey" | "pink";
 	size?: "large" | "medium" | "small";
 };

@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import classNames from "classnames";
 import { defineFlowStep } from "../../../../modules/flow/definition";
 import { useFlowControl } from "../../../../modules/flow/hooks";
@@ -8,41 +8,78 @@ import { Form } from "react-final-form";
 import { Button, NavLink } from "../../../../ui/button";
 import { Input } from "../../../../ui/input";
 import { Body3 } from "../../../../ui/typography";
-import { useControlPopUp } from "../../../../ui/pop-up-container";
-import { ConnectMetaPopUp } from "../../../../modules/launch-pop-up";
 import { MetaActions } from "../../../../modules/launch-pop-up/ConnectMetaPopUp";
+import { recordUserInformation } from "../../../../api/user";
 
-type Step1Type = { nextStep?: () => void } & MaybeWithClassName;
+export type ValuesType = "email" | "ethereumAddress" | "twitter" | "telegram" | "domain";
 
-type ValuesType = "email" | "ethereumAddress";
+type Step1Type = {
+	initialEthereumAddress?: string;
+	metaConnect: MetaActions;
+	nextStep?: () => void;
+} & MaybeWithClassName;
 
-export const Step1Base: FC<Step1Type> = ({ className, nextStep }) => {
-	const [metaConnect, setMetaConnect] = useState<MetaActions>(undefined);
-
-	const { popUp, close, toggle } = useControlPopUp();
-
+export const Step1Base: FC<Step1Type> = ({
+	className,
+	nextStep,
+	initialEthereumAddress,
+	metaConnect,
+}) => {
 	return (
 		<>
 			<Form
 				onSubmit={async (values) => {
 					const eth = values["ethereumAddress"];
 					const sign = await metaConnect.signPersonalMessage(eth, eth);
-					console.log({
-						...values,
-						sign,
-					});
+					const { ethereumAddress: eth_address, ...rest } = values;
+					try {
+						await recordUserInformation({
+							eth_address,
+							...rest,
+							sign,
+						});
+						nextStep();
+					} catch (e) {
+						console.error(e);
+						if (e.status === 400) {
+							alert("wrong signature");
+							return;
+						}
+						if (e.status === 422) {
+							const errorMessage = e.data.error;
+							const errors = Object.keys(errorMessage).reduce(
+								(acc, key) => ({
+									...acc,
+									[key]: errorMessage[key][0],
+								}),
+								{}
+							);
+							console.log(errors, e.data);
+							return errors;
+						}
+						alert("failed to submit");
+					}
 				}}
 				validate={(values: Record<ValuesType, any>) => {
 					const errors: Partial<Record<ValuesType, string>> = {};
 					if (!values.ethereumAddress) {
-						errors.ethereumAddress = "Required";
+						errors.ethereumAddress = "The eth address field is required.";
 					}
 					if (!values.email) {
-						errors.email = "Required";
+						errors.email = "The email field is required.";
+					}
+					if (!values.twitter) {
+						errors.twitter = "The twitter field is required.";
+					}
+					if (!values.telegram) {
+						errors.telegram = "The telegram field is required.";
+					}
+					if (!values.domain) {
+						errors.domain = "The domain field is required.";
 					}
 					return errors;
 				}}
-				render={({ handleSubmit, form }) => (
+				render={({ handleSubmit }) => (
 					<form className={classNames(className, styles.component)} onSubmit={handleSubmit}>
 						<Input
 							className={classNames(styles.input, styles.full)}
@@ -57,6 +94,8 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep }) => {
 							label="ERC-20 Address"
 							type="text"
 							placeholder="0x32A9b7ED8C71C6910Gb4A9bc41de2391b74c2376"
+							readOnly
+							initialValue={initialEthereumAddress}
 						/>
 						<Input
 							className={styles.input}
@@ -79,27 +118,15 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep }) => {
 							type="text"
 							placeholder="Enter your desire domain"
 						/>
-						{metaConnect ? (
-							<Button
-								className={classNames(styles.submit, styles.full)}
-								variant="contained"
-								color="pink"
-								size="large"
-								submit
-							>
-								Submit Your Entry
-							</Button>
-						) : (
-							<Button
-								className={classNames(styles.submit, styles.full)}
-								variant="contained"
-								color="pink"
-								size="large"
-								onClick={toggle}
-							>
-								Connect Wallet
-							</Button>
-						)}
+						<Button
+							className={classNames(styles.submit, styles.full)}
+							variant="contained"
+							color="pink"
+							size="large"
+							submit
+						>
+							Submit Your Entry
+						</Button>
 						<Body3 className={classNames(styles.note, styles.full)} lighten={60}>
 							We will randomly award 200 participants with whitelist spots and 100 participants with
 							their unique Polka.Domain 😉
@@ -111,17 +138,6 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep }) => {
 							</NavLink>
 							.
 						</Body3>
-						{popUp.defined && (
-							<ConnectMetaPopUp
-								control={popUp}
-								close={close}
-								next={(eth, actions) => {
-									setMetaConnect(actions);
-									form.change("ethereumAddress", eth);
-									close();
-								}}
-							/>
-						)}
 					</form>
 				)}
 			/>
@@ -129,10 +145,17 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep }) => {
 	);
 };
 
-const Step1Imp: FC<Step1Type> = ({ className }) => {
+const Step1Imp: FC<Step1Type> = ({ className, initialEthereumAddress, metaConnect }) => {
 	const { moveForward } = useFlowControl();
 
-	return <Step1Base className={className} nextStep={moveForward} />;
+	return (
+		<Step1Base
+			className={className}
+			nextStep={moveForward}
+			initialEthereumAddress={initialEthereumAddress}
+			metaConnect={metaConnect}
+		/>
+	);
 };
 
 export const Step1 = defineFlowStep<{}, {}, Step1Type>({
