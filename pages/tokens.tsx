@@ -1,15 +1,14 @@
 import { pageWithLayout } from "../src/utils/page/pageInLayout";
 import { Layout } from "../src/layout";
-import { Whitelist } from "../src/pages/whitelist";
+import { Tokens } from "../src/pages/tokens";
 
 const Index = pageWithLayout(
-	() => <Whitelist />,
+	() => <Tokens />,
 	() => (
 		<Layout
 			title="Polka.Domain"
 			description="Take ownership of your digital identity and assets."
 			mode="transparent"
-			withDecoration={true}
 			fixedHeader={true}
 		/>
 	)

@@ -20,6 +20,7 @@ type PopUpContainerType = {
 	animated: boolean;
 	visible: boolean;
 	size: "sm" | "lg";
+	withoutClose?: boolean;
 	onClose(): void;
 };
 
@@ -50,6 +51,7 @@ export const PopUpContainer: FC<ComponentType> = ({
 	animated,
 	children,
 	size,
+	withoutClose,
 }) => {
 	const windowHeight = useWindowSize()[1];
 
@@ -74,15 +76,17 @@ export const PopUpContainer: FC<ComponentType> = ({
 						<div className={classNames(styles.container, styles[size])}>
 							<div className={styles.header}>
 								<Logo className={styles.logo} />
-								<Button
-									className={styles.close}
-									icon={<Close />}
-									color="grey"
-									variant="text"
-									onClick={onClose}
-								>
-									Close
-								</Button>
+								{!withoutClose && (
+									<Button
+										className={styles.close}
+										icon={<Close />}
+										color="grey"
+										variant="text"
+										onClick={onClose}
+									>
+										Close
+									</Button>
+								)}
 							</div>
 							{/* eslint-disable-next-line max-len */}
 							{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}

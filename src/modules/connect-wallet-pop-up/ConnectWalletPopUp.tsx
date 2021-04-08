@@ -12,9 +12,10 @@ export type MetaActions = {
 
 export const ConnectWalletPopUp: RC<{
 	control: ScatteredContinuousState<boolean>;
+	withoutClose?: boolean;
 	close(): void;
 	next(account: string, actions: MetaActions): void;
-}> = ({ close, control, next }) => {
+}> = ({ close, control, next, withoutClose }) => {
 	const [connecting, setConnectionStatus] = useState(false);
 
 	const connectMetamask = async () => {
@@ -66,6 +67,7 @@ export const ConnectWalletPopUp: RC<{
 			visible={control.defined}
 			size="sm"
 			onClose={connecting ? undefined : close}
+			withoutClose={withoutClose}
 		>
 			<div className={styles.component}>
 				<h2 className={styles.title}>Connect to a wallet</h2>

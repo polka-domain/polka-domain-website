@@ -1,0 +1,45 @@
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
+
+.component {
+  display: grid;
+  grid-column-gap: 1rem;
+  align-content: center;
+  justify-items: center;
+
+  width: 100%;
+  min-height: 25rem;
+  padding: 3rem 3.75rem;
+
+  box-sizing: border-box;
+
+  border: 2px solid #E6E6E6;
+  border-radius: 3.0625rem;
+
+  background-color: rgba(var(--bg), 1);
+}
+
+.title {
+  margin: 0;
+
+  font-family: "Work Sans", sans-serif;
+  font-size: 2.125rem;
+  font-weight: var(--medium);
+}
+
+.text {
+  margin: 0;
+  margin-top: 0.5rem;
+
+  font-size: 1.25rem;
+
+  color: rgba(var(--text), 0.6);
+}
+
+.links {
+  display: grid;
+  grid-template-columns: repeat(2, 13.75rem);
+  grid-column-gap: 1rem;
+
+  margin-top: 3.25rem;
+}

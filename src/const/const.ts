@@ -5,6 +5,7 @@ export const GITHUB_PATH = "https://github.com/polka-domain";
 export const TELEGRAM_PATH = "";
 export const TWITTER_PATH = "https://twitter.com/polkadomain";
 export const WHITELIST_PATH = "/whitelist";
+export const TOKENS_PATH = "/tokens";
 export const LOTTERY_INFO_PATH = "#";
 export const LOTTERY_SHARE_PATH = "#";
 
