@@ -1,7 +1,7 @@
 import { FC, ReactElement } from "react";
 
 export type PageWithLayout<T extends {}> = FC & {
-	layout(): ReactElement;
+	layout: FC;
 	getInitialProps?(): Promise<T>;
 };
 
@@ -13,7 +13,7 @@ export type PageWithLayout<T extends {}> = FC & {
 
 export const pageWithLayout = <T extends {}>(
 	pageComponent: FC<T>,
-	layout: () => ReactElement
+	layout: FC
 ): PageWithLayout<T> => {
 	const page: any = pageComponent;
 	page.layout = layout;

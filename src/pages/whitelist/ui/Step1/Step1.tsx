@@ -8,15 +8,14 @@ import { Form } from "react-final-form";
 import { Button, NavLink } from "../../../../ui/button";
 import { Input } from "../../../../ui/input";
 import { Body3 } from "../../../../ui/typography";
-import { MetaActions } from "../../../../modules/connect-wallet-pop-up/ConnectWalletPopUp";
 import { recordUserInformation } from "../../../../api/user";
 import { Box } from "../../../../modules/box/Box";
+import { hexifyMessage, useWeb3 } from "../../../../web3/web3";
 
 export type ValuesType = "email" | "ethereumAddress" | "twitter" | "telegram" | "domain";
 
 type Step1Type = {
 	initialEthereumAddress?: string;
-	metaConnect: MetaActions;
 	nextStep?: () => void;
 } & MaybeWithClassName;
 
@@ -24,18 +23,14 @@ const keyMap = {
 	eth_address: "ethereumAddress",
 };
 
-export const Step1Base: FC<Step1Type> = ({
-	className,
-	nextStep,
-	initialEthereumAddress,
-	metaConnect,
-}) => {
+export const Step1Base: FC<Step1Type> = ({ className, nextStep, initialEthereumAddress }) => {
+	const web3 = useWeb3();
 	return (
 		<>
 			<Form
 				onSubmit={async (values) => {
 					const eth = values["ethereumAddress"];
-					const sign = await metaConnect.signPersonalMessage(eth, eth);
+					const sign = await web3.eth.personal.sign(hexifyMessage(eth), eth, "");
 					const { ethereumAddress: eth_address, ...rest } = values;
 					try {
 						await recordUserInformation({
@@ -154,7 +149,7 @@ export const Step1Base: FC<Step1Type> = ({
 	);
 };
 
-const Step1Imp: FC<Step1Type> = ({ className, initialEthereumAddress, metaConnect }) => {
+const Step1Imp: FC<Step1Type> = ({ className, initialEthereumAddress }) => {
 	const { moveForward } = useFlowControl();
 
 	return (
@@ -162,7 +157,6 @@ const Step1Imp: FC<Step1Type> = ({ className, initialEthereumAddress, metaConnec
 			className={className}
 			nextStep={moveForward}
 			initialEthereumAddress={initialEthereumAddress}
-			metaConnect={metaConnect}
 		/>
 	);
 };

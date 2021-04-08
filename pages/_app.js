@@ -1,13 +1,13 @@
-import { Component, cloneElement, Fragment } from "react";
+import { Component, FC } from "react";
 import "../src/theme/globals.scss";
 import "../src/theme/variables.scss";
 
-const FragmentLayout = <Fragment />;
+const FragmentLayout = ({ children }) => <>{children}</>;
 
 const MyApp = ({ Component, pageProps }) => {
-	const Layout = "layout" in Component ? Component.layout() : FragmentLayout;
+	const layout = "layout" in Component ? Component.layout : FragmentLayout;
 
-	return cloneElement(Layout, { children: <Component {...pageProps} /> });
+	return layout({ children: <Component {...pageProps} /> });
 };
 
 export default MyApp;

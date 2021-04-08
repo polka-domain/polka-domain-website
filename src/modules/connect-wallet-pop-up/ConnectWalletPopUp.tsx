@@ -3,39 +3,22 @@ import { ScatteredContinuousState } from "../../hooks/use-continuous-state";
 import { PopUpContainer } from "../../ui/pop-up-container";
 import styles from "./ConnectWalletPopUp.module.scss";
 import { useState } from "react";
-import { hasMetaMask, useEthereum } from "../../helper/metamask";
-import { walletConnect } from "../../helper/wallet-connect";
+import { hasMetaMask } from "../../helper/metamask";
 import { MetaIcon, RightArrow, WalletIcon } from "./icons";
-
-export type MetaActions = {
-	signPersonalMessage(message: string, account: string): Promise<string>;
-};
+import { useWalletConnector } from "../../web3/connections";
 
 export const ConnectWalletPopUp: RC<{
 	control: ScatteredContinuousState<boolean>;
 	withoutClose?: boolean;
 	close(): void;
-	next(account: string, actions: MetaActions): void;
-}> = ({ close, control, next, withoutClose }) => {
+}> = ({ close, control, withoutClose }) => {
 	const [connecting, setConnectionStatus] = useState(false);
+	const connect = useWalletConnector();
 
 	const connectMetamask = async () => {
 		try {
-			const eth = useEthereum();
 			setConnectionStatus(true);
-			const accounts = await eth.request({ method: "eth_requestAccounts" });
-			next(accounts[0], {
-				async signPersonalMessage(message, account = accounts[0]) {
-					const msg = `0x${Buffer.from(account, "utf8").toString("hex")}`;
-					// const Personal = require("web3-eth-personal");
-					// const personal = new Personal(Personal.givenProvider || "ws://127.0.0.1:8546")
-					// return await personal.sign(msg, account, "");
-					return await eth.request({
-						method: "personal_sign",
-						params: [msg, account],
-					});
-				},
-			});
+			await connect("MetaMask");
 		} catch (e) {
 			console.error(e);
 		} finally {
@@ -46,15 +29,7 @@ export const ConnectWalletPopUp: RC<{
 	const connectWalletConnect = async () => {
 		try {
 			setConnectionStatus(true);
-
-			const { connector, accounts } = await walletConnect();
-
-			next(accounts[0], {
-				async signPersonalMessage(message, account = accounts[0]) {
-					const msgParams = [`0x${Buffer.from(account, "utf8").toString("hex")}`, account];
-					return connector.signPersonalMessage(msgParams);
-				},
-			});
+			await connect("WalletConnect");
 		} catch (e) {
 			console.error(e);
 		} finally {

@@ -28,6 +28,7 @@ type ComponentType = PopUpContainerType & MaybeWithClassName & WithChildren;
 
 export const useControlPopUp = (): {
 	popUp: ScatteredContinuousState<boolean>;
+	open(): void;
 	close(): void;
 	toggle(): void;
 } => {
@@ -35,11 +36,13 @@ export const useControlPopUp = (): {
 	const popUp = useScatteredContinuousState(popUpVisible, {
 		timeout: 350,
 	});
+	const open = useCallback(() => setPopUpVisible(true), []);
 	const close = useCallback(() => setPopUpVisible(false), []);
 	const toggle = useCallback(() => setPopUpVisible((visible) => !visible), []);
 
 	return {
 		popUp,
+		open,
 		close,
 		toggle,
 	};

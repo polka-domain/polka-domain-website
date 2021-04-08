@@ -4,11 +4,10 @@ import { Home } from "../src/pages/home";
 
 const Index = pageWithLayout(
 	() => <Home />,
-	() => (
-		<Layout
-			title="Polka.Domain"
-			description="Take ownership of your digital identity and assets."
-		/>
+	({ children }) => (
+		<Layout title="Polka.Domain" description="Take ownership of your digital identity and assets.">
+			{children}
+		</Layout>
 	)
 );
 

@@ -10,33 +10,19 @@ import { defineFlow } from "../../modules/flow/definition";
 import { Flow } from "../../modules/flow";
 import { Step1 } from "./ui/Step1";
 import { Step2 } from "./ui/Step2";
-import {
-	ConnectWalletPopUp,
-	MetaActions,
-} from "../../modules/connect-wallet-pop-up/ConnectWalletPopUp";
-import { useControlPopUp } from "../../ui/pop-up-container";
 import { YouAreIn } from "./ui/you-are-in";
 import { readUserInformation } from "../../api/user";
 import { Loading } from "../../modules/loading";
+import { useWeb3React } from "@web3-react/core";
 
 type WhitelistType = {};
 
 const STEPS = defineFlow(Step1, Step2);
 
 export const Whitelist: FC<WhitelistType> = () => {
-	const [metaConnect, setMetaConnect] = useState<MetaActions>(undefined);
-
-	const { popUp, close, toggle } = useControlPopUp();
+	const { active, account: ethereumAddress } = useWeb3React();
 
 	const [userInformation, setUserInformation] = useState(undefined);
-
-	useEffect(() => {
-		if (metaConnect === undefined) {
-			toggle();
-		}
-	}, [metaConnect]);
-
-	const [ethereumAddress, setEthereumAddress] = useState(undefined);
 
 	useEffect(() => {
 		if (ethereumAddress) {
@@ -53,7 +39,7 @@ export const Whitelist: FC<WhitelistType> = () => {
 						Get First Dibs on Polka.Domain
 					</Heading1>
 					<div className={classNames(styles.wrapper, getModeClassName("light", theme))}>
-						{metaConnect && !userInformation && <Loading />}
+						{active && !userInformation && <Loading />}
 						{userInformation && (
 							<div>
 								{userInformation.email ? (
@@ -62,7 +48,6 @@ export const Whitelist: FC<WhitelistType> = () => {
 									<Flow
 										steps={STEPS}
 										initialEthereumAddress={ethereumAddress}
-										metaConnect={metaConnect}
 										onComplete={() => alert("Finish")}
 									>
 										{(body) => body}
@@ -73,18 +58,6 @@ export const Whitelist: FC<WhitelistType> = () => {
 					</div>
 				</GutterBox>
 			</section>
-			{!metaConnect && popUp.defined && (
-				<ConnectWalletPopUp
-					control={popUp}
-					close={close}
-					next={(eth, actions) => {
-						setMetaConnect(actions);
-						setEthereumAddress(eth);
-						close();
-					}}
-					withoutClose={true}
-				/>
-			)}
 		</>
 	);
 };
