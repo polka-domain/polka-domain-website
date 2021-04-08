@@ -5,6 +5,7 @@ import styles from "./ConnectWalletPopUp.module.scss";
 import { useState } from "react";
 import { hasMetaMask, useEthereum } from "../../helper/metamask";
 import { walletConnect } from "../../helper/wallet-connect";
+import { MetaIcon, RightArrow, WalletIcon } from "./icons";
 
 export type MetaActions = {
 	signPersonalMessage(message: string, account: string): Promise<string>;
@@ -80,7 +81,11 @@ export const ConnectWalletPopUp: RC<{
 								onClick={connectMetamask}
 								disabled={connecting}
 							>
+								<span className={styles.icon}>
+									<MetaIcon />
+								</span>
 								Metamask
+								<RightArrow className={styles.arrow} />
 							</button>
 						) : (
 							<span>Metamask not installed</span>
@@ -93,7 +98,11 @@ export const ConnectWalletPopUp: RC<{
 							onClick={connectWalletConnect}
 							disabled={connecting}
 						>
+							<span className={styles.icon}>
+								<WalletIcon />
+							</span>
 							WalletConnect
+							<RightArrow className={styles.arrow} />
 						</button>
 					</li>
 				</ul>

@@ -10,6 +10,7 @@ const Index = pageWithLayout(
 			description="Take ownership of your digital identity and assets."
 			mode="transparent"
 			fixedHeader={true}
+			withDecoration={true}
 		/>
 	)
 );

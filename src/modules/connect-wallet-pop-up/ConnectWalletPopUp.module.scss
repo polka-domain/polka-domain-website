@@ -33,8 +33,14 @@
 }
 
 .button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   min-height: 3rem;
   min-width: 18.75rem;
+  padding-left: 0.5rem;
+  padding-right: 1.25rem;
 
   font-family: inherit;
   color: rgba(var(--text), 1);
@@ -45,6 +51,29 @@
   border-radius: 3.0625rem;
 
   background-color: rgba(var(--bg), 1);
+
+  transition-timing-function: linear;
+  transition-property: border-color;
+  transition-duration: 250ms;
+
+  &:hover,
+  &:focus {
+    border-color: rgba(var(--pink), 1);
+  }
+}
+
+.icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  width: 3.5rem;
+  height: 100%;
+}
+
+.arrow {
+  margin-left: auto;
 }
 
 

@@ -3,6 +3,7 @@ import classNames from "classnames";
 import styles from "./Input.module.scss";
 import { Field } from "react-final-form";
 import { MaybeWithClassName } from "../../helper/react/types";
+import { TextColor } from "../text-color";
 
 type InputType = {
 	name: string;
@@ -37,8 +38,8 @@ export const Input: FC<InputType & MaybeWithClassName> = ({
 						/>
 					</label>
 					<div className={styles.error}>
-						{meta.error && meta.touched && <span>{meta.error}</span>}
-						{meta.submitError && <span>{meta.submitError}</span>}
+						{meta.error && meta.touched && <TextColor color="pink">{meta.error}</TextColor>}
+						{meta.submitError && <TextColor color="pink">{meta.submitError}</TextColor>}
 					</div>
 				</div>
 			)}

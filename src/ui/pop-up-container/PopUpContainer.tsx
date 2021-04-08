@@ -58,7 +58,12 @@ export const PopUpContainer: FC<ComponentType> = ({
 	return (
 		<>
 			<Shadow visible={visible} animated={animated} />
-			<FocusOn autoFocus enabled={visible} onEscapeKey={onClose} onClickOutside={onClose}>
+			<FocusOn
+				autoFocus
+				enabled={visible}
+				onEscapeKey={!withoutClose && onClose}
+				onClickOutside={!withoutClose && onClose}
+			>
 				<div data-autofocus-inside>
 					{/* eslint-disable-next-line max-len */}
 					{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}

@@ -74,6 +74,10 @@
 }
 
 .error span {
+  --lighten: 1;
+
   position: absolute;
-  top: 0;
+  top: 0.25rem;
+
+  font-size: 0.75rem;
 }
