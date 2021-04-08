@@ -11,8 +11,14 @@ import {
 import { useControlPopUp } from "../../ui/pop-up-container";
 import { readUserInformation } from "../../api/user";
 import { Loading } from "../../modules/loading";
+import { Oops } from "./ui/oops";
+import { Flow } from "../../modules/flow";
+import { defineFlow } from "../../modules/flow/definition";
+import { Step1 } from "./ui/step1";
 
 type TokensType = {};
+
+const STEPS = defineFlow(Step1);
 
 export const Tokens: FC<TokensType> = () => {
 	const [metaConnect, setMetaConnect] = useState<MetaActions>(undefined);
@@ -43,7 +49,13 @@ export const Tokens: FC<TokensType> = () => {
 						{metaConnect && !userInformation && <Loading />}
 						{userInformation && (
 							<div>
-								{userInformation.email ? <div>Polka.Domain Auction</div> : <div>Oops!</div>}
+								{userInformation.email ? (
+									<Flow steps={STEPS} onComplete={() => alert("Finish")}>
+										{(body) => body}
+									</Flow>
+								) : (
+									<Oops />
+								)}
 							</div>
 						)}
 					</div>

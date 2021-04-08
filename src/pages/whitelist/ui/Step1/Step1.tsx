@@ -10,6 +10,7 @@ import { Input } from "../../../../ui/input";
 import { Body3 } from "../../../../ui/typography";
 import { MetaActions } from "../../../../modules/connect-wallet-pop-up/ConnectWalletPopUp";
 import { recordUserInformation } from "../../../../api/user";
+import { Box } from "../../../../modules/box/Box";
 
 export type ValuesType = "email" | "ethereumAddress" | "twitter" | "telegram" | "domain";
 
@@ -86,65 +87,67 @@ export const Step1Base: FC<Step1Type> = ({
 					return errors;
 				}}
 				render={({ handleSubmit }) => (
-					<form className={classNames(className, styles.component)} onSubmit={handleSubmit}>
-						<Input
-							className={classNames(styles.input, styles.full)}
-							name="email"
-							label="Email address"
-							type="text"
-							placeholder="youremail@address.com"
-						/>
-						<Input
-							className={classNames(styles.input, styles.full)}
-							name="ethereumAddress"
-							label="ERC-20 Address"
-							type="text"
-							placeholder="0x32A9b7ED8C71C6910Gb4A9bc41de2391b74c2376"
-							readOnly
-							initialValue={initialEthereumAddress}
-						/>
-						<Input
-							className={styles.input}
-							name="twitter"
-							label="Twitter Handle"
-							type="text"
-							placeholder="https://"
-						/>
-						<Input
-							className={styles.input}
-							name="telegram"
-							label="Telegram Username"
-							type="text"
-							placeholder="@username"
-						/>
-						<Input
-							className={classNames(styles.input, styles.full)}
-							name="domain"
-							label="Your desired Polka.Domain"
-							type="text"
-							placeholder="Your desired Polka.Domain"
-						/>
-						<Button
-							className={classNames(styles.submit, styles.full)}
-							variant="contained"
-							color="pink"
-							size="large"
-							submit
-						>
-							Submit Your Entry
-						</Button>
-						<Body3 className={classNames(styles.note, styles.full)} lighten={60}>
-							We will randomly award 200 participants with whitelist spots and 100 participants with
-							their unique Polka.Domain 😉
-						</Body3>
-						<Body3 className={classNames(styles.announce, styles.full)} lighten={60}>
-							Winners will be announced and posted{" "}
-							<NavLink style={{ marginLeft: 8 }} variant="text" color="pink" href="#">
-								here
-							</NavLink>
-							.
-						</Body3>
-					</form>
+					<Box className={classNames(className, styles.component)}>
+						<form className={styles.form} onSubmit={handleSubmit}>
+							<Input
+								className={classNames(styles.input, styles.full)}
+								name="email"
+								label="Email address"
+								type="text"
+								placeholder="youremail@address.com"
+							/>
+							<Input
+								className={classNames(styles.input, styles.full)}
+								name="ethereumAddress"
+								label="ERC-20 Address"
+								type="text"
+								placeholder="0x32A9b7ED8C71C6910Gb4A9bc41de2391b74c2376"
+								readOnly
+								initialValue={initialEthereumAddress}
+							/>
+							<Input
+								className={styles.input}
+								name="twitter"
+								label="Twitter Handle"
+								type="text"
+								placeholder="https://"
+							/>
+							<Input
+								className={styles.input}
+								name="telegram"
+								label="Telegram Username"
+								type="text"
+								placeholder="@username"
+							/>
+							<Input
+								className={classNames(styles.input, styles.full)}
+								name="domain"
+								label="Your desired Polka.Domain"
+								type="text"
+								placeholder="Your desired Polka.Domain"
+							/>
+							<Button
+								className={classNames(styles.submit, styles.full)}
+								variant="contained"
+								color="pink"
+								size="large"
+								submit
+							>
+								Submit Your Entry
+							</Button>
+							<Body3 className={classNames(styles.note, styles.full)} lighten={60}>
+								We will randomly award 200 participants with whitelist spots and 100 participants
+								with their unique Polka.Domain 😉
+							</Body3>
+							<Body3 className={classNames(styles.announce, styles.full)} lighten={60}>
+								Winners will be announced and posted{" "}
+								<NavLink style={{ marginLeft: 8 }} variant="text" color="pink" href="#">
+									here
+								</NavLink>
+								.
+							</Body3>
+						</form>
+					</Box>
 				)}
 			/>
 		</>

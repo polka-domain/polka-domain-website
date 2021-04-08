@@ -17,7 +17,7 @@ export type TypographyType = {
 	color?: ColorType;
 	size?: FontSizeType;
 	weight?: WeightType;
-	lighten?: 100 | 90 | 80 | 60 | 50;
+	lighten?: 100 | 90 | 80 | 60 | 50 | 40;
 	style?: CSSProperties;
 } & WithChildren &
 	MaybeWithClassName;
@@ -98,6 +98,12 @@ type BodyType = Omit<TypographyType, "size" | "Component" | "variant"> & {
 export const Body1: FC<BodyType> = ({ Component = "p", ...props }) => {
 	return (
 		<Typography Component={Component} size={18} weight="regular" variant="primary" {...props} />
+	);
+};
+
+export const Body2: FC<BodyType> = ({ Component = "p", ...props }) => {
+	return (
+		<Typography Component={Component} size={16} weight="regular" variant="primary" {...props} />
 	);
 };
 

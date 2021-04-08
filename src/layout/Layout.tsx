@@ -46,9 +46,9 @@ export const Layout: FC<LayoutType> = ({
 			<main className={styles.main}>{children}</main>
 			{withDecoration && (
 				<div className={styles.decoration}>
-					<Image className={styles.image1} img={PLANET1} width={154} height={154} alt="Planet" />
+					{/*<Image className={styles.image1} img={PLANET1} width={154} height={154} alt="Planet" />*/}
 					<Image className={styles.image2} img={PLANET2} width={100} height={100} alt="Planet" />
-					<Image className={styles.image3} img={PLANET3} width={104} height={104} alt="Planet" />
+					{/*<Image className={styles.image3} img={PLANET3} width={104} height={104} alt="Planet" />*/}
 					<Image className={styles.image4} img={PLANET4} width={60} height={60} alt="Planet" />
 				</div>
 			)}
