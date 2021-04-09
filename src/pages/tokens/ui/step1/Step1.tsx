@@ -196,6 +196,12 @@ export const Step1: FC = () => {
 						{myClaim ? "Tokens claimed" : "Claim tokens"}
 					</Button>
 				);
+			case "coming":
+				return (
+					<Button size="large" color="pink" variant="contained" disabled>
+						Join Auction
+					</Button>
+				);
 			default:
 				if (myAmount === "0") {
 					return (
