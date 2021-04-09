@@ -4,10 +4,10 @@ import type { Contract as ContractType } from "web3-eth-contract";
 import { AbiItem, toWei } from "web3-utils";
 import { useMemo } from "react";
 
+const AUCTION_INDEX = 1;
 // Rinkeby address
 const fixedSwapAddress = "0x3f1091Cc60c83C208db4A660aB4804bB684E988A";
 
-//  = 'ws://localhost:8546'
 export const factoryContract = (provider: string): ContractType => {
 	// @ts-ignore
 	const fixedSwapContract = new Contract(TokenFixedSwap.abi as AbiItem[], fixedSwapAddress);
@@ -23,7 +23,7 @@ export const swapContracts = (contract: ContractType, ethAmount: string, account
 	return contract.methods.swap(index, amount).send({ from: account });
 };
 
-export const claimTokens = (contract: ContractType, address: string, index = 0) => {
+export const claimTokens = (contract: ContractType, address: string, index = AUCTION_INDEX) => {
 	return contract.methods.myClaimed(address, index).call();
 };
 
@@ -33,7 +33,7 @@ export const useContract = (provider?: string) => {
 
 export const getTimeInfo = (
 	contract: ContractType,
-	index = 0
+	index = AUCTION_INDEX
 ): {
 	closeAt: number;
 	claimAt: number;
@@ -43,7 +43,7 @@ export const getTimeInfo = (
 
 export const getTokenInfo = (
 	contract: ContractType,
-	index = 0
+	index = AUCTION_INDEX
 ): {
 	maxAllocToken1: string;
 	amountTotal0: string;

@@ -12,7 +12,7 @@ function getLibrary(provider) {
 }
 
 const ConnectionModal = () => {
-	const { active, connector } = useWeb3React();
+	const { active } = useWeb3React();
 	const { popUp, close, open } = useControlPopUp();
 	useEffect(() => {
 		if (active) {
@@ -21,12 +21,6 @@ const ConnectionModal = () => {
 			open();
 		}
 	}, [active]);
-
-	useEffect(() => {
-		if (connector) {
-			connector.getProvider().then((x) => console.log("xxxx", x));
-		}
-	}, [connector]);
 
 	return popUp.defined ? (
 		<ConnectWalletPopUp control={popUp} close={close} withoutClose={true} />

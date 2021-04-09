@@ -8,11 +8,12 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { CopyIcon } from "../../../../ui/icons/Icons";
 import { toDeltaTimer } from "./time";
 
-export type StatusType = "live" | "filled";
+export type StatusType = "live" | "filled" | "closed";
 
 const STATUS_CAPTION: Record<StatusType, string> = {
 	live: "Live",
 	filled: "Filled",
+	closed: "Closed",
 };
 
 export type AuctionType = {
@@ -66,7 +67,12 @@ export const Auction: FC<AuctionType & WithChildren> = ({
 			style={
 				{
 					"--bar-width": `${percentage}%`,
-					"--color": status === "live" ? "var(--success)" : "var(--announce)",
+					"--color":
+						status === "filled"
+							? "var(--announce)"
+							: status === "closed"
+							? "var(--error)"
+							: "var(--success)",
 				} as CSSProperties
 			}
 		>

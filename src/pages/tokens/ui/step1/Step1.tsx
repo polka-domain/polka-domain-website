@@ -7,6 +7,8 @@ import { AuctionType, StatusType } from "../auction/Auction";
 import { getTimeInfo, getTokenInfo, swapContracts, useContract } from "../../../../web3/contract";
 import { useWeb3React } from "@web3-react/core";
 import { useWeb3Provider } from "../../../../web3/web3";
+import { getDeltaTime } from "../auction/time";
+import { fromWei } from "web3-utils";
 
 export const Step1Base: FC = () => {
 	const [auctionState, setAuctionState] = useState<AuctionType>({
@@ -25,22 +27,29 @@ export const Step1Base: FC = () => {
 	const { account: ethereumAddress } = useWeb3React();
 	const contract = useContract(provider);
 
+	const minAllocation = "0.0001";
+
 	const updateData = async () => {
 		const pTimeInfo = getTimeInfo(contract);
 		const pTokenInfo = getTokenInfo(contract);
 		const [timeInfo, tokenInfo] = await Promise.all([pTimeInfo, pTokenInfo]);
 		const auction = {
-			status: tokenInfo.amountTotal1 === tokenInfo.amountSwap1 ? "filled" : ("live" as StatusType),
+			status:
+				tokenInfo.amountTotal1 === tokenInfo.amountSwap1
+					? "filled"
+					: getDeltaTime(timeInfo.closeAt) === 0
+					? "closed"
+					: ("live" as StatusType),
 			timer: timeInfo.closeAt,
 			ethereumAddress: tokenInfo.creator,
 			range: `0000 NAME = ${
-				parseInt(tokenInfo.amountTotal0) / parseInt(tokenInfo.amountTotal1)
+				parseInt(fromWei(tokenInfo.amountTotal0)) / parseFloat(fromWei(tokenInfo.amountTotal1))
 			} ETH`,
-			minAllocation: 0.0001,
-			maxAllocation: parseInt(tokenInfo.maxAllocToken1),
+			minAllocation: parseFloat(minAllocation),
+			maxAllocation: parseFloat(fromWei(tokenInfo.maxAllocToken1)),
 			total: 0.00045,
-			amount: parseInt(tokenInfo.amountSwap1),
-			totalAmount: parseInt(tokenInfo.amountTotal1),
+			amount: parseFloat(fromWei(tokenInfo.amountSwap1)),
+			totalAmount: parseFloat(fromWei(tokenInfo.amountTotal1)),
 		};
 		setAuctionState(auction);
 		console.log({
@@ -54,8 +63,16 @@ export const Step1Base: FC = () => {
 	}, [contract]);
 
 	const joinAction = async () => {
-		await swapContracts(contract, "1", ethereumAddress);
-		updateData();
+		try {
+			// startOperation('join');
+			await swapContracts(contract, minAllocation, ethereumAddress);
+			await updateData();
+			// completeOperation('join');
+		} catch (e) {
+			// failOperation('join');
+		} finally {
+			// close modal
+		}
 	};
 
 	return (
