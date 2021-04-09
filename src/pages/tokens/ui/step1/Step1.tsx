@@ -251,14 +251,42 @@ export const Step1: FC = () => {
 			);
 
 		case "claim":
-			return <div>claiming....</div>;
+			return <Loading headline="Claiming..." />;
+
 		case "claimed":
 			return (
-				<div>
-					claimed <button onClick={() => setOperation("")}>ok </button>
-				</div>
+				<Box className={styles.box}>
+					<HeadlinePlusSubline
+						headline="Success!"
+						subline="You've successfully claimed your token 🎉"
+					>
+						<Button
+							className={styles.button}
+							color="pink"
+							size="large"
+							variant="outlined"
+							onClick={() => setOperation("")}
+						>
+							Back to Auction
+						</Button>
+					</HeadlinePlusSubline>
+				</Box>
 			);
+
 		case "fail-to-claim":
-			return <div>failed to claim....</div>;
+			return (
+				<Box className={styles.box}>
+					<HeadlinePlusSubline headline="Oops!" subline="Something went wrong, please try again 😅">
+						<div className={styles.buttons}>
+							<Button color="pink" size="large" variant="outlined" onClick={() => setOperation("")}>
+								Cancel
+							</Button>
+							<Button color="pink" size="large" variant="contained" onClick={claimAction}>
+								Try Again
+							</Button>
+						</div>
+					</HeadlinePlusSubline>
+				</Box>
+			);
 	}
 };
