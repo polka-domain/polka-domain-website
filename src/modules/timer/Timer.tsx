@@ -1,14 +1,20 @@
 import React, { FC, useEffect, useState } from "react";
 
-import { toDeltaTimer } from "../../utils/page/time";
+import { getDeltaTime, toDeltaTimer } from "../../utils/page/time";
 
-export const Timer: FC<{ timer: number }> = ({ timer }) => {
-	const [time, setTime] = useState(toDeltaTimer(timer));
+export const Timer: FC<{ timer: number; onZero: () => void }> = ({ timer, onZero }) => {
+	const [time, setTime] = useState(getDeltaTime(timer));
 
 	useEffect(() => {
-		const tm = setInterval(() => setTime(toDeltaTimer(timer)), 1000);
+		const tm = setInterval(() => setTime(getDeltaTime(timer)), 1000);
 		return () => clearInterval(tm);
-	});
+	}, [timer]);
 
-	return <>{time}</>;
+	useEffect(() => {
+		if (!time) {
+			onZero();
+		}
+	}, [time]);
+
+	return <>{toDeltaTimer(time)}</>;
 };

@@ -83,7 +83,7 @@ export const Step1: FC = () => {
 					? "filled"
 					: getDeltaTime(timeInfo.closeAt) === 0
 					? "closed"
-					: Date.now() < timeInfo.closeAt * 1000
+					: Date.now() < timeInfo.openAt * 1000
 					? "coming"
 					: ("live" as StatusType),
 			start: timeInfo.openAt,
@@ -118,7 +118,8 @@ export const Step1: FC = () => {
 	};
 
 	useEffect(() => {
-		updateData();
+		const tm = setInterval(updateData, 60000);
+		return () => clearInterval(tm);
 	}, [contract]);
 
 	const [operation, setOperation] = useState<KNOWN_OPERATIONS>("");
@@ -214,7 +215,7 @@ export const Step1: FC = () => {
 						<Button className={styles.claim} size="large" color="pink" variant="contained" disabled>
 							Claim tokens
 							<span>
-								<Timer timer={claimTime} />
+								<Timer timer={claimTime} onZero={updateData} />
 							</span>
 						</Button>
 					);
@@ -224,7 +225,11 @@ export const Step1: FC = () => {
 
 	switch (operation) {
 		case "":
-			return <Auction {...auctionState}>{action}</Auction>;
+			return (
+				<Auction {...auctionState} requireUpdate={updateData}>
+					{action}
+				</Auction>
+			);
 
 		case "confirm":
 			return (

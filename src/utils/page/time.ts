@@ -7,9 +7,7 @@ export const getDeltaTime = (time: number, to = Date.now()) => {
 	return delta > 0 ? delta : 0;
 };
 
-export const toDeltaTimer = (time: number, to = Date.now()) => {
-	const delta = getDeltaTime(time, to);
-
+export const toDeltaTimer = (delta: number) => {
 	let d = Math.floor(delta / (60 * 60 * 24));
 	let h = Math.floor((delta / (60 * 60)) % 24);
 	let m = Math.floor((delta / 60) % 60);

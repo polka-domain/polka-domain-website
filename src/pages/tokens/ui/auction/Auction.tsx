@@ -31,7 +31,7 @@ export type AuctionType = {
 	totalAmount: string;
 };
 
-export const Auction: FC<AuctionType & WithChildren> = ({
+export const Auction: FC<AuctionType & WithChildren & { requireUpdate(): void }> = ({
 	status,
 	start,
 	end,
@@ -43,6 +43,7 @@ export const Auction: FC<AuctionType & WithChildren> = ({
 	amount,
 	totalAmount,
 	children,
+	requireUpdate,
 }) => {
 	const percentage = ((parseFloat(amount) / parseFloat(totalAmount)) * 100).toFixed(0);
 
@@ -75,7 +76,11 @@ export const Auction: FC<AuctionType & WithChildren> = ({
 				<span className={styles.status}>{STATUS_CAPTION[status]}</span>
 				{status !== "closed" && (
 					<span className={styles.timer}>
-						{status === "coming" ? <Timer timer={start} /> : <Timer timer={end} />}
+						{status === "coming" ? (
+							<Timer timer={start} onZero={requireUpdate} />
+						) : (
+							<Timer timer={end} onZero={requireUpdate} />
+						)}
 					</span>
 				)}
 				<CopyToClipboard text={ethereumAddress} onCopy={() => setCopy(true)}>
