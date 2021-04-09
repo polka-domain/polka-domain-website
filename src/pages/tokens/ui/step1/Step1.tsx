@@ -157,8 +157,8 @@ export const Step1: FC = () => {
 				);
 			case "closed":
 				return (
-					<Button size="large" color="pink" variant="contained" onClick={joinAction} disabled>
-						Closed
+					<Button size="large" color="pink" variant="contained" onClick={claimAction}>
+						Claim tokens
 					</Button>
 				);
 			case "filled":
