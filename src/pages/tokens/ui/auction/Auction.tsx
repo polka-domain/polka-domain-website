@@ -6,17 +6,18 @@ import { WithChildren } from "../../../../helper/react/types";
 import { Body2 } from "../../../../ui/typography/Typography";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { CopyIcon } from "../../../../ui/icons/Icons";
+import { toDeltaTimer } from "./time";
 
-type StatusType = "live" | "filled";
+export type StatusType = "live" | "filled";
 
 const STATUS_CAPTION: Record<StatusType, string> = {
 	live: "Live",
 	filled: "Filled",
 };
 
-type AuctionType = Partial<{
+export type AuctionType = {
 	status: StatusType;
-	timer: string;
+	timer: number;
 	ethereumAddress: string;
 	range: string;
 	minAllocation: number;
@@ -24,18 +25,28 @@ type AuctionType = Partial<{
 	total: number;
 	amount: number;
 	totalAmount: number;
-}>;
+};
+
+const Timer: FC<{ timer: number }> = ({ timer }) => {
+	const [time, setTime] = useState(toDeltaTimer(timer));
+	useEffect(() => {
+		const tm = setInterval(() => setTime(toDeltaTimer(timer)), 1000);
+		return () => clearInterval(tm);
+	});
+
+	return <>{time}</>;
+};
 
 export const Auction: FC<AuctionType & WithChildren> = ({
-	status = "filled",
-	timer = "0d : 32h : 12m : 10s",
-	ethereumAddress = "0xD169687D85D95880feC3cBfAE61a54C1a8B92345",
-	range = "0000 NAME = 0 ETH",
-	minAllocation = 0.0001,
-	maxAllocation = 0.0001,
-	total = 0.00045,
-	amount = 300,
-	totalAmount = 1000,
+	status,
+	timer,
+	ethereumAddress,
+	range,
+	minAllocation,
+	maxAllocation,
+	total,
+	amount,
+	totalAmount,
 	children,
 }) => {
 	const percentage = ((amount / totalAmount) * 100).toFixed(0);
@@ -62,7 +73,9 @@ export const Auction: FC<AuctionType & WithChildren> = ({
 			<div className={styles.header}>
 				<h2 className={styles.title}>Polka.Domain Auction</h2>
 				<span className={styles.status}>{STATUS_CAPTION[status]}</span>
-				<span className={styles.timer}>{timer}</span>
+				<span className={styles.timer}>
+					<Timer timer={timer} />
+				</span>
 				<CopyToClipboard text={ethereumAddress} onCopy={() => setCopy(true)}>
 					<Body2 Component="p" className={styles.wallet} lighten={40}>
 						{walletConversion(ethereumAddress)}
