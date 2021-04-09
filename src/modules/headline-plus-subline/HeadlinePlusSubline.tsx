@@ -1,9 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 import styles from "./HeadlinePlusSubline.module.scss";
 
 type HeadlinePlusSubline = {
 	headline: string;
-	subline?: string;
+	subline?: ReactNode;
 };
 
 export const HeadlinePlusSubline: FC<HeadlinePlusSubline> = ({ headline, subline, children }) => {

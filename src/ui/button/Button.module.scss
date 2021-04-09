@@ -140,6 +140,10 @@
   &:focus {
     background-color: rgba(var(--pink), 0.8);
   }
+
+  &.disabled {
+    opacity: 0.4;
+  }
 }
 
 .contained-grey {

@@ -1,1 +1,1 @@
-export { HeadlinePlusSubline } from "./Box";
+export { Box } from "./Box";

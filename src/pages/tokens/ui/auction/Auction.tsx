@@ -1,16 +1,17 @@
 import React, { CSSProperties, FC, useEffect, useState } from "react";
 import styles from "./Auction.module.scss";
-import { Box } from "../../../../modules/box/Box";
+import { Box } from "../../../../modules/box";
 import { walletConversion } from "../../../../utils/page/convertWallet";
 import { WithChildren } from "../../../../helper/react/types";
 import { Body2 } from "../../../../ui/typography/Typography";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { CopyIcon } from "../../../../ui/icons/Icons";
-import { toDeltaTimer } from "./time";
+import { Timer } from "../../../../modules/timer";
 
-export type StatusType = "live" | "filled" | "closed";
+export type StatusType = "" | "live" | "filled" | "closed";
 
 const STATUS_CAPTION: Record<StatusType, string> = {
+	"": "-",
 	live: "Live",
 	filled: "Filled",
 	closed: "Closed",
@@ -21,21 +22,11 @@ export type AuctionType = {
 	timer: number;
 	ethereumAddress: string;
 	range: string;
-	minAllocation: number;
-	maxAllocation: number;
-	total: number;
-	amount: number;
-	totalAmount: number;
-};
-
-const Timer: FC<{ timer: number }> = ({ timer }) => {
-	const [time, setTime] = useState(toDeltaTimer(timer));
-	useEffect(() => {
-		const tm = setInterval(() => setTime(toDeltaTimer(timer)), 1000);
-		return () => clearInterval(tm);
-	});
-
-	return <>{time}</>;
+	minAllocation: string;
+	maxAllocation: string;
+	total: string;
+	amount: string;
+	totalAmount: string;
 };
 
 export const Auction: FC<AuctionType & WithChildren> = ({
@@ -50,7 +41,7 @@ export const Auction: FC<AuctionType & WithChildren> = ({
 	totalAmount,
 	children,
 }) => {
-	const percentage = ((amount / totalAmount) * 100).toFixed(0);
+	const percentage = ((parseFloat(amount) / parseFloat(totalAmount)) * 100).toFixed(0);
 
 	const [isCopy, setCopy] = useState<boolean>(false);
 
