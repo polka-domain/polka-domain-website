@@ -5,7 +5,8 @@ import { AbiItem, toWei } from "web3-utils";
 import { useMemo } from "react";
 import Web3 from "web3";
 
-const AUCTION_INDEX = 3;
+const AUCTION_INDEX =
+	(typeof window !== "undefined" && window.localStorage.getItem("AUCTION_INDEX")) || 3;
 // Rinkeby address
 const fixedSwapAddress = "0x3f1091Cc60c83C208db4A660aB4804bB684E988A";
 
