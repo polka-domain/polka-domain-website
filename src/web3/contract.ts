@@ -28,12 +28,20 @@ export const swapContracts = async (
 	return contract.methods.swap(index, amount).send({ from: account, value: amount });
 };
 
-export const claimTokens = async (
+export const getMyClaim = async (
 	contract: ContractType,
 	address: string,
 	index = AUCTION_INDEX
 ) => {
 	return contract.methods.myClaimed(address, index).call();
+};
+
+export const claimTokens = async (
+	contract: ContractType,
+	address: string,
+	index = AUCTION_INDEX
+) => {
+	return contract.methods.userClaim(index).send({ from: address });
 };
 
 export const useContract = (provider?: string) => {

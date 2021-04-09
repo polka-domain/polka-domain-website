@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useState } from "react";
-import classNames from "classnames";
 import { Auction } from "../auction";
 import { Button } from "../../../../ui/button";
 import { AuctionType, StatusType } from "../auction/Auction";
@@ -7,6 +6,7 @@ import {
 	claimTokens,
 	getMyAmount,
 	getMyBalance,
+	getMyClaim,
 	getTimeInfo,
 	getTokenInfo,
 	swapContracts,
@@ -19,8 +19,11 @@ import { Loading } from "../../../../modules/loading";
 import { Timer } from "../../../../modules/timer";
 import { getDeltaTime } from "../../../../utils/page/time";
 import styles from "./Step1.module.scss";
-import { Box } from "../../../../modules/box";
-import { HeadlinePlusSubline } from "../../../../modules/headline-plus-subline";
+import { Confirm } from "./Confirm";
+import { Joined } from "./Joined";
+import { JoinedFail } from "./JoinedFail";
+import { Claimed } from "./Claimed";
+import { ClaimedFail } from "./ClaimedFail";
 
 type KNOWN_OPERATIONS =
 	| ""
@@ -44,6 +47,7 @@ export const Step1: FC = () => {
 		amount: "",
 		totalAmount: "",
 	});
+	const [myClaim, setMyClaim] = useState<boolean>(false);
 	const [myAmount, setMyAmount] = useState<string>("");
 	const [claimTime, setClaimTime] = useState<number>(0);
 	const [ethBalance, setEthBalance] = useState("0");
@@ -59,11 +63,13 @@ export const Step1: FC = () => {
 		const pTimeInfo = getTimeInfo(contract);
 		const pTokenInfo = getTokenInfo(contract);
 		const pMyAmount = getMyAmount(contract, ethereumAddress);
+		const pMyClaim = getMyClaim(contract, ethereumAddress);
 		const pBalance = getMyBalance(web3, ethereumAddress);
-		const [timeInfo, tokenInfo, myAmount, balance] = await Promise.all([
+		const [timeInfo, tokenInfo, myAmount, myClaim, balance] = await Promise.all([
 			pTimeInfo,
 			pTokenInfo,
 			pMyAmount,
+			pMyClaim,
 			pBalance,
 		]);
 
@@ -90,6 +96,7 @@ export const Step1: FC = () => {
 		const claimTime = timeInfo.claimAt;
 
 		setMyAmount(fromWei(myAmount));
+		setMyClaim(myClaim);
 		setClaimTime(claimTime);
 		setAuctionState(auction);
 		setEthBalance(balance);
@@ -98,6 +105,7 @@ export const Step1: FC = () => {
 			timeInfo,
 			tokenInfo,
 			myAmount,
+			myClaim,
 		});
 		return {
 			myAmount,
@@ -111,7 +119,11 @@ export const Step1: FC = () => {
 
 	const [operation, setOperation] = useState<KNOWN_OPERATIONS>("");
 
-	const joinAction = async () => {
+	const cancelAction = () => {
+		setOperation("");
+	};
+
+	const joinAction = () => {
 		setOperation("confirm");
 	};
 
@@ -141,6 +153,7 @@ export const Step1: FC = () => {
 			await updateData();
 			setOperation("claimed");
 		} catch (e) {
+			console.error(e);
 			setOperation("fail-to-claim");
 		} finally {
 			// close modal
@@ -157,14 +170,26 @@ export const Step1: FC = () => {
 				);
 			case "closed":
 				return (
-					<Button size="large" color="pink" variant="contained" onClick={claimAction}>
-						Claim tokens
+					<Button
+						size="large"
+						color="pink"
+						variant="contained"
+						onClick={claimAction}
+						disabled={myClaim}
+					>
+						{myClaim ? "Tokens claimed" : "Claim tokens"}
 					</Button>
 				);
 			case "filled":
 				return (
-					<Button size="large" color="pink" variant="contained" onClick={claimAction}>
-						Claim tokens
+					<Button
+						size="large"
+						color="pink"
+						variant="contained"
+						onClick={claimAction}
+						disabled={myClaim}
+					>
+						{myClaim ? "Tokens claimed" : "Claim tokens"}
 					</Button>
 				);
 			default:
@@ -193,100 +218,30 @@ export const Step1: FC = () => {
 
 		case "confirm":
 			return (
-				<Box className={styles.box}>
-					<p className={styles.contribution}>
-						Your Contribution:
-						<br />
-						<span>{String(auctionState.maxAllocation)} ETH</span>
-					</p>
-					<p className={styles.text}>Your balance: {fromWei(ethBalance)} ETH</p>
-					<div className={classNames(styles.buttons, styles.withOffset)}>
-						<Button color="pink" size="large" variant="outlined" onClick={() => setOperation("")}>
-							Cancel
-						</Button>
-						<Button color="pink" size="large" variant="contained" onClick={contributeAction}>
-							Contribute
-						</Button>
-					</div>
-				</Box>
+				<Confirm
+					balance={fromWei(ethBalance)}
+					amount={String(auctionState.maxAllocation)}
+					cancelClick={cancelAction}
+					confirmClick={contributeAction}
+				/>
 			);
 
 		case "join":
 			return <Loading headline="Awaiting confirmation..." />;
 
 		case "joined":
-			return (
-				<Box className={styles.box}>
-					<HeadlinePlusSubline
-						headline="Success!"
-						subline={`You have successfully contributed ${fromWei(myAmount)} ETH 🎉`}
-					>
-						<Button
-							className={styles.button}
-							color="pink"
-							size="large"
-							variant="outlined"
-							onClick={() => setOperation("")}
-						>
-							Back to Auction
-						</Button>
-					</HeadlinePlusSubline>
-				</Box>
-			);
+			return <Joined amount={fromWei(myAmount)} onClick={cancelAction} />;
 
 		case "fail-to-join":
-			return (
-				<Box className={styles.box}>
-					<HeadlinePlusSubline headline="Oops!" subline="Action failed, please try again 😅">
-						<div className={styles.buttons}>
-							<Button color="pink" size="large" variant="outlined" onClick={() => setOperation("")}>
-								Cancel
-							</Button>
-							<Button color="pink" size="large" variant="contained" onClick={contributeAction}>
-								Try Again
-							</Button>
-						</div>
-					</HeadlinePlusSubline>
-				</Box>
-			);
+			return <JoinedFail cancelClick={cancelAction} tryClick={contributeAction} />;
 
 		case "claim":
 			return <Loading headline="Claiming..." />;
 
 		case "claimed":
-			return (
-				<Box className={styles.box}>
-					<HeadlinePlusSubline
-						headline="Success!"
-						subline="You've successfully claimed your token 🎉"
-					>
-						<Button
-							className={styles.button}
-							color="pink"
-							size="large"
-							variant="outlined"
-							onClick={() => setOperation("")}
-						>
-							Back to Auction
-						</Button>
-					</HeadlinePlusSubline>
-				</Box>
-			);
+			return <Claimed onClick={cancelAction} />;
 
 		case "fail-to-claim":
-			return (
-				<Box className={styles.box}>
-					<HeadlinePlusSubline headline="Oops!" subline="Something went wrong, please try again 😅">
-						<div className={styles.buttons}>
-							<Button color="pink" size="large" variant="outlined" onClick={() => setOperation("")}>
-								Cancel
-							</Button>
-							<Button color="pink" size="large" variant="contained" onClick={claimAction}>
-								Try Again
-							</Button>
-						</div>
-					</HeadlinePlusSubline>
-				</Box>
-			);
+			return <ClaimedFail cancelClick={cancelAction} tryClick={claimAction} />;
 	}
 };
