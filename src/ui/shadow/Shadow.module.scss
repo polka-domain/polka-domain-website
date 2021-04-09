@@ -32,6 +32,6 @@
 }
 
 .visible {
-  pointer-events: all;
+  pointer-events: var(--events);
   visibility: visible;
 }

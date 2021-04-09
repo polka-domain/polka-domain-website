@@ -6,6 +6,7 @@ import { useState } from "react";
 import { hasMetaMask } from "../../helper/metamask";
 import { MetaIcon, RightArrow, WalletIcon } from "./icons";
 import { useWalletConnector } from "../../web3/connections";
+import theme from "../../ui/styles/Theme.module.scss";
 
 export const ConnectWalletPopUp: RC<{
 	control: ScatteredContinuousState<boolean>;
@@ -39,11 +40,13 @@ export const ConnectWalletPopUp: RC<{
 
 	return (
 		<PopUpContainer
+			className={theme.light}
 			animated={control.present}
 			visible={control.defined}
 			size="sm"
 			onClose={connecting ? undefined : close}
 			withoutClose={withoutClose}
+			focusLock={false}
 		>
 			<div className={styles.component}>
 				<h2 className={styles.title}>Connect to a wallet</h2>

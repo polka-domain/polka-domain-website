@@ -3,7 +3,6 @@ import { useWeb3React, Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import { ConnectWalletPopUp } from "../modules/connect-wallet-pop-up";
 import { useControlPopUp } from "../ui/pop-up-container";
-import { Loading } from "../modules/loading";
 
 function getLibrary(provider) {
 	const library = new Web3Provider(provider);

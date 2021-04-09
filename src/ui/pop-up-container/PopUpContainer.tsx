@@ -4,7 +4,6 @@ import { MaybeWithClassName, WithChildren } from "../../helper/react/types";
 import classNames from "classnames";
 import type { CSSProperties, FC } from "react";
 import { useCallback, useState } from "react";
-
 import { Shadow } from "../shadow";
 
 import styles from "./PopUpContainer.module.scss";
@@ -21,6 +20,7 @@ type PopUpContainerType = {
 	visible: boolean;
 	size: "sm" | "lg";
 	withoutClose?: boolean;
+	focusLock?: boolean;
 	onClose(): void;
 };
 
@@ -48,30 +48,34 @@ export const useControlPopUp = (): {
 	};
 };
 
-export const PopUpContainer: FC<ComponentType> = ({
+export const PopUpContainer: FC<ComponentType & MaybeWithClassName> = ({
+	className,
 	visible,
 	onClose,
 	animated,
 	children,
 	size,
 	withoutClose,
+	focusLock,
 }) => {
 	const windowHeight = useWindowSize()[1];
 
 	return (
 		<>
-			<Shadow visible={visible} animated={animated} />
+			<Shadow className={className} visible={visible} animated={animated} focusLock={focusLock} />
 			<FocusOn
 				autoFocus
 				enabled={visible}
 				onEscapeKey={!withoutClose && onClose}
 				onClickOutside={!withoutClose && onClose}
+				focusLock={focusLock}
 			>
 				<div data-autofocus-inside>
 					{/* eslint-disable-next-line max-len */}
 					{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
 					<div
 						className={classNames(
+							className,
 							styles.component,
 							visible && styles.visible,
 							animated && styles.animation

@@ -97,11 +97,9 @@ export const Step1: FC = () => {
 			totalAmount: fromWei(tokenInfo.amountTotal1),
 		};
 
-		const claimTime = timeInfo.claimAt;
-
 		setMyAmount(fromWei(myAmount));
 		setMyClaim(myClaim);
-		setClaimTime(claimTime);
+		setClaimTime(timeInfo.claimAt);
 		setAuctionState(auction);
 		setEthBalance(balance);
 
@@ -166,60 +164,88 @@ export const Step1: FC = () => {
 	};
 
 	const action = (() => {
+		const claimStatus = (() => {
+			if (myAmount === "0") {
+				return "did-not-participate";
+			}
+			if (myClaim) {
+				return "claimed";
+			}
+			if (Date.now() < claimTime * 1000) {
+				return "wait";
+			}
+			if (!(myClaim || myAmount === "0")) {
+				return "claim";
+			}
+			return "unknown";
+		})();
+
+		const settings = {
+			size: "large" as any,
+			color: "pink" as any,
+			variant: "contained" as any,
+		};
+
+		const ClaimTimer = (
+			<>
+				Claim tokens
+				<span>
+					<Timer timer={claimTime} onZero={updateData} />
+				</span>
+			</>
+		);
+
 		switch (auctionState.status) {
 			case "":
 				return (
-					<Button size="large" color="pink" variant="contained" disabled>
+					<Button {...settings} disabled>
 						Initializing
 					</Button>
 				);
 			case "closed":
 				return (
 					<Button
-						size="large"
-						color="pink"
-						variant="contained"
+						{...settings}
+						className={styles.claim}
 						onClick={claimAction}
-						disabled={myClaim}
+						disabled={claimStatus !== "claim"}
 					>
-						{myClaim ? "Tokens claimed" : "Claim tokens"}
+						{claimStatus === "claim" && "Claim tokens"}
+						{claimStatus === "claimed" && "Tokens claimed"}
+						{claimStatus === "did-not-participate" && "You didn’t participate"}
+						{claimStatus === "wait" && ClaimTimer}
 					</Button>
 				);
 			case "filled":
 				return (
 					<Button
-						size="large"
-						color="pink"
-						variant="contained"
+						{...settings}
+						className={styles.claim}
 						onClick={claimAction}
-						disabled={myClaim}
+						disabled={claimStatus !== "claim"}
 					>
-						{myClaim ? "Tokens claimed" : "Claim tokens"}
+						{claimStatus === "claim" && "Claim tokens"}
+						{claimStatus === "claimed" && "Tokens claimed"}
+						{claimStatus === "did-not-participate" && "You didn’t participate"}
+						{claimStatus === "wait" && ClaimTimer}
 					</Button>
 				);
 			case "coming":
 				return (
-					<Button size="large" color="pink" variant="contained" disabled>
+					<Button {...settings} disabled>
 						Join Auction
 					</Button>
 				);
 			default:
-				if (myAmount === "0") {
-					return (
-						<Button size="large" color="pink" variant="contained" onClick={joinAction}>
-							Join Auction
-						</Button>
-					);
-				} else {
-					return (
-						<Button className={styles.claim} size="large" color="pink" variant="contained" disabled>
-							Claim tokens
-							<span>
-								<Timer timer={claimTime} onZero={updateData} />
-							</span>
-						</Button>
-					);
-				}
+				return (
+					<Button
+						{...settings}
+						onClick={joinAction}
+						disabled={claimStatus !== "did-not-participate"}
+					>
+						{claimStatus === "did-not-participate" ? "Join Auction" : ClaimTimer}
+					</Button>
+				);
 		}
 	})();
 
@@ -245,7 +271,7 @@ export const Step1: FC = () => {
 			return <Loading headline="Awaiting confirmation..." />;
 
 		case "joined":
-			return <Joined amount={fromWei(myAmount)} onClick={cancelAction} />;
+			return <Joined amount={myAmount} onClick={cancelAction} />;
 
 		case "fail-to-join":
 			return <JoinedFail cancelClick={cancelAction} tryClick={contributeAction} />;
