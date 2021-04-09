@@ -38,7 +38,8 @@ type KNOWN_OPERATIONS =
 export const Step1: FC = () => {
 	const [auctionState, setAuctionState] = useState<AuctionType>({
 		status: "" as any,
-		timer: 0,
+		start: 0,
+		end: 0,
 		ethereumAddress: "",
 		range: "",
 		minAllocation: "",
@@ -82,8 +83,11 @@ export const Step1: FC = () => {
 					? "filled"
 					: getDeltaTime(timeInfo.closeAt) === 0
 					? "closed"
+					: Date.now() < timeInfo.closeAt * 1000
+					? "coming"
 					: ("live" as StatusType),
-			timer: timeInfo.closeAt,
+			start: timeInfo.openAt,
+			end: timeInfo.closeAt,
 			ethereumAddress: tokenInfo.creator,
 			range: `${totalAmount0.div(totalAmount1)} NAME = 1 ETH`,
 			minAllocation: minAllocation,

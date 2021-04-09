@@ -5,7 +5,7 @@ import { AbiItem, toWei } from "web3-utils";
 import { useMemo } from "react";
 import Web3 from "web3";
 
-const AUCTION_INDEX = 2;
+const AUCTION_INDEX = 3;
 // Rinkeby address
 const fixedSwapAddress = "0x3f1091Cc60c83C208db4A660aB4804bB684E988A";
 
@@ -52,6 +52,7 @@ export const getTimeInfo = (
 	contract: ContractType,
 	index = AUCTION_INDEX
 ): Promise<{
+	openAt: number;
 	closeAt: number;
 	claimAt: number;
 }> => {

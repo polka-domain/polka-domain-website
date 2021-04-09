@@ -8,10 +8,11 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { CopyIcon } from "../../../../ui/icons/Icons";
 import { Timer } from "../../../../modules/timer";
 
-export type StatusType = "" | "live" | "filled" | "closed";
+export type StatusType = "" | "coming" | "live" | "filled" | "closed";
 
 const STATUS_CAPTION: Record<StatusType, string> = {
 	"": "-",
+	coming: "Coming soon",
 	live: "Live",
 	filled: "Filled",
 	closed: "Closed",
@@ -19,7 +20,8 @@ const STATUS_CAPTION: Record<StatusType, string> = {
 
 export type AuctionType = {
 	status: StatusType;
-	timer: number;
+	start: number;
+	end: number;
 	ethereumAddress: string;
 	range: string;
 	minAllocation: string;
@@ -31,7 +33,8 @@ export type AuctionType = {
 
 export const Auction: FC<AuctionType & WithChildren> = ({
 	status,
-	timer,
+	start,
+	end,
 	ethereumAddress,
 	range,
 	minAllocation,
@@ -61,18 +64,20 @@ export const Auction: FC<AuctionType & WithChildren> = ({
 					"--color":
 						status === "filled"
 							? "var(--announce)"
-							: status === "closed"
-							? "var(--error)"
-							: "var(--success)",
+							: status === "live"
+							? "var(--success)"
+							: "var(--error)",
 				} as CSSProperties
 			}
 		>
 			<div className={styles.header}>
 				<h2 className={styles.title}>Polka.Domain Auction</h2>
 				<span className={styles.status}>{STATUS_CAPTION[status]}</span>
-				<span className={styles.timer}>
-					<Timer timer={timer} />
-				</span>
+				{status !== "closed" && (
+					<span className={styles.timer}>
+						{status === "coming" ? <Timer timer={start} /> : <Timer timer={end} />}
+					</span>
+				)}
 				<CopyToClipboard text={ethereumAddress} onCopy={() => setCopy(true)}>
 					<Body2 Component="p" className={styles.wallet} lighten={40}>
 						{walletConversion(ethereumAddress)}
