@@ -16,7 +16,10 @@ export const readUserInformation = (eth: string): Promise<any> =>
 	});
 
 export const recordUserInformation = (
-	values: Record<"eth_address" | "email" | "twitter" | "telegram" | "domain" | "sign", string>
+	values: Record<
+		"eth_address" | "email" | "twitter" | "telegram" | "domain" | "sign" | "token",
+		string
+	>
 ) =>
 	fetch(`${getAPIBase()}/api/users`, {
 		method: "POST",

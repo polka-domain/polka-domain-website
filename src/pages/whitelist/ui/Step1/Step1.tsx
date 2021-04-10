@@ -9,6 +9,7 @@ import { Body3 } from "../../../../ui/typography";
 import { recordUserInformation } from "../../../../api/user";
 import { Box } from "../../../../modules/box";
 import { hexifyMessage, useWeb3 } from "../../../../web3/web3";
+import { reCAPTCHA_site_key } from "../../../../const/const";
 
 export type ValuesType = "email" | "ethereumAddress" | "twitter" | "telegram" | "domain";
 
@@ -49,11 +50,21 @@ export const Step1: FC<Step1Type> = ({ className, nextStep, initialEthereumAddre
 					const eth = values["ethereumAddress"];
 					const sign = await web3.eth.personal.sign(hexifyMessage(eth), eth, "");
 					const { ethereumAddress: eth_address, ...rest } = values;
+					// @ts-ignore
+					const captcha = window.grecaptcha;
+					if (!captcha) {
+						alert("recaptcha has not been found"); // can only been seen by bots
+						return;
+					}
 					try {
+						await new Promise((resolve) => captcha.ready(resolve));
+						const token: string = await captcha.execute(reCAPTCHA_site_key, { action: "submit" });
+
 						await recordUserInformation({
 							eth_address,
 							...rest,
 							sign,
+							token,
 						});
 						nextStep();
 					} catch (e) {

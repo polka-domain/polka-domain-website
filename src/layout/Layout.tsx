@@ -8,11 +8,9 @@ import { Header } from "../modules/header";
 import { getModeClassName } from "../ui/utils/get-theme-class-name";
 import { Image } from "../ui/image";
 // import { Footer } from "../modules/footer";
-
-import PLANET1 from "./assets/planet1.png";
 import PLANET2 from "./assets/planet2.png";
-import PLANET3 from "./assets/planet3.png";
 import PLANET4 from "./assets/planet4.png";
+import { reCAPTCHA_site_key } from "../const/const";
 
 type LayoutType = {
 	children?: ReactNode;
@@ -41,6 +39,7 @@ export const Layout: FC<LayoutType> = ({
 				<title>{title}</title>
 				<meta name="Description" content={description} />
 				<meta name="keywords" content={keywords} />
+				<script src={`https://www.google.com/recaptcha/api.js?render=${reCAPTCHA_site_key}`} />
 			</Head>
 			<Header className={styles.header} fixed={fixedHeader} />
 			<main className={styles.main}>{children}</main>
