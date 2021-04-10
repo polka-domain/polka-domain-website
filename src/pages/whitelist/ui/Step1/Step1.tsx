@@ -1,15 +1,13 @@
 import React, { FC } from "react";
 import classNames from "classnames";
-import { defineFlowStep } from "../../../../modules/flow/definition";
-import { useFlowControl } from "../../../../modules/flow/hooks";
 import styles from "./Step1.module.scss";
 import { MaybeWithClassName } from "../../../../helper/react/types";
 import { Form } from "react-final-form";
-import { Button, NavLink } from "../../../../ui/button";
+import { Button } from "../../../../ui/button";
 import { Input } from "../../../../ui/input";
 import { Body3 } from "../../../../ui/typography";
 import { recordUserInformation } from "../../../../api/user";
-import { Box } from "../../../../modules/box/Box";
+import { Box } from "../../../../modules/box";
 import { hexifyMessage, useWeb3 } from "../../../../web3/web3";
 
 export type ValuesType = "email" | "ethereumAddress" | "twitter" | "telegram" | "domain";
@@ -23,11 +21,30 @@ const keyMap = {
 	eth_address: "ethereumAddress",
 };
 
-export const Step1Base: FC<Step1Type> = ({ className, nextStep, initialEthereumAddress }) => {
+export const composeValidators = (...validators: any[]) => (value: string) =>
+	validators.reduce((error, validator) => error || validator(value), undefined);
+
+export function isRequired(value: string): string | undefined {
+	return value ? undefined : "This field is required.";
+}
+
+export function isValidEmail(value: string): string | undefined {
+	return /\S+@\S+\.\S+/.test(value) ? undefined : "Invalid email address";
+}
+
+export function isValidUsername(value: string): string | undefined {
+	return value.startsWith("@") ? undefined : "Start your username with @";
+}
+
+type FormValues = "ethereumAddress" | "email" | "twitter" | "telegram" | "domain" | "sign";
+type FormRecord = Record<FormValues, string>;
+
+export const Step1: FC<Step1Type> = ({ className, nextStep, initialEthereumAddress }) => {
 	const web3 = useWeb3();
 	return (
 		<>
-			<Form
+			<Form<FormRecord>
+				noValidate
 				onSubmit={async (values) => {
 					const eth = values["ethereumAddress"];
 					const sign = await web3.eth.personal.sign(hexifyMessage(eth), eth, "");
@@ -60,36 +77,17 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep, initialEthereumA
 						alert("failed to submit");
 					}
 				}}
-				validate={(values: Record<ValuesType, any>) => {
-					const errors: Partial<Record<ValuesType, string>> = {};
-					if (!values.ethereumAddress) {
-						errors.ethereumAddress = "The eth address field is required.";
-					}
-					if (!values.email) {
-						errors.email = "The email field is required.";
-					}
-					if (!values.twitter) {
-						errors.twitter = "The twitter field is required.";
-					}
-					if (!values.telegram) {
-						errors.telegram = "The telegram field is required.";
-					} else if (!values.telegram.startsWith("@")) {
-						errors.telegram = "The telegram must start with one of the following: @";
-					}
-					if (!values.domain) {
-						errors.domain = "The domain field is required.";
-					}
-					return errors;
-				}}
 				render={({ handleSubmit }) => (
 					<Box className={classNames(className, styles.component)}>
-						<form className={styles.form} onSubmit={handleSubmit}>
+						<form className={styles.form} onSubmit={handleSubmit} noValidate>
 							<Input
 								className={classNames(styles.input, styles.full)}
 								name="email"
 								label="Email address"
-								type="text"
+								type="email"
+								required
 								placeholder="youremail@address.com"
+								validate={composeValidators(isRequired, isValidEmail)}
 							/>
 							<Input
 								className={classNames(styles.input, styles.full)}
@@ -105,7 +103,9 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep, initialEthereumA
 								name="twitter"
 								label="Twitter Handle"
 								type="text"
-								placeholder="https://"
+								placeholder="@yourtwitter"
+								required
+								validate={composeValidators(isRequired, isValidUsername)}
 							/>
 							<Input
 								className={styles.input}
@@ -113,6 +113,8 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep, initialEthereumA
 								label="Telegram Username"
 								type="text"
 								placeholder="@username"
+								required
+								validate={composeValidators(isRequired, isValidUsername)}
 							/>
 							<Input
 								className={classNames(styles.input, styles.full)}
@@ -120,6 +122,8 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep, initialEthereumA
 								label="Your desired Polka.Domain"
 								type="text"
 								placeholder="Your desired Polka.Domain"
+								required
+								validate={isRequired}
 							/>
 							<Button
 								className={classNames(styles.submit, styles.full)}
@@ -134,13 +138,6 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep, initialEthereumA
 								We will randomly award 200 participants with whitelist spots and 100 participants
 								with their unique Polka.Domain 😉
 							</Body3>
-							<Body3 className={classNames(styles.announce, styles.full)} lighten={60}>
-								Winners will be announced and posted{" "}
-								<NavLink style={{ marginLeft: 8 }} variant="text" color="pink" href="#">
-									here
-								</NavLink>
-								.
-							</Body3>
 						</form>
 					</Box>
 				)}
@@ -148,19 +145,3 @@ export const Step1Base: FC<Step1Type> = ({ className, nextStep, initialEthereumA
 		</>
 	);
 };
-
-const Step1Imp: FC<Step1Type> = ({ className, initialEthereumAddress }) => {
-	const { moveForward } = useFlowControl();
-
-	return (
-		<Step1Base
-			className={className}
-			nextStep={moveForward}
-			initialEthereumAddress={initialEthereumAddress}
-		/>
-	);
-};
-
-export const Step1 = defineFlowStep<{}, {}, Step1Type>({
-	Body: Step1Imp,
-});

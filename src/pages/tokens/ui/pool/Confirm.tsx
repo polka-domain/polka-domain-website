@@ -1,4 +1,4 @@
-import styles from "./Step1.module.scss";
+import styles from "./Pool.module.scss";
 import { Button } from "../../../../ui/button";
 import { Box } from "../../../../modules/box";
 import classNames from "classnames";

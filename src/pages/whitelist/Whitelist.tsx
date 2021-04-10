@@ -6,8 +6,6 @@ import { Heading1 } from "../../ui/typography";
 import { GutterBox } from "../../ui/gutter-box";
 import { getModeClassName } from "../../ui/utils/get-theme-class-name";
 import { TextColor } from "../../ui/text-color";
-import { defineFlow } from "../../modules/flow/definition";
-import { Flow } from "../../modules/flow";
 import { Step1 } from "./ui/Step1";
 import { Step2 } from "./ui/Step2";
 import { YouAreIn } from "./ui/you-are-in";
@@ -16,8 +14,6 @@ import { Loading } from "../../modules/loading";
 import { useWeb3React } from "@web3-react/core";
 
 type WhitelistType = {};
-
-const STEPS = defineFlow(Step1, Step2);
 
 export const Whitelist: FC<WhitelistType> = () => {
 	const { active, account: ethereumAddress } = useWeb3React();
@@ -29,6 +25,8 @@ export const Whitelist: FC<WhitelistType> = () => {
 			readUserInformation(ethereumAddress).then((info) => setUserInformation(info));
 		}
 	}, [ethereumAddress]);
+
+	const [success, setSuccess] = useState(false);
 
 	return (
 		<>
@@ -45,13 +43,16 @@ export const Whitelist: FC<WhitelistType> = () => {
 								{userInformation.email ? (
 									<YouAreIn />
 								) : (
-									<Flow
-										steps={STEPS}
-										initialEthereumAddress={ethereumAddress}
-										onComplete={() => alert("Finish")}
-									>
-										{(body) => body}
-									</Flow>
+									<>
+										{!success ? (
+											<Step1
+												initialEthereumAddress={ethereumAddress}
+												nextStep={() => setSuccess(true)}
+											/>
+										) : (
+											<Step2 />
+										)}
+									</>
 								)}
 							</div>
 						)}

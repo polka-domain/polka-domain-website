@@ -1,14 +1,13 @@
 import React, { FC } from "react";
-import { defineFlowStep } from "../../../../modules/flow/definition";
 import styles from "./Step2.module.scss";
 import { NavLink } from "../../../../ui/button";
 import { LOTTERY_INFO_PATH, LOTTERY_SHARE_PATH } from "../../../../const/const";
-import { Box } from "../../../../modules/box/Box";
+import { Box } from "../../../../modules/box";
 import { HeadlinePlusSubline } from "../../../../modules/headline-plus-subline";
 
 type Step2Type = {};
 
-export const Step2Base: FC<Step2Type> = () => {
+export const Step2: FC<Step2Type> = () => {
 	return (
 		<Box className={styles.component}>
 			<HeadlinePlusSubline
@@ -27,7 +26,3 @@ export const Step2Base: FC<Step2Type> = () => {
 		</Box>
 	);
 };
-
-export const Step2 = defineFlowStep({
-	Body: Step2Base,
-});

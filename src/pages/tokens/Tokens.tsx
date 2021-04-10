@@ -7,7 +7,7 @@ import { getModeClassName } from "../../ui/utils/get-theme-class-name";
 import { readUserInformation } from "../../api/user";
 import { Loading } from "../../modules/loading";
 import { Oops } from "./ui/oops";
-import { Step1 } from "./ui/step1";
+import { Pool } from "./ui/pool";
 import { useWeb3React } from "@web3-react/core";
 
 type TokensType = {};
@@ -29,7 +29,7 @@ export const Tokens: FC<TokensType> = () => {
 				<GutterBox className={styles.gutter}>
 					<div className={classNames(styles.wrapper, getModeClassName("light", theme))}>
 						{active && !userInformation && <Loading />}
-						{userInformation && <div>{userInformation.email ? <Step1 /> : <Oops />}</div>}
+						{userInformation && <div>{userInformation.email ? <Pool /> : <Oops />}</div>}
 					</div>
 				</GutterBox>
 			</section>

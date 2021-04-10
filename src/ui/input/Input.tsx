@@ -8,10 +8,12 @@ import { TextColor } from "../text-color";
 type InputType = {
 	name: string;
 	label: string;
-	type: "text";
+	type: "text" | "email";
 	placeholder?: string;
 	readOnly?: boolean;
 	initialValue?: any;
+	required?: boolean;
+	validate?: (value: string) => any;
 };
 
 export const Input: FC<InputType & MaybeWithClassName> = ({
@@ -22,9 +24,11 @@ export const Input: FC<InputType & MaybeWithClassName> = ({
 	placeholder,
 	readOnly,
 	initialValue,
+	required,
+	validate,
 }) => {
 	return (
-		<Field name={name} initialValue={initialValue}>
+		<Field name={name} initialValue={initialValue} validate={validate}>
 			{({ input, meta }) => (
 				<div className={classNames(className, styles.component)}>
 					<label className={styles.label}>
@@ -35,6 +39,7 @@ export const Input: FC<InputType & MaybeWithClassName> = ({
 							type={type}
 							placeholder={placeholder}
 							readOnly={readOnly}
+							required={required}
 						/>
 					</label>
 					<div className={styles.error}>

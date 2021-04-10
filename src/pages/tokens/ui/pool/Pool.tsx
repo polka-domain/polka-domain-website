@@ -18,7 +18,7 @@ import { fromWei, toBN } from "web3-utils";
 import { Loading } from "../../../../modules/loading";
 import { Timer } from "../../../../modules/timer";
 import { getDeltaTime } from "../../../../utils/page/time";
-import styles from "./Step1.module.scss";
+import styles from "./Pool.module.scss";
 import { Confirm } from "./Confirm";
 import { Joined } from "./Joined";
 import { JoinedFail } from "./JoinedFail";
@@ -35,7 +35,7 @@ type KNOWN_OPERATIONS =
 	| "claimed"
 	| "fail-to-claim";
 
-export const Step1: FC = () => {
+export const Pool: FC = () => {
 	const [auctionState, setAuctionState] = useState<AuctionType>({
 		status: "" as any,
 		start: 0,
