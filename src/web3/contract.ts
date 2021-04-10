@@ -49,27 +49,25 @@ export const useContract = (provider?: string) => {
 	return useMemo(() => factoryContract(provider), [provider]);
 };
 
-export const getTimeInfo = (
-	contract: ContractType,
-	index = AUCTION_INDEX
-): Promise<{
+export type TimeInfo = {
 	openAt: number;
 	closeAt: number;
 	claimAt: number;
-}> => {
+};
+
+export const getTimeInfo = (contract: ContractType, index = AUCTION_INDEX): Promise<TimeInfo> => {
 	return contract.methods.timeInfos(index).call();
 };
 
-export const getTokenInfo = (
-	contract: ContractType,
-	index = AUCTION_INDEX
-): Promise<{
+export type TokenInfo = {
 	maxAllocToken1: string;
 	amountTotal0: string;
 	amountTotal1: string;
 	amountSwap1: string;
 	creator: string;
-}> => {
+};
+
+export const getTokenInfo = (contract: ContractType, index = AUCTION_INDEX): Promise<TokenInfo> => {
 	return contract.methods.tokenInfos(index).call();
 };
 

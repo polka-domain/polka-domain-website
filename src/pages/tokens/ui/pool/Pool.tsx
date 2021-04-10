@@ -10,6 +10,8 @@ import {
 	getTimeInfo,
 	getTokenInfo,
 	swapContracts,
+	TimeInfo,
+	TokenInfo,
 	useContract,
 } from "../../../../web3/contract";
 import { useWeb3React } from "@web3-react/core";
@@ -24,6 +26,8 @@ import { Joined } from "./Joined";
 import { JoinedFail } from "./JoinedFail";
 import { Claimed } from "./Claimed";
 import { ClaimedFail } from "./ClaimedFail";
+import { Contract } from "web3-eth-contract";
+import Web3 from "web3";
 
 type KNOWN_OPERATIONS =
 	| ""
@@ -34,6 +38,38 @@ type KNOWN_OPERATIONS =
 	| "claim"
 	| "claimed"
 	| "fail-to-claim";
+
+const fetchInformation = async (contract: Contract, web3: Web3, ethereumAddress: string) => {
+	const pTimeInfo = getTimeInfo(contract);
+	const pTokenInfo = getTokenInfo(contract);
+	const pMyAmount = getMyAmount(contract, ethereumAddress);
+	const pMyClaim = getMyClaim(contract, ethereumAddress);
+	const pBalance = getMyBalance(web3, ethereumAddress);
+	const [timeInfo, tokenInfo, myAmount, myClaim, balance] = await Promise.all([
+		pTimeInfo,
+		pTokenInfo,
+		pMyAmount,
+		pMyClaim,
+		pBalance,
+	]);
+	return {
+		timeInfo,
+		tokenInfo,
+		myAmount,
+		myClaim,
+		balance,
+	};
+};
+
+const deriveStatus = (tokenInfo: TokenInfo, timeInfo: TimeInfo): StatusType => {
+	if (tokenInfo.amountTotal1 === tokenInfo.amountSwap1) {
+		return "filled";
+	}
+	if (getDeltaTime(timeInfo.closeAt) === 0) {
+		return "closed";
+	}
+	return Date.now() < timeInfo.openAt * 1000 ? "coming" : "live";
+};
 
 export const Pool: FC = () => {
 	const [auctionState, setAuctionState] = useState<AuctionType>({
@@ -61,31 +97,17 @@ export const Pool: FC = () => {
 	const minAllocation = "0.0001";
 
 	const updateData = async () => {
-		const pTimeInfo = getTimeInfo(contract);
-		const pTokenInfo = getTokenInfo(contract);
-		const pMyAmount = getMyAmount(contract, ethereumAddress);
-		const pMyClaim = getMyClaim(contract, ethereumAddress);
-		const pBalance = getMyBalance(web3, ethereumAddress);
-		const [timeInfo, tokenInfo, myAmount, myClaim, balance] = await Promise.all([
-			pTimeInfo,
-			pTokenInfo,
-			pMyAmount,
-			pMyClaim,
-			pBalance,
-		]);
+		const { timeInfo, tokenInfo, myAmount, myClaim, balance } = await fetchInformation(
+			contract,
+			web3,
+			ethereumAddress
+		);
 
 		const totalAmount0 = toBN(tokenInfo.amountTotal0);
 		const totalAmount1 = toBN(tokenInfo.amountTotal1);
 
 		const auction = {
-			status:
-				tokenInfo.amountTotal1 === tokenInfo.amountSwap1
-					? "filled"
-					: getDeltaTime(timeInfo.closeAt) === 0
-					? "closed"
-					: Date.now() < timeInfo.openAt * 1000
-					? "coming"
-					: ("live" as StatusType),
+			status: deriveStatus(tokenInfo, timeInfo),
 			start: timeInfo.openAt,
 			end: timeInfo.closeAt,
 			ethereumAddress: tokenInfo.creator,
@@ -103,12 +125,6 @@ export const Pool: FC = () => {
 		setAuctionState(auction);
 		setEthBalance(balance);
 
-		console.log({
-			timeInfo,
-			tokenInfo,
-			myAmount,
-			myClaim,
-		});
 		return {
 			myAmount,
 			auction,
