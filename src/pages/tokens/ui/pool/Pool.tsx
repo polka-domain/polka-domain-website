@@ -28,9 +28,12 @@ import { Claimed } from "./Claimed";
 import { ClaimedFail } from "./ClaimedFail";
 import { Contract } from "web3-eth-contract";
 import Web3 from "web3";
+import { readUserInformation } from "../../../../api/user";
+import { Oops } from "./Oops";
 
 type KNOWN_OPERATIONS =
 	| ""
+	| "fail-whitelisted"
 	| "confirm"
 	| "join"
 	| "joined"
@@ -88,6 +91,7 @@ export const Pool: FC = () => {
 	const [myAmount, setMyAmount] = useState<string>("");
 	const [claimTime, setClaimTime] = useState<number>(0);
 	const [ethBalance, setEthBalance] = useState("0");
+	const [userInformation, setUserInformation] = useState(undefined);
 
 	const provider = useWeb3Provider();
 	const { account: ethereumAddress } = useWeb3React();
@@ -136,6 +140,12 @@ export const Pool: FC = () => {
 		return () => clearInterval(tm);
 	}, [contract]);
 
+	useEffect(() => {
+		if (ethereumAddress) {
+			readUserInformation(ethereumAddress).then((info) => setUserInformation(info));
+		}
+	}, [ethereumAddress]);
+
 	const [operation, setOperation] = useState<KNOWN_OPERATIONS>("");
 
 	const cancelAction = () => {
@@ -143,7 +153,9 @@ export const Pool: FC = () => {
 	};
 
 	const joinAction = () => {
-		setOperation("confirm");
+		if (userInformation.email) {
+			setOperation("confirm");
+		} else setOperation("fail-whitelisted");
 	};
 
 	const contributeAction = async () => {
@@ -273,6 +285,9 @@ export const Pool: FC = () => {
 					{action}
 				</Auction>
 			);
+
+		case "fail-whitelisted":
+			return <Oops onClick={cancelAction} />;
 
 		case "confirm":
 			return (

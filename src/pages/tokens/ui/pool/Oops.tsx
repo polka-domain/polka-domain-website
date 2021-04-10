@@ -1,23 +1,22 @@
 import React, { FC } from "react";
-import styles from "./Oops.module.scss";
-import { NavLink } from "../../../../ui/button";
-import { WHITELIST_PATH } from "../../../../const/const";
+import styles from "./Pool.module.scss";
+import { Button } from "../../../../ui/button";
 import { HeadlinePlusSubline } from "../../../../modules/headline-plus-subline";
 import { Box } from "../../../../modules/box";
 
-export const Oops: FC = () => {
+export const Oops: FC<{ onClick(): void }> = ({ onClick }) => {
 	return (
-		<Box className={styles.component}>
+		<Box className={styles.box}>
 			<HeadlinePlusSubline headline="Oops!" subline="You are not whitelisted 😔">
-				<NavLink
-					className={styles.link}
-					href={WHITELIST_PATH}
+				<Button
+					className={styles.button}
 					variant="outlined"
 					color="pink"
 					size="large"
+					onClick={onClick}
 				>
 					Close
-				</NavLink>
+				</Button>
 			</HeadlinePlusSubline>
 		</Box>
 	);

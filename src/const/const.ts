@@ -16,7 +16,7 @@ export const SOCIAL = {
 	Medium: MEDIUM_PATH,
 };
 
-export const reCAPTCHA_site_key = "6LeEiqMaAAAAALZICdpKk-1_kmdOZKapkwXTGdh9";
+export const reCAPTCHA_site_key = "6LdakqMaAAAAAPNPaGsg6tKOkn018HUZnwWjD4jy";
 // Rinkeby address
 export const FIXED_SWAP_ADDRESS = "0x3f1091Cc60c83C208db4A660aB4804bB684E988A";
 export const DEFAULT_AUCTION_INDEX = 6;
