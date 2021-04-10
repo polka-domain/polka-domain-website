@@ -256,6 +256,7 @@ export const Pool: FC = () => {
 				return (
 					<Button
 						{...settings}
+						className={styles.claim}
 						onClick={joinAction}
 						disabled={claimStatus !== "did-not-participate"}
 					>
