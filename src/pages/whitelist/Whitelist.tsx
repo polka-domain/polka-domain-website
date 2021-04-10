@@ -6,12 +6,14 @@ import { Heading1 } from "../../ui/typography";
 import { GutterBox } from "../../ui/gutter-box";
 import { getModeClassName } from "../../ui/utils/get-theme-class-name";
 import { TextColor } from "../../ui/text-color";
-import { Step1 } from "./ui/Step1";
-import { Step2 } from "./ui/Step2";
+import { Step1 } from "./ui/step1";
+import { Step2 } from "./ui/step2";
 import { YouAreIn } from "./ui/you-are-in";
-import { readUserInformation } from "../../api/user";
+import { readUserInformation, readWhitelistStatus } from "../../api/user";
 import { Loading } from "../../modules/loading";
 import { useWeb3React } from "@web3-react/core";
+import { Close } from "../../ui/icons/Icons";
+import { Closed } from "./ui/closed";
 
 type WhitelistType = {};
 
@@ -28,6 +30,12 @@ export const Whitelist: FC<WhitelistType> = () => {
 
 	const [success, setSuccess] = useState(false);
 
+	const [whitelistOpened, setWhitelistOpened] = useState<boolean | undefined>(undefined);
+
+	useEffect(() => {
+		readWhitelistStatus().then(setWhitelistOpened);
+	}, []);
+
 	return (
 		<>
 			<section className={styles.component}>
@@ -42,7 +50,7 @@ export const Whitelist: FC<WhitelistType> = () => {
 							<div>
 								{userInformation.email ? (
 									<YouAreIn />
-								) : (
+								) : whitelistOpened !== false ? (
 									<>
 										{!success ? (
 											<Step1
@@ -53,6 +61,8 @@ export const Whitelist: FC<WhitelistType> = () => {
 											<Step2 />
 										)}
 									</>
+								) : (
+									<Closed />
 								)}
 							</div>
 						)}

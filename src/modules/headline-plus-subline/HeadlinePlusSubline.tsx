@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from "react";
 import styles from "./HeadlinePlusSubline.module.scss";
 
 type HeadlinePlusSubline = {
-	headline: string;
+	headline: ReactNode;
 	subline?: ReactNode;
 };
 

@@ -15,6 +15,11 @@ export const readUserInformation = (eth: string): Promise<any> =>
 		return res.json();
 	});
 
+export const readWhitelistStatus = (): Promise<boolean> =>
+	fetch(`${getAPIBase()}/api/whitelist/status`).then((res) => {
+		return res.status === 200;
+	});
+
 export const recordUserInformation = (
 	values: Record<
 		"eth_address" | "email" | "twitter" | "telegram" | "domain" | "sign" | "token",

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import styles from "./YouAreIn.module.scss";
-import { Box } from "../../../../modules/box/Box";
+import { Box } from "../../../../modules/box";
 import { HeadlinePlusSubline } from "../../../../modules/headline-plus-subline";
 
 export const YouAreIn: FC = () => {
