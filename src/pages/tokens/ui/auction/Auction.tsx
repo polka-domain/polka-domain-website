@@ -7,6 +7,7 @@ import { Body2 } from "../../../../ui/typography/Typography";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { CopyIcon } from "../../../../ui/icons/Icons";
 import { Timer } from "../../../../modules/timer";
+import { NAME } from "../../../../const/const";
 
 export type StatusType = "" | "coming" | "live" | "filled" | "closed";
 
@@ -103,7 +104,9 @@ export const Auction: FC<AuctionType & WithChildren & { requireUpdate(): void }>
 					</li>
 					<li className={styles.item}>
 						Total Supply
-						<span>{total} ETH</span>
+						<span>
+							{total} {NAME}
+						</span>
 					</li>
 				</ul>
 				<div className={styles.progress}>
@@ -112,7 +115,7 @@ export const Auction: FC<AuctionType & WithChildren & { requireUpdate(): void }>
 					<Body2 className={styles.info}>
 						<span>{percentage} %</span>{" "}
 						<span>
-							{amount} ETH / {totalAmount} ETH
+							{amount} {NAME} / {totalAmount} {NAME}
 						</span>
 					</Body2>
 				</div>

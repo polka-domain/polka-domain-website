@@ -30,11 +30,11 @@ export function isRequired(value: string): string | undefined {
 }
 
 export function isValidEmail(value: string): string | undefined {
-	return /\S+@\S+\.\S+/.test(value) ? undefined : "Invalid email address";
+	return /\S+@\S+\.\S+/.test(value) ? undefined : "Invalid email address.";
 }
 
 export function isValidUsername(value: string): string | undefined {
-	return value.startsWith("@") ? undefined : "Start your username with @";
+	return value.startsWith("@") ? undefined : "Start your input with @";
 }
 
 type FormValues = "ethereumAddress" | "email" | "twitter" | "telegram" | "domain" | "sign";
@@ -94,7 +94,7 @@ export const Step1: FC<Step1Type> = ({ className, nextStep, initialEthereumAddre
 							<Input
 								className={classNames(styles.input, styles.full)}
 								name="email"
-								label="Email address"
+								label="Email Address"
 								type="email"
 								required
 								placeholder="youremail@address.com"
@@ -130,9 +130,9 @@ export const Step1: FC<Step1Type> = ({ className, nextStep, initialEthereumAddre
 							<Input
 								className={classNames(styles.input, styles.full)}
 								name="domain"
-								label="Your desired Polka.Domain"
+								label="Your Desired Polka.Domain"
 								type="text"
-								placeholder="Your desired Polka.Domain"
+								placeholder="domain name"
 								required
 								validate={isRequired}
 							/>

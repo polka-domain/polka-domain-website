@@ -30,6 +30,7 @@ import { Contract } from "web3-eth-contract";
 import Web3 from "web3";
 import { readUserInformation } from "../../../../api/user";
 import { Oops } from "./Oops";
+import { NAME } from "../../../../const/const";
 
 type KNOWN_OPERATIONS =
 	| ""
@@ -65,10 +66,13 @@ const fetchInformation = async (contract: Contract, web3: Web3, ethereumAddress:
 };
 
 const deriveStatus = (tokenInfo: TokenInfo, timeInfo: TimeInfo): StatusType => {
-	if (tokenInfo.amountTotal1 === tokenInfo.amountSwap1) {
+	const filled = tokenInfo.amountTotal1 === tokenInfo.amountSwap1;
+	const expired = getDeltaTime(timeInfo.closeAt) === 0;
+
+	if (filled) {
 		return "filled";
 	}
-	if (getDeltaTime(timeInfo.closeAt) === 0) {
+	if (expired) {
 		return "closed";
 	}
 	return Date.now() < timeInfo.openAt * 1000 ? "coming" : "live";
@@ -115,12 +119,12 @@ export const Pool: FC = () => {
 			start: timeInfo.openAt,
 			end: timeInfo.closeAt,
 			ethereumAddress: tokenInfo.creator,
-			range: `${totalAmount0.div(totalAmount1)} NAME = 1 ETH`,
+			range: `${totalAmount0.div(totalAmount1)} ${NAME} = 1 ETH`,
 			minAllocation: minAllocation,
 			maxAllocation: fromWei(tokenInfo.maxAllocToken1),
-			total: fromWei(tokenInfo.amountTotal1),
-			amount: fromWei(tokenInfo.amountSwap1),
-			totalAmount: fromWei(tokenInfo.amountTotal1),
+			total: fromWei(tokenInfo.amountTotal0),
+			amount: fromWei(tokenInfo.amountSwap0),
+			totalAmount: fromWei(tokenInfo.amountTotal0),
 		};
 
 		setMyAmount(fromWei(myAmount));
@@ -128,6 +132,8 @@ export const Pool: FC = () => {
 		setClaimTime(timeInfo.claimAt);
 		setAuctionState(auction);
 		setEthBalance(balance);
+
+		console.log(tokenInfo);
 
 		return {
 			myAmount,
@@ -240,7 +246,7 @@ export const Pool: FC = () => {
 					>
 						{claimStatus === "claim" && "Claim tokens"}
 						{claimStatus === "claimed" && "Tokens claimed"}
-						{claimStatus === "did-not-participate" && "You didn’t participate"}
+						{claimStatus === "did-not-participate" && "Auction Ended"}
 						{claimStatus === "wait" && ClaimTimer}
 					</Button>
 				);
@@ -253,8 +259,8 @@ export const Pool: FC = () => {
 						disabled={claimStatus !== "claim"}
 					>
 						{claimStatus === "claim" && "Claim tokens"}
-						{claimStatus === "claimed" && "Tokens claimed"}
-						{claimStatus === "did-not-participate" && "You didn’t participate"}
+						{claimStatus === "claimed" && "Tokens Claimed"}
+						{claimStatus === "did-not-participate" && "Auction Ended"}
 						{claimStatus === "wait" && ClaimTimer}
 					</Button>
 				);

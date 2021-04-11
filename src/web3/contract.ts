@@ -64,6 +64,7 @@ export type TokenInfo = {
 	amountTotal0: string;
 	amountTotal1: string;
 	amountSwap1: string;
+	amountSwap0: string;
 	creator: string;
 };
 

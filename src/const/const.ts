@@ -27,3 +27,5 @@ const RPC_URLS = {
 	4: "https://rinkeby.infura.io/v3/8f6d3d5d7a1442a38d9e8050c31c1884",
 };
 export const RPC_URL = RPC_URLS[1];
+
+export const NAME = "NAME";
