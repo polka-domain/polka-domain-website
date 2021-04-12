@@ -12,10 +12,16 @@ import { YouAreIn } from "./ui/you-are-in";
 import { readUserInformation, readWhitelistStatus } from "../../api/user";
 import { Loading } from "../../modules/loading";
 import { useWeb3React } from "@web3-react/core";
-import { Close } from "../../ui/icons/Icons";
 import { Closed } from "./ui/closed";
+import { Contract } from "web3-eth-contract";
+import { getTimeInfo, useContract } from "../../web3/contract";
+import { useWeb3Provider } from "../../web3/web3";
 
 type WhitelistType = {};
+
+const fetchInformation = async (contract: Contract) => {
+	return await getTimeInfo(contract);
+};
 
 export const Whitelist: FC<WhitelistType> = () => {
 	const { active, account: ethereumAddress } = useWeb3React();
@@ -36,6 +42,31 @@ export const Whitelist: FC<WhitelistType> = () => {
 		readWhitelistStatus().then(setWhitelistOpened);
 	}, []);
 
+	const [closeTime, setCloseTime] = useState<number>(0);
+
+	const provider = useWeb3Provider();
+	const contract = useContract(provider);
+
+	const updateData = async () => {
+		if (active) {
+			const timeInfo = await fetchInformation(contract);
+			setCloseTime(+timeInfo.openAt);
+
+			console.log(timeInfo);
+		}
+	};
+
+	useEffect(() => {
+		const tm = setInterval(updateData, 60000);
+		return () => clearInterval(tm);
+	}, [contract]);
+
+	useEffect(() => {
+		if (active) {
+			updateData();
+		}
+	}, [active]);
+
 	return (
 		<>
 			<section className={styles.component}>
@@ -50,7 +81,9 @@ export const Whitelist: FC<WhitelistType> = () => {
 							<div>
 								{userInformation.email ? (
 									<YouAreIn />
-								) : whitelistOpened !== false ? (
+								) : whitelistOpened === false || Date.now() >= closeTime * 1000 ? (
+									<Closed />
+								) : (
 									<>
 										{!success ? (
 											<Step1
@@ -61,8 +94,6 @@ export const Whitelist: FC<WhitelistType> = () => {
 											<Step2 />
 										)}
 									</>
-								) : (
-									<Closed />
 								)}
 							</div>
 						)}

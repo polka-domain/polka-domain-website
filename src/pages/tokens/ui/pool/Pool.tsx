@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import { Auction } from "../auction";
 import { Button } from "../../../../ui/button";
 import { AuctionType, StatusType } from "../auction/Auction";
@@ -78,6 +78,8 @@ const deriveStatus = (tokenInfo: TokenInfo, timeInfo: TimeInfo): StatusType => {
 	return Date.now() < timeInfo.openAt * 1000 ? "coming" : "live";
 };
 
+const doNothing = () => {};
+
 export const Pool: FC = () => {
 	const [auctionState, setAuctionState] = useState<AuctionType>({
 		status: "" as any,
@@ -98,13 +100,13 @@ export const Pool: FC = () => {
 	const [userInformation, setUserInformation] = useState(undefined);
 
 	const provider = useWeb3Provider();
-	const { account: ethereumAddress } = useWeb3React();
+	const { active, account: ethereumAddress } = useWeb3React();
 	const web3 = useWeb3();
 	const contract = useContract(provider);
 
 	const minAllocation = "0.0001";
 
-	const updateData = async () => {
+	const updateData = useCallback(async () => {
 		const { timeInfo, tokenInfo, myAmount, myClaim, balance } = await fetchInformation(
 			contract,
 			web3,
@@ -133,18 +135,24 @@ export const Pool: FC = () => {
 		setAuctionState(auction);
 		setEthBalance(balance);
 
-		console.log(tokenInfo);
-
 		return {
 			myAmount,
 			auction,
 		};
-	};
+	}, []);
+
+	const onRequestData = auctionState.status ? updateData : doNothing;
 
 	useEffect(() => {
 		const tm = setInterval(updateData, 60000);
 		return () => clearInterval(tm);
 	}, [contract]);
+
+	useEffect(() => {
+		if (active) {
+			updateData();
+		}
+	}, [active]);
 
 	useEffect(() => {
 		if (ethereumAddress) {
@@ -224,7 +232,7 @@ export const Pool: FC = () => {
 			<>
 				Claim tokens
 				<span>
-					<Timer timer={claimTime} onZero={updateData} />
+					<Timer timer={claimTime} onZero={onRequestData} />
 				</span>
 			</>
 		);
@@ -286,8 +294,11 @@ export const Pool: FC = () => {
 
 	switch (operation) {
 		case "":
+			if (!auctionState.status) {
+				return <Loading />;
+			}
 			return (
-				<Auction {...auctionState} requireUpdate={updateData}>
+				<Auction {...auctionState} requireUpdate={onRequestData}>
 					{action}
 				</Auction>
 			);
