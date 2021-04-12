@@ -23,7 +23,7 @@ export const SOCIAL = {
 export const reCAPTCHA_site_key = "6LeEiqMaAAAAALZICdpKk-1_kmdOZKapkwXTGdh9";
 // Rinkeby address
 export const FIXED_SWAP_ADDRESS = "0x3f1091Cc60c83C208db4A660aB4804bB684E988A";
-export const DEFAULT_AUCTION_INDEX = 6;
+export const DEFAULT_AUCTION_INDEX = 0;
 
 export const PROVIDER_POLLING_INTERVAL = 12000;
 const RPC_URLS = {
