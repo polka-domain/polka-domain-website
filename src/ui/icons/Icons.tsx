@@ -151,3 +151,21 @@ export const Close = (props: SVGAttributes<SVGElement>) => {
 		</svg>
 	);
 };
+
+export const CopyIcon = (props: SVGAttributes<SVGElement>) => {
+	return (
+		<svg
+			width={14}
+			height={14}
+			viewBox="0 0 14 14"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+			{...props}
+		>
+			<g stroke="currentColor">
+				<path d="M5 11H3a2 2 0 01-2-2V3a2 2 0 012-2h4a2 2 0 012 2v0" />
+				<rect x={5} y={3} width={8.001} height={10.001} rx={2} />
+			</g>
+		</svg>
+	);
+};

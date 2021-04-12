@@ -1,0 +1,39 @@
+@use "../../helper/style/mixin";
+@use "../../helper/style/media";
+
+.component {
+  position: relative;
+  width: 46rem;
+  margin: 0 auto;
+  min-height: 25rem;
+  padding: 3rem 3.75rem;
+
+  box-sizing: border-box;
+
+  border: 2px solid #E6E6E6;
+  border-radius: 3.0625rem;
+
+  background-color: rgba(var(--bg), 1);
+}
+
+.large {
+  width: 57.5rem;
+}
+
+.image1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+
+  transform: translate(-45%, -30%);
+}
+
+.image2 {
+  position: absolute;
+  top: 16.5rem;
+  right: 0;
+  z-index: -1;
+
+  transform: translate(50%, -50%);
+}

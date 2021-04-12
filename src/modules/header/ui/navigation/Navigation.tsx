@@ -1,10 +1,11 @@
 import type { FC } from "react";
-
+import classNames from "classnames";
 import styles from "./Navigation.module.scss";
 import { MaybeWithClassName } from "../../../../helper/react/types";
 import { NavLink, Button } from "../../../../ui/button";
-import { SOCIAL, TESTNET_PATH } from "../../../../const/const";
+import { SOCIAL, TESTNET_PATH, WHITELIST_PATH, TOKENS_PATH } from "../../../../const/const";
 import { Arrow, GitHub, Medium, Telegram, Twitter } from "../../../../ui/icons/Icons";
+import { NextRouter, withRouter } from "next/router";
 
 export type LinkType = {
 	link: string;
@@ -15,9 +16,11 @@ type NavigationType = {
 	links?: Record<string, string | LinkType>;
 };
 
-type ComponentType = NavigationType & MaybeWithClassName;
+type ComponentType = NavigationType & MaybeWithClassName & { router?: NextRouter };
 
 const HEADER_LINKS = {
+	Whitelist: WHITELIST_PATH,
+	Tokens: TOKENS_PATH,
 	Docs: "/Flowchart Polkadomain.pdf",
 	Social: SOCIAL,
 	Testnet: TESTNET_PATH,
@@ -31,13 +34,12 @@ const ICONS = {
 };
 
 const settings = {
-	className: styles.link,
 	variant: "text" as "text" | "contained",
 	size: "medium" as "medium" | "small",
 	color: "grey" as "grey",
 };
 
-export const Navigation: FC<ComponentType> = ({ className, links = HEADER_LINKS }) => {
+export const NavigationBase: FC<ComponentType> = ({ className, links = HEADER_LINKS, router }) => {
 	return (
 		<div className={className}>
 			<ul className={styles.list}>
@@ -46,14 +48,26 @@ export const Navigation: FC<ComponentType> = ({ className, links = HEADER_LINKS 
 					const hasDropdown = typeof item !== "string";
 					const href = typeof item !== "string" ? undefined : item;
 					const subLinks = typeof item !== "string" ? item : undefined;
+
+					const active = item.children
+						? Object.values(item.children).some((item) => router.pathname === item)
+						: router.pathname === item;
 					return (
 						<li key={key} className={styles.item}>
 							{href !== undefined ? (
-								<NavLink href={href} {...settings}>
+								<NavLink
+									className={classNames(styles.link, active && styles.active)}
+									href={href}
+									{...settings}
+								>
 									{key}
 								</NavLink>
 							) : (
-								<Button iconAfter={<Arrow className={styles.arrow} />} {...settings}>
+								<Button
+									className={styles.link}
+									iconAfter={<Arrow className={styles.arrow} />}
+									{...settings}
+								>
 									{key}
 								</Button>
 							)}
@@ -81,3 +95,9 @@ export const Navigation: FC<ComponentType> = ({ className, links = HEADER_LINKS 
 		</div>
 	);
 };
+
+export const Navigation = withRouter(
+	({ router, ...props }: MaybeWithClassName & NavigationType & { router: NextRouter }) => {
+		return <NavigationBase router={router} {...props} />;
+	}
+);

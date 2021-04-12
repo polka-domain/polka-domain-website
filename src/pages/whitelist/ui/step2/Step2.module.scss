@@ -1,0 +1,15 @@
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
+
+.component {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+}
+
+
+.links {
+  display: grid;
+  grid-template-columns: repeat(2, 13.75rem);
+  grid-column-gap: 1rem;
+}

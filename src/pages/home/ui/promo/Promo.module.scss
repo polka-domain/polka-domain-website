@@ -1,0 +1,232 @@
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
+
+.component {
+  padding-bottom: 5.625rem;
+
+  @include mixin.from(media.$sm) {
+    padding: 5rem 0;
+  }
+
+  @include mixin.from(media.$md) {
+    padding: 5rem 0 7rem;
+  }
+}
+
+.wrapper {
+  --grid: 100%;
+
+  align-content: start;
+  justify-items: center;
+}
+
+.title {
+  margin: 0;
+
+  text-align: center;
+
+  @include mixin.until(media.$sm) {
+    max-width: 20.5rem;
+  }
+}
+
+.text {
+  width: 100%;
+  max-width: 37.5rem;
+  margin: 0;
+  margin-top: 1rem;
+
+  text-align: center;
+
+  @include mixin.until(media.$md) {
+    margin-top: 1.5rem;
+  }
+}
+
+.form {
+  --height: 3rem;
+
+  position: relative;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+
+  min-height: var(--height);
+  width: 100%;
+  max-width: 36.25rem;
+  margin-top: 2.375rem;
+  padding: 0 0.75rem;
+
+  box-sizing: border-box;
+
+  font-family: "Roboto", sans-serif;
+
+  border: 2px solid rgba(var(--text), 0.2);
+  border-radius: 3.0625rem;
+
+  @include mixin.until(media.$sm) {
+    width: calc(100% - 1rem);
+    margin-top: 1.75rem;
+    padding: 0 1.25rem;
+  }
+
+  @include mixin.from(media.$md) {
+    --height: 3.75rem;
+  }
+}
+
+.input {
+  position: relative;
+
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: auto 1fr;
+  justify-content: start;
+  align-items: center;
+
+  height: 100%;
+}
+
+.input::before {
+  position: relative;
+  content: "";
+
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  margin-left: 1rem;
+  margin-right: 0.5rem;
+
+  background-image: url("./assets/search.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @include mixin.until(media.$sm) {
+    margin-left: 0;
+  }
+}
+
+.label {
+  @include mixin.visuallyHidden();
+}
+
+.input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+
+  box-sizing: border-box;
+
+  font-size: var(--body-1);
+  line-height: 1.4;
+  color: rgba(var(--text), 1);
+
+  border: 0;
+  background-color: transparent;
+
+  &::placeholder {
+    color: rgba(var(--text), 0.5);
+    opacity: 1;
+
+    @include mixin.until(media.$sm) {
+      opacity: 0;
+    }
+  }
+}
+
+.submit {
+  position: relative;
+
+  padding: 0.25rem 1rem;
+
+  font-family: inherit;
+  font-size: var(--body-1);
+  line-height: var(--line-140);
+  color: rgba(var(--pink), 1);
+
+  border: 0;
+  border-radius: 3.0625rem;
+
+  background-color: transparent;
+
+  @include mixin.until(media.$sm) {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+  }
+}
+
+.submit::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  content: "";
+
+  border-radius: 3.0625rem;
+
+  background-color: rgba(var(--pink), 0.2);
+
+  filter: blur(1rem);
+}
+
+.videoWrapper {
+  width: 100vw;
+  height: 58.5vw;
+
+  overflow: hidden;
+
+  @include mixin.until(media.$sm) {
+    grid-row: 1/2;
+  }
+
+  @include mixin.from(media.$md) {
+    width: calc(100% + var(--gutters) * 2);
+    height: auto;
+  }
+}
+
+.video {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  @include mixin.until(media.$md) {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    width: 162%;
+    margin-left: -31%;
+  }
+
+  @include mixin.from(media.$md) {
+    height: 0;
+    padding-top: 27.5%;
+  }
+}
+
+.video video {
+  width: 100%;
+  height: auto;
+
+  @include mixin.from(media.$md) {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    width: 100%;
+  }
+}
+

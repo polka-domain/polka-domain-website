@@ -1,0 +1,8 @@
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
+
+.component {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+}

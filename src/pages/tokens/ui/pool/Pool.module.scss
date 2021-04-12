@@ -1,0 +1,64 @@
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
+
+.claim {
+  flex-direction: column;
+}
+
+.claim span {
+  margin-top: 0.25rem;
+
+  font-size: 0.75rem;
+}
+
+.link {
+  min-width: 15rem;
+}
+
+.box {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+}
+
+.contribution {
+  margin: 0;
+
+  font-size: 1.5rem;
+  font-weight: var(--medium);
+  text-align: center;
+
+  color: rgba(var(--text), 1)
+}
+
+.contribution span {
+  display: inline-block;
+  margin-top: 2.25rem;
+
+  font-family: "Work Sans", sans-serif;
+  font-size: 3.25rem;
+  font-weight: var(--semi-bold);
+}
+
+.text {
+  margin: 0;
+  margin-top: 0.5rem;
+
+  font-size: 1.25rem;
+
+  color: rgba(var(--text), 0.6);
+}
+
+.buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 13.75rem);
+  grid-column-gap: 1rem;
+}
+
+.withOffset {
+  margin-top: 3.25rem;
+}
+
+.button {
+  min-width: 15rem;
+}
