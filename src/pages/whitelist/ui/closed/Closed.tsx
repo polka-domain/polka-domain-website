@@ -15,7 +15,7 @@ export const Closed: FC = () => {
 						Has Concluded
 					</>
 				}
-				subline="Thank you for your interest!"
+				subline="Thank you for your interest! 🤗"
 			>
 				<NavLink className={styles.button} variant="outlined" size="large" color="pink" href="/">
 					Close
