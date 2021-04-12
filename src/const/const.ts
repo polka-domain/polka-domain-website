@@ -33,3 +33,16 @@ const RPC_URLS = {
 export const RPC_URL = RPC_URLS[1];
 
 export const NAME = "NAME";
+
+export const HEADER_LINKS = {
+	Whitelist: WHITELIST_PATH,
+	// Tokens: TOKENS_PATH,
+	Docs: "/Flowchart Polkadomain.pdf",
+	Social: SOCIAL,
+	Testnet: TESTNET_PATH,
+};
+
+export const MOBILE_HEADER_LINKS = {
+	Docs: "/Flowchart Polkadomain.pdf",
+	Testnet: TESTNET_PATH,
+};

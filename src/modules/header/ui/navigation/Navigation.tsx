@@ -3,7 +3,7 @@ import classNames from "classnames";
 import styles from "./Navigation.module.scss";
 import { MaybeWithClassName } from "../../../../helper/react/types";
 import { NavLink, Button } from "../../../../ui/button";
-import { SOCIAL, TESTNET_PATH, WHITELIST_PATH, TOKENS_PATH } from "../../../../const/const";
+import { HEADER_LINKS } from "../../../../const/const";
 import { Arrow, GitHub, Medium, Telegram, Twitter } from "../../../../ui/icons/Icons";
 import { NextRouter, withRouter } from "next/router";
 
@@ -17,14 +17,6 @@ type NavigationType = {
 };
 
 type ComponentType = NavigationType & MaybeWithClassName & { router?: NextRouter };
-
-const HEADER_LINKS = {
-	Whitelist: WHITELIST_PATH,
-	Tokens: TOKENS_PATH,
-	Docs: "/Flowchart Polkadomain.pdf",
-	Social: SOCIAL,
-	Testnet: TESTNET_PATH,
-};
 
 const ICONS = {
 	Github: <GitHub />,
