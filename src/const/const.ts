@@ -8,8 +8,8 @@ export const WHITELIST_PATH = "/whitelist";
 export const TOKENS_PATH = "/tokens";
 
 export const LOTTERY_INFO_PATH = "https://medium.com/@polkadomain";
-export const URL_DOMAIN = "https://polkadomain.org/";
-export const LOTTERY_SHARE_PATH = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+export const URL_DOMAIN = "https://polkadomain.org/whitelist";
+export const LOTTERY_SHARE_PATH = `https://twitter.com/intent/tweet?text=Just joined @polkadomain's lottery, CAN'T WAIT TO WIN MY $NAME 🤞🤞🤞&url=${encodeURIComponent(
 	URL_DOMAIN
 )}`;
 
