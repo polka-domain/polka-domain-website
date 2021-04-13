@@ -1,7 +1,8 @@
+
 @use "../../helper/style/mixin";
 @use "../../helper/style/media";
 
-@include mixin.from(media.$md) {
+@include mixin.until(media.$md) {
   .dark {
     --text: 255, 255, 255;
     --bg: 0, 0, 0;
@@ -13,8 +14,8 @@
   }
 
   .light {
-    --text: 0, 0, 0;
-    --bg: 255, 255, 255;
+    --text: 255, 255, 255;
+    --bg: 0, 0, 0;
     --pink: 255, 27, 130;
 
     --success: 13, 208, 21;
@@ -23,8 +24,12 @@
   }
 
   .transparent {
-    --text: 0, 0, 0;
-    --bg: transparent;
+    --text: 255, 255, 255;
+    --bg: 0, 0, 0;
     --pink: 255, 27, 130;
+
+    --success: 13, 208, 21;
+    --announce: 59, 153, 252;
+    --error: 153, 153, 153;
   }
 }

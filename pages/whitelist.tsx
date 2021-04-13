@@ -1,7 +1,6 @@
 import { pageWithLayout } from "../src/utils/page/pageInLayout";
 import { Layout } from "../src/layout";
 import { Whitelist } from "../src/pages/whitelist";
-import { Web3ProviderRoot } from "../src/web3/Web3Provider";
 
 const Index = pageWithLayout(
 	() => <Whitelist />,
@@ -12,8 +11,9 @@ const Index = pageWithLayout(
 			mode="transparent"
 			withDecoration={true}
 			fixedHeader={true}
+			web3={true}
 		>
-			<Web3ProviderRoot>{children}</Web3ProviderRoot>
+			{children}
 		</Layout>
 	)
 );

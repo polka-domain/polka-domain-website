@@ -66,6 +66,7 @@ export const Header: FC<HeaderType & MaybeWithClassName> = ({ className, fixed }
 							mobileNavigation.present && styles.animation
 						)}
 						sideEffect={<mobileNavigation.DefinePresent timeout={16} />}
+						onClick={closeMobileNavigationDisplay}
 					/>
 				</FocusOn>
 			)}

@@ -9,12 +9,13 @@ export const getWindowSize = (): WindowSize =>
  * returns reactive window size reference
  */
 export const useWindowSize = (): WindowSize => {
-	const [windowSize, setWindowSize] = useState(getWindowSize());
+	const [windowSize, setWindowSize] = useState<WindowSize>([0, 0]);
 
 	useEffect(() => {
 		if (window) {
 			const onresize = () => setWindowSize(getWindowSize);
 			window.addEventListener("resize", onresize);
+			onresize();
 			return () => window.removeEventListener("resize", onresize);
 		}
 		return () => null;

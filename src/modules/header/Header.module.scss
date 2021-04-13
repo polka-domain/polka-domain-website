@@ -52,7 +52,7 @@
 }
 
 .navigation {
-  @include mixin.until(media.$sm) {
+  @include mixin.until(media.$md) {
     display: none;
   }
 }
@@ -60,7 +60,7 @@
 .launch {
   margin-left: 2.25rem;
 
-  @include mixin.until(media.$sm) {
+  @include mixin.until(media.$md) {
     display: none;
   }
 }
@@ -81,7 +81,7 @@
   transition-duration: 250ms;
   transition-property: color;
 
-  @include mixin.from(media.$sm) {
+  @include mixin.from(media.$md) {
     display: none;
   }
 
@@ -109,7 +109,7 @@
   transition-duration: 350ms;
   transition-property: transform;
 
-  @include mixin.from(media.$lg) {
+  @include mixin.from(media.$md) {
     display: none;
   }
 }

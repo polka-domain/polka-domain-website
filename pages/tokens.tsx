@@ -1,7 +1,6 @@
 import { pageWithLayout } from "../src/utils/page/pageInLayout";
 import { Layout } from "../src/layout";
 import { Tokens } from "../src/pages/tokens";
-import { Web3ProviderRoot } from "../src/web3/Web3Provider";
 
 const Index = pageWithLayout(
 	() => <Tokens />,
@@ -12,8 +11,9 @@ const Index = pageWithLayout(
 			mode="transparent"
 			fixedHeader={true}
 			withDecoration={true}
+			web3={true}
 		>
-			<Web3ProviderRoot>{children}</Web3ProviderRoot>
+			{children}
 		</Layout>
 	)
 );

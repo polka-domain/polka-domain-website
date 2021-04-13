@@ -43,6 +43,8 @@ export const HEADER_LINKS = {
 };
 
 export const MOBILE_HEADER_LINKS = {
+	Whitelist: WHITELIST_PATH,
+	// Tokens: TOKENS_PATH,
 	Docs: "/Flowchart Polkadomain.pdf",
 	Testnet: TESTNET_PATH,
 };

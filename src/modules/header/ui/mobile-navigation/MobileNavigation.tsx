@@ -13,11 +13,13 @@ export type LinkType = {
 	links: Record<string, string>;
 };
 
-type NavigationType = {
+type MobileNavigationType = {
 	sideEffect?: ReactNode;
+	links?: Record<string, string>;
+	onClick?(): void;
 };
 
-type ComponentType = NavigationType & MaybeWithClassName;
+type ComponentType = MobileNavigationType & MaybeWithClassName;
 
 const ICONS = {
 	Github: <GitHub />,
@@ -27,14 +29,17 @@ const ICONS = {
 };
 
 const settings = {
-	className: styles.link,
-	activeClassName: styles.active,
 	variant: "text" as "text" | "contained",
 	size: "medium" as "medium" | "small",
 	color: "grey" as "grey",
 };
 
-export const MobileNavigation: FC<ComponentType> = ({ className, sideEffect }) => {
+export const MobileNavigation: FC<ComponentType> = ({
+	className,
+	links = MOBILE_HEADER_LINKS,
+	sideEffect,
+	onClick,
+}) => {
 	const windowHeight = useWindowSize()[1];
 
 	return (
@@ -43,10 +48,10 @@ export const MobileNavigation: FC<ComponentType> = ({ className, sideEffect }) =
 			style={{ "--window-height": `${windowHeight}px` } as CSSProperties}
 		>
 			<ul className={styles.list}>
-				{Object.keys(MOBILE_HEADER_LINKS).map((key) => {
+				{Object.keys(links).map((key) => {
 					return (
 						<li key={key} className={styles.item}>
-							<NavLink href={MOBILE_HEADER_LINKS[key]} {...settings}>
+							<NavLink href={links[key]} onClick={onClick} {...settings}>
 								{key}
 							</NavLink>
 						</li>
@@ -59,7 +64,7 @@ export const MobileNavigation: FC<ComponentType> = ({ className, sideEffect }) =
 			<ul className={styles.socialList}>
 				{Object.keys(SOCIAL).map((key) => {
 					return (
-						<li key={key} className={styles.socialItem}>
+						<li key={key}>
 							<NavLink
 								href={SOCIAL[key]}
 								variant="text"

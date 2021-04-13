@@ -1,0 +1,93 @@
+@use "../../helper/style/mixin";
+@use "../../helper/style/media";
+
+.component {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+
+  height: calc(var(--window-height) - var(--header-height));
+
+  overflow: hidden;
+}
+
+.wrapper {
+  --grid: 100%;
+}
+
+.box {
+  position: relative;
+
+  width: 100%;
+  max-width: 28rem;
+  margin: 0 auto;
+  margin-bottom: var(--header-height);
+
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    content: "";
+
+    display: block;
+    width: 9.625rem;
+    height: 9.625rem;
+
+    background-image: url("./assets/icon1.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    transform: translate(-50%, -50%);
+  }
+
+  &::after {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    content: "";
+
+    display: block;
+    width: 6.625rem;
+    height: 6.625rem;
+
+    background-image: url("./assets/icon2.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+    transform: translate(50%, 50%);
+  }
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  padding: 1.5rem;
+
+  box-sizing: border-box;
+
+  border: 1px solid rgba(var(--text), 0.1);
+  border-radius: 1.25rem;
+
+  background-color: transparent;
+
+  backdrop-filter: blur(54px);
+
+  @include mixin.from(media.$sm) {
+    padding: 2.5rem;
+  }
+}
+
+.title {
+  margin: 0;
+}
+
+.text {
+  margin: 0;
+  margin-top: 1rem;
+}

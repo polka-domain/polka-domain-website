@@ -10,7 +10,7 @@ function getLibrary(provider) {
 	return library;
 }
 
-const ConnectionModal = () => {
+export const ConnectionModal = () => {
 	const { active } = useWeb3React();
 	const { popUp, close, open } = useControlPopUp();
 	useEffect(() => {
@@ -27,8 +27,5 @@ const ConnectionModal = () => {
 };
 
 export const Web3ProviderRoot = ({ children }) => (
-	<Web3ReactProvider getLibrary={getLibrary}>
-		{children}
-		<ConnectionModal />
-	</Web3ReactProvider>
+	<Web3ReactProvider getLibrary={getLibrary}>{children}</Web3ReactProvider>
 );

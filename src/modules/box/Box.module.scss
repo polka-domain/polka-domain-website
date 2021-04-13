@@ -3,10 +3,10 @@
 
 .component {
   position: relative;
-  width: 46rem;
-  margin: 0 auto;
-  min-height: 25rem;
-  padding: 3rem 3.75rem;
+  width: 100%;
+  max-width: 46rem;
+  margin: auto;
+  padding: 1.5rem;
 
   box-sizing: border-box;
 
@@ -14,10 +14,20 @@
   border-radius: 3.0625rem;
 
   background-color: rgba(var(--bg), 1);
+
+  @include mixin.from(media.$sm) {
+    padding: 2.5rem;
+  }
+
+  @include mixin.from(media.$md) {
+    padding: 3rem 3.75rem;
+    min-height: 25rem;
+    margin: 0 auto;
+  }
 }
 
 .large {
-  width: 57.5rem;
+  max-width: 57.5rem;
 }
 
 .image1 {

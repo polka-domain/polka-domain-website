@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Box } from "../box/Box";
+import { Box } from "../box";
 import styles from "./Loading.module.scss";
 import { HeadlinePlusSubline } from "../headline-plus-subline";
 
