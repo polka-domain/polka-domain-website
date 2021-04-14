@@ -16,11 +16,10 @@ export const OnlyDesktop: FC = () => {
 				<div className={styles.box}>
 					<div className={styles.content}>
 						<Heading4 className={styles.title}>
-							Sorry, this option is available only on desktop
+							Sorry, this event is unavailable on mobile.
 						</Heading4>
 						<Body1 className={styles.text} lighten={60}>
-							Please use the desktop version to whitelist registration and participation in the
-							auction
+							Please visit our desktop website to participate.
 						</Body1>
 					</div>
 				</div>
