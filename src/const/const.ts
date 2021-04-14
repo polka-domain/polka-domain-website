@@ -6,6 +6,7 @@ export const TELEGRAM_PATH = "https://t.me/PolkaDomain";
 export const TWITTER_PATH = "https://twitter.com/polkadomain";
 export const WHITELIST_PATH = "/whitelist";
 export const TOKENS_PATH = "/tokens";
+export const AIRDROP_PATH = "/airdrop";
 
 export const LOTTERY_INFO_PATH = "https://medium.com/@polkadomain";
 export const URL_DOMAIN = "https://polkadomain.org/whitelist";
@@ -25,6 +26,8 @@ export const reCAPTCHA_site_key = "6LeEiqMaAAAAALZICdpKk-1_kmdOZKapkwXTGdh9";
 export const FIXED_SWAP_ADDRESS = "0x3f1091Cc60c83C208db4A660aB4804bB684E988A";
 export const DEFAULT_AUCTION_INDEX = 0;
 
+export const AIRDROP_ADDRESS = "0x11324a45AAae766D77377e74ADd50A06F6810cb8";
+
 export const PROVIDER_POLLING_INTERVAL = 12000;
 const RPC_URLS = {
 	1: "https://eth-mainnet.alchemyapi.io/v2/k2--UT_xVVXMOvAyoxJYqtKhlmyBbqnX",
@@ -37,6 +40,7 @@ export const NAME = "NAME";
 export const HEADER_LINKS = {
 	Whitelist: WHITELIST_PATH,
 	// Tokens: TOKENS_PATH,
+	Airdrop: AIRDROP_PATH,
 	Docs: "/Flowchart Polkadomain.pdf",
 	Social: SOCIAL,
 	Testnet: TESTNET_PATH,
@@ -45,6 +49,7 @@ export const HEADER_LINKS = {
 export const MOBILE_HEADER_LINKS = {
 	Whitelist: WHITELIST_PATH,
 	// Tokens: TOKENS_PATH,
+	Airdrop: AIRDROP_PATH,
 	Docs: "/Flowchart Polkadomain.pdf",
 	Testnet: TESTNET_PATH,
 };

@@ -9,10 +9,11 @@ import { TextColor } from "../../ui/text-color";
 import { Step1 } from "./ui/step1";
 import { Step2 } from "./ui/step2";
 import { YouAreIn } from "./ui/you-are-in";
-import { readUserInformation, readWhitelistStatus } from "../../api/user";
+import { readUserInformation } from "../../api/user";
 import { Loading } from "../../modules/loading";
 import { useWeb3React } from "@web3-react/core";
 import { Closed } from "./ui/closed";
+import { readWhitelistStatus } from "../../api/whitelist";
 
 type WhitelistType = {};
 

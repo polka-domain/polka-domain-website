@@ -13,7 +13,7 @@ import {
 	TimeInfo,
 	TokenInfo,
 	useContract,
-} from "../../../../web3/contract";
+} from "../../../../web3/auction-contract";
 import { useWeb3React } from "@web3-react/core";
 import { useWeb3, useWeb3Provider } from "../../../../web3/web3";
 import { fromWei, toBN } from "web3-utils";

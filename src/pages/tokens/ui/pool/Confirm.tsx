@@ -1,8 +1,8 @@
 import styles from "./Pool.module.scss";
 import { Button } from "../../../../ui/button";
 import { Box } from "../../../../modules/box";
-import classNames from "classnames";
 import { FC } from "react";
+import { ButtonsGroup } from "../../../../modules/buttons-group";
 
 export const Confirm: FC<{
 	balance: string;
@@ -12,20 +12,20 @@ export const Confirm: FC<{
 }> = ({ balance, amount, cancelClick, confirmClick }) => {
 	return (
 		<Box className={styles.box}>
-			<p className={styles.contribution}>
+			<p className={styles.title}>
 				Your Contribution:
 				<br />
 				<span>{amount} ETH</span>
 			</p>
 			<p className={styles.text}>Your balance: {balance} ETH</p>
-			<div className={classNames(styles.buttons, styles.withOffset)}>
+			<ButtonsGroup className={styles.buttons}>
 				<Button color="pink" size="large" variant="outlined" onClick={cancelClick}>
 					Cancel
 				</Button>
 				<Button color="pink" size="large" variant="contained" onClick={confirmClick}>
 					Contribute
 				</Button>
-			</div>
+			</ButtonsGroup>
 		</Box>
 	);
 };

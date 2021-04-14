@@ -1,20 +1,18 @@
 @use "../../../../helper/style/mixin";
 @use "../../../../helper/style/media";
 
-.claim {
-  flex-direction: column;
-}
-
-.claim span {
-  margin-top: 0.25rem;
-
-  font-size: 0.75rem;
-}
-
 .box {
   display: grid;
   justify-items: center;
   align-content: center;
+}
+
+.buttons {
+  margin-top: 3.25rem;
+}
+
+.button {
+  min-width: 15rem;
 }
 
 .title {
@@ -43,12 +41,4 @@
   font-size: 1.25rem;
 
   color: rgba(var(--text), 0.6);
-}
-
-.buttons {
-  margin-top: 3.25rem;
-}
-
-.button {
-  min-width: 15rem;
 }

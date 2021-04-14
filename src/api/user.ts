@@ -1,10 +1,4 @@
-const getAPIBase = () => {
-	const { hostname } = window.location;
-	if (hostname.includes("vercel") || hostname === "localhost") {
-		return "https://test.api.polkadomain.org";
-	}
-	return "https://api.polkadomain.org";
-};
+import { getAPIBase } from "./getAPI";
 
 export const readUserInformation = (eth: string): Promise<any> =>
 	fetch(`${getAPIBase()}/api/users/${eth}`).then((res) => {
@@ -13,11 +7,6 @@ export const readUserInformation = (eth: string): Promise<any> =>
 			return {};
 		}
 		return res.json();
-	});
-
-export const readWhitelistStatus = (): Promise<boolean> =>
-	fetch(`${getAPIBase()}/api/whitelist/status`).then((res) => {
-		return res.status === 200;
 	});
 
 export const recordUserInformation = (
