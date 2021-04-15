@@ -4,7 +4,8 @@ import type { Contract as ContractType } from "web3-eth-contract";
 import { AbiItem, toWei } from "web3-utils";
 import { useMemo } from "react";
 import Web3 from "web3";
-import { DEFAULT_AUCTION_INDEX, FIXED_SWAP_ADDRESS } from "../const/const";
+import { DEFAULT_AUCTION_INDEX } from "../const/const";
+import { getTokensAddress } from "../api/getAPI";
 
 const AUCTION_INDEX =
 	(typeof window !== "undefined" && window.localStorage.getItem("AUCTION_INDEX")) ||
@@ -12,7 +13,7 @@ const AUCTION_INDEX =
 
 export const factoryContract = (provider: string): ContractType => {
 	// @ts-ignore
-	const fixedSwapContract = new Contract(TokenFixedSwap.abi as AbiItem[], FIXED_SWAP_ADDRESS);
+	const fixedSwapContract = new Contract(TokenFixedSwap.abi as AbiItem[], getTokensAddress());
 	if (provider) {
 		fixedSwapContract.setProvider(provider);
 	}

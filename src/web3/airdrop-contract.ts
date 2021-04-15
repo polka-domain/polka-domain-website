@@ -3,11 +3,11 @@ import Contract from "web3-eth-contract";
 import type { Contract as ContractType } from "web3-eth-contract";
 import { AbiItem } from "web3-utils";
 import { useMemo } from "react";
-import { AIRDROP_ADDRESS } from "../const/const";
+import { getAirdropAddress } from "../api/getAPI";
 
 export const factoryContract = (provider: string): ContractType => {
 	// @ts-ignore
-	const airdropContract = new Contract(TokenAirdrop.abi as AbiItem[], AIRDROP_ADDRESS);
+	const airdropContract = new Contract(TokenAirdrop.abi as AbiItem[], getAirdropAddress());
 	if (provider) {
 		airdropContract.setProvider(provider);
 	}
