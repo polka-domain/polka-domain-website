@@ -115,7 +115,7 @@ export const Auction: FC<AuctionType & WithChildren & { requireUpdate(): void }>
 					<Body2 className={styles.info}>
 						<span>{percentage} %</span>{" "}
 						<span>
-							{amount} {NAME} / {totalAmount} {NAME}
+							{parseFloat(amount).toFixed(0)} {NAME} / {totalAmount} {NAME}
 						</span>
 					</Body2>
 				</div>

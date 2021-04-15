@@ -7,6 +7,7 @@ import {
 	getMyAmount,
 	getMyBalance,
 	getMyClaim,
+	getMyWhitelisted,
 	getTimeInfo,
 	getTokenInfo,
 	swapContracts,
@@ -28,7 +29,6 @@ import { Claimed } from "./Claimed";
 import { ClaimedFail } from "./ClaimedFail";
 import { Contract } from "web3-eth-contract";
 import Web3 from "web3";
-import { readUserInformation } from "../../../../api/user";
 import { Oops } from "./Oops";
 import { NAME } from "../../../../const/const";
 
@@ -48,12 +48,14 @@ const fetchInformation = async (contract: Contract, web3: Web3, ethereumAddress:
 	const pTokenInfo = getTokenInfo(contract);
 	const pMyAmount = getMyAmount(contract, ethereumAddress);
 	const pMyClaim = getMyClaim(contract, ethereumAddress);
+	const pMyWhitelisted = getMyWhitelisted(contract, ethereumAddress);
 	const pBalance = getMyBalance(web3, ethereumAddress);
-	const [timeInfo, tokenInfo, myAmount, myClaim, balance] = await Promise.all([
+	const [timeInfo, tokenInfo, myAmount, myClaim, myWhitelisted, balance] = await Promise.all([
 		pTimeInfo,
 		pTokenInfo,
 		pMyAmount,
 		pMyClaim,
+		pMyWhitelisted,
 		pBalance,
 	]);
 	return {
@@ -61,6 +63,7 @@ const fetchInformation = async (contract: Contract, web3: Web3, ethereumAddress:
 		tokenInfo,
 		myAmount,
 		myClaim,
+		myWhitelisted,
 		balance,
 	};
 };
@@ -93,11 +96,11 @@ export const Pool: FC = () => {
 		amount: "",
 		totalAmount: "",
 	});
+	const [myWhitelisted, setMyWhitelisted] = useState<boolean>(false);
 	const [myClaim, setMyClaim] = useState<boolean>(false);
 	const [myAmount, setMyAmount] = useState<string>("");
 	const [claimTime, setClaimTime] = useState<number>(0);
 	const [ethBalance, setEthBalance] = useState("0");
-	const [userInformation, setUserInformation] = useState(undefined);
 
 	const provider = useWeb3Provider();
 	const { active, account: ethereumAddress } = useWeb3React();
@@ -107,11 +110,14 @@ export const Pool: FC = () => {
 	const minAllocation = "0.0001";
 
 	const updateData = useCallback(async () => {
-		const { timeInfo, tokenInfo, myAmount, myClaim, balance } = await fetchInformation(
-			contract,
-			web3,
-			ethereumAddress
-		);
+		const {
+			timeInfo,
+			tokenInfo,
+			myAmount,
+			myClaim,
+			myWhitelisted,
+			balance,
+		} = await fetchInformation(contract, web3, ethereumAddress);
 
 		const totalAmount0 = toBN(tokenInfo.amountTotal0);
 		const totalAmount1 = toBN(tokenInfo.amountTotal1);
@@ -131,6 +137,7 @@ export const Pool: FC = () => {
 
 		setMyAmount(fromWei(myAmount));
 		setMyClaim(myClaim);
+		setMyWhitelisted(myWhitelisted);
 		setClaimTime(timeInfo.claimAt);
 		setAuctionState(auction);
 		setEthBalance(balance);
@@ -154,12 +161,6 @@ export const Pool: FC = () => {
 		}
 	}, [active]);
 
-	useEffect(() => {
-		if (ethereumAddress) {
-			readUserInformation(ethereumAddress).then((info) => setUserInformation(info));
-		}
-	}, [ethereumAddress]);
-
 	const [operation, setOperation] = useState<KNOWN_OPERATIONS>("");
 
 	const cancelAction = () => {
@@ -167,7 +168,7 @@ export const Pool: FC = () => {
 	};
 
 	const joinAction = () => {
-		if (userInformation.email) {
+		if (myWhitelisted) {
 			setOperation("confirm");
 		} else setOperation("fail-whitelisted");
 	};
@@ -253,7 +254,7 @@ export const Pool: FC = () => {
 						disabled={claimStatus !== "claim"}
 					>
 						{claimStatus === "claim" && "Claim tokens"}
-						{claimStatus === "claimed" && "Tokens claimed"}
+						{claimStatus === "claimed" && "Tokens Claimed"}
 						{claimStatus === "did-not-participate" && "Auction Ended"}
 						{claimStatus === "wait" && ClaimTimer}
 					</Button>

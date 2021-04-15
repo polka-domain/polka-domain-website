@@ -37,6 +37,14 @@ export const getMyClaim = async (
 	return contract.methods.myClaimed(address, index).call();
 };
 
+export const getMyWhitelisted = async (
+	contract: ContractType,
+	address: string,
+	index = AUCTION_INDEX
+) => {
+	return contract.methods.whitelist(index, address).call();
+};
+
 export const claimTokens = async (
 	contract: ContractType,
 	address: string,
