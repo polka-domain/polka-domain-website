@@ -253,7 +253,7 @@ export const Pool: FC = () => {
 						onClick={claimAction}
 						disabled={claimStatus !== "claim"}
 					>
-						{claimStatus === "claim" && "Claim tokens"}
+						{claimStatus === "claim" && "Claim Tokens"}
 						{claimStatus === "claimed" && "Tokens Claimed"}
 						{claimStatus === "did-not-participate" && "Auction Ended"}
 						{claimStatus === "wait" && ClaimTimer}
@@ -267,7 +267,7 @@ export const Pool: FC = () => {
 						onClick={claimAction}
 						disabled={claimStatus !== "claim"}
 					>
-						{claimStatus === "claim" && "Claim tokens"}
+						{claimStatus === "claim" && "Claim Tokens"}
 						{claimStatus === "claimed" && "Tokens Claimed"}
 						{claimStatus === "did-not-participate" && "Auction Ended"}
 						{claimStatus === "wait" && ClaimTimer}
