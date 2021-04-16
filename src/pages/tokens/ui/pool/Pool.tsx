@@ -82,6 +82,7 @@ const deriveStatus = (tokenInfo: TokenInfo, timeInfo: TimeInfoType): StatusType 
 	return Date.now() < timeInfo.openAt * 1000 ? "coming" : "live";
 };
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
 const doNothing = () => {};
 
 export const Pool: FC = () => {
@@ -138,9 +139,6 @@ export const Pool: FC = () => {
 			amount: fromWei(tokenInfo.amountSwap0),
 			totalAmount: fromWei(tokenInfo.amountTotal0),
 		};
-
-		console.log(timeInfo);
-		console.log(tokenInfo);
 
 		setMyAmount(fromWei(myAmount));
 		setMyClaim(myClaim);
