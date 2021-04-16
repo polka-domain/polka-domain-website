@@ -130,7 +130,7 @@ export const Pool: FC = () => {
 			status: deriveStatus(tokenInfo, timeInfo),
 			start: timeInfo.openAt,
 			end: timeInfo.closeAt,
-			ethereumAddress: tokenInfo.creator,
+			ethereumAddress: tokenInfo.token0,
 			range: `${totalAmount0.div(totalAmount1)} ${NAME} = 1 ETH`,
 			minAllocation: minAllocation,
 			maxAllocation: fromWei(tokenInfo.maxAllocToken1),

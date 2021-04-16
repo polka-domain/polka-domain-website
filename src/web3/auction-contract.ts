@@ -99,6 +99,8 @@ export type TokenInfo = {
 	amountSwap1: string;
 	amountSwap0: string;
 	creator: string;
+	token0: string;
+	token1: string;
 };
 
 export const getTokenInfo = (contract: ContractType, index = AUCTION_INDEX): Promise<TokenInfo> => {
