@@ -30,18 +30,18 @@ export const Step: FC<StepType> = ({ userInfo }) => {
 		const myClaim = await fetchInformation(contract, userInfo.address);
 
 		setMyClaim(myClaim);
-	}, []);
+	}, [contract, userInfo.address]);
 
 	useEffect(() => {
 		const tm = setInterval(updateData, 60000);
 		return () => clearInterval(tm);
-	}, [contract]);
+	}, [contract, updateData]);
 
 	useEffect(() => {
 		if (active) {
 			updateData();
 		}
-	}, [active]);
+	}, [active, updateData]);
 
 	const [operation, setOperation] = useState<KNOWN_OPERATIONS>("");
 

@@ -11,12 +11,13 @@ const AUCTION_INDEX =
 	(typeof window !== "undefined" && window.localStorage.getItem("AUCTION_INDEX")) ||
 	DEFAULT_AUCTION_INDEX;
 
-export const factoryContract = (provider: string): ContractType => {
+export const factoryContract = (provider: string | undefined): ContractType | undefined => {
+	if (!provider) {
+		return undefined;
+	}
 	// @ts-ignore
 	const fixedSwapContract = new Contract(TokenFixedSwap.abi as AbiItem[], getTokensAddress());
-	if (provider) {
-		fixedSwapContract.setProvider(provider);
-	}
+	fixedSwapContract.setProvider(provider);
 	return fixedSwapContract;
 };
 
@@ -58,13 +59,16 @@ export const useContract = (provider?: string) => {
 	return useMemo(() => factoryContract(provider), [provider]);
 };
 
-export type TimeInfo = {
+export type TimeInfoType = {
 	openAt: number;
 	closeAt: number;
 	claimAt: number;
 };
 
-export const getTimeInfo = (contract: ContractType, index = AUCTION_INDEX): Promise<TimeInfo> => {
+export const getTimeInfo = (
+	contract: ContractType,
+	index = AUCTION_INDEX
+): Promise<TimeInfoType> => {
 	return contract.methods.timeInfos(index).call();
 };
 

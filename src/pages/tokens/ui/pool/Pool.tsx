@@ -11,7 +11,7 @@ import {
 	getTimeInfo,
 	getTokenInfo,
 	swapContracts,
-	TimeInfo,
+	TimeInfoType,
 	TokenInfo,
 	useContract,
 } from "../../../../web3/auction-contract";
@@ -27,6 +27,7 @@ import { Joined } from "./Joined";
 import { JoinedFail } from "./JoinedFail";
 import { Claimed } from "./Claimed";
 import { ClaimedFail } from "./ClaimedFail";
+import { Counter } from "./Counter";
 import { Contract } from "web3-eth-contract";
 import Web3 from "web3";
 import { Oops } from "./Oops";
@@ -68,7 +69,7 @@ const fetchInformation = async (contract: Contract, web3: Web3, ethereumAddress:
 	};
 };
 
-const deriveStatus = (tokenInfo: TokenInfo, timeInfo: TimeInfo): StatusType => {
+const deriveStatus = (tokenInfo: TokenInfo, timeInfo: TimeInfoType): StatusType => {
 	const filled = tokenInfo.amountTotal1 === tokenInfo.amountSwap1;
 	const expired = getDeltaTime(timeInfo.closeAt) === 0;
 
@@ -110,6 +111,9 @@ export const Pool: FC = () => {
 	const minAllocation = "0.0001";
 
 	const updateData = useCallback(async () => {
+		if (!contract) {
+			return;
+		}
 		const {
 			timeInfo,
 			tokenInfo,
@@ -135,6 +139,9 @@ export const Pool: FC = () => {
 			totalAmount: fromWei(tokenInfo.amountTotal0),
 		};
 
+		console.log(timeInfo);
+		console.log(tokenInfo);
+
 		setMyAmount(fromWei(myAmount));
 		setMyClaim(myClaim);
 		setMyWhitelisted(myWhitelisted);
@@ -146,14 +153,14 @@ export const Pool: FC = () => {
 			myAmount,
 			auction,
 		};
-	}, []);
+	}, [contract, ethereumAddress, web3]);
 
 	const onRequestData = auctionState.status ? updateData : doNothing;
 
 	useEffect(() => {
 		const tm = setInterval(updateData, 60000);
 		return () => clearInterval(tm);
-	}, [contract]);
+	}, [updateData]);
 
 	useEffect(() => {
 		if (active) {
@@ -295,8 +302,14 @@ export const Pool: FC = () => {
 
 	switch (operation) {
 		case "":
+			if (!active) {
+				return <></>;
+			}
 			if (!auctionState.status) {
 				return <Loading />;
+			}
+			if (Date.now() < auctionState.start * 1000) {
+				return <Counter time={<Timer timer={auctionState.start} onZero={onRequestData} />} />;
 			}
 			return (
 				<Auction {...auctionState} requireUpdate={onRequestData}>

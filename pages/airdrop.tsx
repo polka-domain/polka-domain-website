@@ -1,9 +1,14 @@
 import { pageWithLayout } from "../src/utils/page/pageInLayout";
 import { Layout } from "../src/layout";
 import { Airdrop } from "../src/pages/airdrop";
+import NoSsr from "../src/modules/no-ssr/NoSsr";
 
 const Index = pageWithLayout(
-	() => <Airdrop />,
+	() => (
+		<NoSsr>
+			<Airdrop />
+		</NoSsr>
+	),
 	({ children }) => (
 		<Layout
 			title="Polka.Domain"

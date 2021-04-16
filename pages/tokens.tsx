@@ -1,9 +1,14 @@
 import { pageWithLayout } from "../src/utils/page/pageInLayout";
 import { Layout } from "../src/layout";
 import { Tokens } from "../src/pages/tokens";
+import NoSsr from "../src/modules/no-ssr/NoSsr";
 
 const Index = pageWithLayout(
-	() => <Tokens />,
+	() => (
+		<NoSsr>
+			<Tokens />
+		</NoSsr>
+	),
 	({ children }) => (
 		<Layout
 			title="Polka.Domain"

@@ -1,9 +1,15 @@
 import { pageWithLayout } from "../src/utils/page/pageInLayout";
 import { Layout } from "../src/layout";
 import { Whitelist } from "../src/pages/whitelist";
+import { Tokens } from "../src/pages/tokens";
+import NoSsr from "../src/modules/no-ssr/NoSsr";
 
 const Index = pageWithLayout(
-	() => <Whitelist />,
+	() => (
+		<NoSsr>
+			<Whitelist />
+		</NoSsr>
+	),
 	({ children }) => (
 		<Layout
 			title="Polka.Domain"

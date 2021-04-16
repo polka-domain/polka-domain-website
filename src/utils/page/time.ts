@@ -8,9 +8,9 @@ export const getDeltaTime = (time: number, to = Date.now()) => {
 };
 
 export const toDeltaTimer = (delta: number) => {
-	let d = Math.floor(delta / (60 * 60 * 24));
-	let h = Math.floor((delta / (60 * 60)) % 24);
-	let m = Math.floor((delta / 60) % 60);
-	let s = Math.floor(delta % 60);
+	const d = Math.floor(delta / (60 * 60 * 24));
+	const h = Math.floor((delta / (60 * 60)) % 24);
+	const m = Math.floor((delta / 60) % 60);
+	const s = Math.floor(delta % 60);
 	return formatTime(d, h, m, s);
 };
