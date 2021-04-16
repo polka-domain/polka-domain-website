@@ -27,7 +27,6 @@ import { Joined } from "./Joined";
 import { JoinedFail } from "./JoinedFail";
 import { Claimed } from "./Claimed";
 import { ClaimedFail } from "./ClaimedFail";
-import { Counter } from "./Counter";
 import { Contract } from "web3-eth-contract";
 import Web3 from "web3";
 import { Oops } from "./Oops";
@@ -305,9 +304,6 @@ export const Pool: FC = () => {
 			}
 			if (!auctionState.status) {
 				return <Loading />;
-			}
-			if (Date.now() < auctionState.start * 1000) {
-				return <Counter time={<Timer timer={auctionState.start} onZero={onRequestData} />} />;
 			}
 			return (
 				<Auction {...auctionState} requireUpdate={onRequestData}>
