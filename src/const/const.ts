@@ -28,12 +28,12 @@ export const MAINNET_FIXED_SWAP_ADDRESS = "0x513dE4c0E3E5acc65176fF0d264ea306094
 export const DEFAULT_AUCTION_INDEX = 0;
 
 export const TESTED_AIRDROP_ADDRESS = "0x11324a45AAae766D77377e74ADd50A06F6810cb8";
-export const MAINNET_AIRDROP_ADDRESS = "0xFCE3d5d6001F3037A7F0A7aAc104e4138f5ae028";
+export const MAINNET_AIRDROP_ADDRESS = "0x1f023A6b25dD1729F69C001Bef2c0cd7Dc354124";
 
 export const PROVIDER_POLLING_INTERVAL = 12000;
 const RPC_URLS = {
-	1: "https://eth-mainnet.alchemyapi.io/v2/k2--UT_xVVXMOvAyoxJYqtKhlmyBbqnX",
-	4: "https://rinkeby.infura.io/v3/8f6d3d5d7a1442a38d9e8050c31c1884",
+	1: "https://eth-mainnet.alchemyapi.io/v2/JM8nesyHFYIHF6vWjCORATB9NUpCsXVH",
+	4: "https://eth-rinkeby.alchemyapi.io/v2/BOMvDIMuDKSqyJ6eGwOXRbUEVwtmP2yK",
 };
 export const RPC_URL = RPC_URLS[1];
 
