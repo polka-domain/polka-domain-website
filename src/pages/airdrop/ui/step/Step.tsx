@@ -23,8 +23,8 @@ export const Step: FC<StepType> = ({ userInfo }) => {
 	const [myClaim, setMyClaim] = useState<boolean>(false);
 
 	const provider = useWeb3Provider();
-	const { active } = useWeb3React();
-	const contract = useContract(provider);
+	const { active, chainId } = useWeb3React();
+	const contract = useContract(provider, chainId);
 
 	const updateData = useCallback(async () => {
 		const myClaim = await fetchInformation(contract, userInfo.address);

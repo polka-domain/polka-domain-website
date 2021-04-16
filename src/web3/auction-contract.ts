@@ -4,19 +4,39 @@ import type { Contract as ContractType } from "web3-eth-contract";
 import { AbiItem, toWei } from "web3-utils";
 import { useMemo } from "react";
 import Web3 from "web3";
-import { DEFAULT_AUCTION_INDEX } from "../const/const";
-import { getTokensAddress } from "../api/getAPI";
+import {
+	DEFAULT_AUCTION_INDEX,
+	MAINNET_FIXED_SWAP_ADDRESS,
+	TESTED_FIXED_SWAP_ADDRESS,
+} from "../const/const";
 
 const AUCTION_INDEX =
 	(typeof window !== "undefined" && window.localStorage.getItem("AUCTION_INDEX")) ||
 	DEFAULT_AUCTION_INDEX;
 
-export const factoryContract = (provider: string | undefined): ContractType | undefined => {
+const getTokensAddress = (chainId: number) => {
+	switch (chainId) {
+		case 1:
+			return MAINNET_FIXED_SWAP_ADDRESS;
+		case 4:
+			return TESTED_FIXED_SWAP_ADDRESS;
+		default:
+			return TESTED_FIXED_SWAP_ADDRESS;
+	}
+};
+
+export const factoryContract = (
+	provider: string | undefined,
+	chainId: number
+): ContractType | undefined => {
 	if (!provider) {
 		return undefined;
 	}
 	// @ts-ignore
-	const fixedSwapContract = new Contract(TokenFixedSwap.abi as AbiItem[], getTokensAddress());
+	const fixedSwapContract = new Contract(
+		TokenFixedSwap.abi as AbiItem[],
+		getTokensAddress(chainId)
+	);
 	fixedSwapContract.setProvider(provider);
 	return fixedSwapContract;
 };
@@ -55,8 +75,8 @@ export const claimTokens = async (
 	return contract.methods.userClaim(index).send({ from: address });
 };
 
-export const useContract = (provider?: string) => {
-	return useMemo(() => factoryContract(provider), [provider]);
+export const useContract = (provider?: string, chainId?: number) => {
+	return useMemo(() => factoryContract(provider, chainId), [chainId, provider]);
 };
 
 export type TimeInfoType = {

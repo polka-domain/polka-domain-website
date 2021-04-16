@@ -31,11 +31,10 @@ export const TESTED_AIRDROP_ADDRESS = "0x11324a45AAae766D77377e74ADd50A06F6810cb
 export const MAINNET_AIRDROP_ADDRESS = "0x1f023A6b25dD1729F69C001Bef2c0cd7Dc354124";
 
 export const PROVIDER_POLLING_INTERVAL = 12000;
-const RPC_URLS = {
+export const RPC_URLS = {
 	1: "https://eth-mainnet.alchemyapi.io/v2/JM8nesyHFYIHF6vWjCORATB9NUpCsXVH",
 	4: "https://eth-rinkeby.alchemyapi.io/v2/BOMvDIMuDKSqyJ6eGwOXRbUEVwtmP2yK",
 };
-export const RPC_URL = RPC_URLS[1];
 
 export const NAME = "NAME";
 

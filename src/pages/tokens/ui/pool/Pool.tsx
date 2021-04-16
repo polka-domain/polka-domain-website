@@ -105,9 +105,9 @@ export const Pool: FC = () => {
 	const [ethBalance, setEthBalance] = useState("0");
 
 	const provider = useWeb3Provider();
-	const { active, account: ethereumAddress } = useWeb3React();
+	const { active, account: ethereumAddress, chainId } = useWeb3React();
 	const web3 = useWeb3();
-	const contract = useContract(provider);
+	const contract = useContract(provider, chainId);
 
 	const minAllocation = "0.0001";
 

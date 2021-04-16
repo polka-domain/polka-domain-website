@@ -1,6 +1,6 @@
 import { InjectedConnector } from "@web3-react/injected-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
-import { PROVIDER_POLLING_INTERVAL, RPC_URL } from "../const/const";
+import { PROVIDER_POLLING_INTERVAL, RPC_URLS } from "../const/const";
 
 const metaMaskFactory = () =>
 	new InjectedConnector({
@@ -9,7 +9,7 @@ const metaMaskFactory = () =>
 
 const walletConnectFactory = () =>
 	new WalletConnectConnector({
-		rpc: { 1: RPC_URL },
+		rpc: { 1: RPC_URLS[1], 4: RPC_URLS[4] },
 		bridge: "https://bridge.walletconnect.org",
 		qrcode: true,
 		pollingInterval: PROVIDER_POLLING_INTERVAL,
