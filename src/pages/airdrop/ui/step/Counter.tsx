@@ -1,9 +1,9 @@
 import styles from "./Step.module.scss";
 import { NavLink } from "../../../../ui/button";
 import { Box } from "../../../../modules/box";
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 
-export const Counter: FC<{ time: string }> = ({ time }) => {
+export const Counter: FC<{ time: ReactNode }> = ({ time }) => {
 	return (
 		<Box className={styles.box}>
 			<p className={styles.start}>The airdrop will start in</p>
