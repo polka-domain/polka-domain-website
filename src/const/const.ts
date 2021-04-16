@@ -39,7 +39,7 @@ export const RPC_URLS = {
 export const NAME = "NAME";
 
 export const HEADER_LINKS = {
-	Whitelist: WHITELIST_PATH,
+	// Whitelist: WHITELIST_PATH,
 	Tokens: TOKENS_PATH,
 	Airdrop: AIRDROP_PATH,
 	Docs: "/Flowchart Polkadomain.pdf",
@@ -48,7 +48,7 @@ export const HEADER_LINKS = {
 };
 
 export const MOBILE_HEADER_LINKS = {
-	Whitelist: WHITELIST_PATH,
+	// Whitelist: WHITELIST_PATH,
 	Tokens: TOKENS_PATH,
 	Airdrop: AIRDROP_PATH,
 	Docs: "/Flowchart Polkadomain.pdf",
