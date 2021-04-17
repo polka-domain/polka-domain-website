@@ -6,7 +6,7 @@ import { Box } from "../../../../modules/box";
 export const Oops = () => {
 	return (
 		<Box className={styles.box}>
-			<HeadlinePlusSubline headline="Oops!" subline="You are not whitelisted 😔">
+			<HeadlinePlusSubline headline="Oops!" subline="You are not selected 😔">
 				<NavLink className={styles.button} variant="outlined" color="pink" size="large" href="/">
 					Close
 				</NavLink>
