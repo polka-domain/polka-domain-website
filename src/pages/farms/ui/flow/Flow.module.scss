@@ -1,0 +1,11 @@
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
+
+.component {
+  display: grid;
+
+  border: 2px solid #E6E6E6;
+  border-radius: 3rem;
+
+  background-color: rgba(var(--bg), 1);
+}

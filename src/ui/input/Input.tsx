@@ -4,10 +4,11 @@ import styles from "./Input.module.scss";
 import { Field } from "react-final-form";
 import { MaybeWithClassName } from "../../helper/react/types";
 import { TextColor } from "../text-color";
+import { ReactNode } from "react";
 
 type InputType = {
 	name: string;
-	label: string;
+	label: string | ReactNode;
 	type: "text" | "email";
 	placeholder?: string;
 	readOnly?: boolean;

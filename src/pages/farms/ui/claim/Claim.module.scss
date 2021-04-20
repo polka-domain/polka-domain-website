@@ -1,0 +1,42 @@
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
+
+.component {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.content {
+  display: grid;
+  grid-auto-rows: 1fr 1fr auto;
+}
+
+.title {
+  align-self: end;
+
+  margin: 0;
+
+
+  font-size: 1.25rem;
+  font-weight: var(--medium);
+  color: rgba(var(--text), 0.8);
+  text-align: center;
+}
+
+.title span {
+  display: inline-block;
+
+  margin-bottom: calc(var(--spacing-unit) * 2);
+
+  font-size: 4.25rem;
+  line-height: 1;
+  color: rgba(var(--text), 1);
+}
+
+.text {
+  max-width: 25.5rem;
+  margin: 0 auto;
+  margin-top: calc(var(--spacing-unit) * 4);
+
+  text-align: center;
+}

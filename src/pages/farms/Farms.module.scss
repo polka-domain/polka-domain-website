@@ -1,0 +1,45 @@
+@use "../../helper/style/mixin";
+@use "../../helper/style/media";
+
+.component {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  flex-grow: 1;
+
+  padding: 3.5rem;
+
+  box-sizing: border-box;
+}
+
+.component::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  content: "";
+
+  display: block;
+  height: 30rem;
+
+  background-image: linear-gradient(180deg, #FBC6E2 0%, rgba(255, 231, 254, 0) 100%);
+  opacity: 0.4;
+}
+
+.gutter {
+  --grid: 100%;
+
+  justify-items: center;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+.content {
+  min-height: 35rem;
+  max-width: 37.5rem;
+  margin: 0 auto;
+}

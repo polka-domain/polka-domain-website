@@ -18,7 +18,7 @@ class MyDocument extends Document {
 					/>
 					<link rel="preconnect" href="https://fonts.gstatic.com" />
 					<link
-						href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Work+Sans:wght@500;600;700&display=swap"
+						href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Work+Sans:wght@500;600;700&display=swap"
 						rel="stylesheet"
 					/>
 				</Head>

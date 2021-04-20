@@ -25,6 +25,9 @@
 }
 
 .main {
+  display: flex;
+  flex-direction: column;
+
   flex-grow: 1;
 }
 
@@ -35,6 +38,11 @@
 }
 
 .desktop {
+  display: flex;
+  flex-direction: column;
+
+  flex-grow: 1;
+
   @include mixin.until(media.$md) {
     display: none;
   }

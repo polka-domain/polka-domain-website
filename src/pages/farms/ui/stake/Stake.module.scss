@@ -1,0 +1,54 @@
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
+
+.component {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.content {
+  display: grid;
+
+  padding-top: calc(var(--spacing-unit) * 6);
+}
+
+.form {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  grid-row-gap: calc(var(--spacing-unit) * 2);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-column-gap: var(--spacing-unit);
+  grid-row-gap: calc(var(--spacing-unit) * 2.5);
+  align-items: center;
+
+  min-height: 3.25rem;
+  margin: 0;
+  padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2.5);
+
+  box-sizing: border-box;
+
+  border-radius: 0.875rem;
+  border: 1px solid rgba(var(--pink), 1);
+
+  list-style: none;
+}
+
+.term {}
+
+.description {
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: var(--spacing-unit);
+  justify-content: start;
+  align-items: baseline;
+
+  margin: 0;
+}
+
+.button {
+  margin-top: auto;
+}

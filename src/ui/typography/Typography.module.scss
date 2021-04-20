@@ -2,9 +2,9 @@
 @use "../../helper/style/media";
 
 .primary {
-  font-family: "Roboto", sans-serif;
+  font-family: var(--primary-font);
 }
 
 .secondary {
-  font-family: "Work Sans", sans-serif;
+  font-family: var(--secondary-font);
 }

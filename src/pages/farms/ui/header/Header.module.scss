@@ -1,0 +1,33 @@
+@use "../../../../helper/style/mixin";
+@use "../../../../helper/style/media";
+
+.component {
+  position: relative;
+
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 6.5);
+}
+
+.back {
+  position: absolute;
+  left: calc(var(--spacing-unit) * 6.5);
+  top: 50%;
+
+  transform: translateY(-50%);
+}
+
+.action {
+  color: rgba(var(--text), 0.8);
+}
+
+.title {
+  margin: 0;
+
+  font-size: 1.625rem;
+  font-weight: var(--medium);
+  color: rgba(var(--text), 1);
+}
