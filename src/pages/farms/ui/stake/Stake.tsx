@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import styles from "./Stake.module.scss";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import { Header } from "../header";
 import { Content } from "../content";
 import { Button } from "../../../../ui/button";
@@ -13,6 +13,17 @@ import { FailedPopUp } from "../failed";
 import { SuccessPopUp } from "../success";
 import { useControlPopUp } from "../../../../ui/pop-up-container";
 import { Spinner } from "../../../../ui/spinner";
+import { getStakeAddress, stake, useContract } from "../../../../web3/farms-contract";
+import {
+	getApproval,
+	getLPAddress,
+	useContract as useLpContract,
+} from "../../../../web3/lp-contract";
+import { useWeb3, useWeb3Provider } from "../../../../web3/web3";
+import { useWeb3React } from "@web3-react/core";
+import { Contract } from "web3-eth-contract";
+import { getMyClaim } from "../../../../web3/airdrop-contract";
+import { chains } from "ethereumjs-common/dist/chains";
 
 enum OPERATION {
 	default = "",
@@ -21,21 +32,47 @@ enum OPERATION {
 	failed = "failed",
 }
 
+const fetchInformation = async (contract: Contract, ethereumAddress: string, chainId: number) => {
+	return await getApproval(contract, ethereumAddress, chainId);
+};
+
 export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
+	const [approved, setApproved] = useState<boolean>(false);
 	const [balance, setBalance] = useState<number>(100);
 	const [stakedAmount, setStakedAmount] = useState<number>(100);
 
 	const [operation, setOperation] = useState<OPERATION>(OPERATION.default);
 
+	const provider = useWeb3Provider();
+	const { active, account, chainId } = useWeb3React();
+	const contract = useContract(provider, chainId);
+	const lpContract = useLpContract(provider, chainId);
+
+	const updateData = useCallback(async () => {
+		const myApproval = await fetchInformation(lpContract, account, chainId);
+
+		setApproved(myApproval);
+	}, [lpContract, chainId, contract]);
+
+	useEffect(() => {
+		const tm = setInterval(updateData, 60000);
+		return () => clearInterval(tm);
+	}, [contract, updateData]);
+
+	useEffect(() => {
+		if (active) {
+			updateData();
+		}
+	}, [active, updateData]);
+
 	const stakeAction = async () => {
 		try {
 			setOperation(OPERATION.loading);
-			// const claimResult = await claimTokens(contract, userInfo.address, userInfo.signature);
-			// console.log(claimResult);
-
-			setTimeout(() => setOperation(OPERATION.completed), 10000);
+			const stakeResult = await stake(contract, 1, account);
+			console.log(stakeResult);
+			setOperation(OPERATION.completed);
 		} catch (e) {
-			// console.error(e);
+			console.error(e);
 			setOperation(OPERATION.failed);
 		} finally {
 			// close modal
@@ -66,6 +103,11 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 			<div className={styles.component}>
 				<Header title="Stake LPT" onBack={onBack} />
 				<Content className={styles.content}>
+					{chainId}
+					<br />
+					{getLPAddress(chainId)}
+					<br />
+					{getStakeAddress(chainId)}
 					<Form
 						noValidate
 						onSubmit={stakeAction}
@@ -102,6 +144,7 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 									variant="contained"
 									color="pink"
 									size="large"
+									disabled={!approved}
 									submit
 								>
 									{operation === OPERATION.loading && (

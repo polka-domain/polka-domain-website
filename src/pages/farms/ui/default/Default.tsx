@@ -1,10 +1,21 @@
 import classNames from "classnames";
 import styles from "./Default.module.scss";
-import { FC, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { Body1, Body2 } from "../../../../ui/typography/Typography";
 import { NAME } from "../../../../const/const";
 import { Button } from "../../../../ui/button";
 import { getConvertedAmount } from "../../utils/converted-amount";
+import { Contract } from "web3-eth-contract";
+import Web3 from "web3";
+import {
+	useContract,
+	getAPYInfo,
+	getRewardInfo,
+	getBalanceInfo,
+} from "../../../../web3/farms-contract";
+import { useWeb3, useWeb3Provider } from "../../../../web3/web3";
+import { useWeb3React } from "@web3-react/core";
+import { fromWei, toBN } from "web3-utils";
 
 type DefaultType = {
 	onClaim(): void;
@@ -12,16 +23,58 @@ type DefaultType = {
 	onUnStake(): void;
 };
 
+const fetchInformation = async (contract: Contract, web3: Web3, ethereumAddress: string) => {
+	const pAPYInfo = getAPYInfo(contract);
+	const pReward = getRewardInfo(contract, ethereumAddress);
+	const pBalance = getBalanceInfo(contract, ethereumAddress);
+
+	const [apyInfo, reward, balance] = await Promise.all([pAPYInfo, pReward, pBalance]);
+	return {
+		apyInfo,
+		reward,
+		balance,
+	};
+};
+
 export const Default: FC<DefaultType> = ({ onClaim, onStake, onUnStake }) => {
 	const currency = "LPT";
 
-	const [percentage, setPercentage] = useState<number>(100);
+	const [percentage, setPercentage] = useState<number>(0);
 	const [option, setOption] = useState<number>(0);
 	const [totalStake, setTotalStake] = useState<number>(0);
 	const [totalRewards, setTotalRewards] = useState<number>(0);
 
 	const [stake, setStake] = useState<number>(0);
 	const [balance, setBalance] = useState<number>(0);
+
+	const provider = useWeb3Provider();
+	const { active, account: ethereumAddress, chainId } = useWeb3React();
+	const web3 = useWeb3();
+	const contract = useContract(provider, chainId);
+
+	const updateData = useCallback(async () => {
+		if (!contract) {
+			return;
+		}
+		const { apyInfo, reward, balance } = await fetchInformation(contract, web3, ethereumAddress);
+
+		setPercentage(apyInfo);
+		setOption(reward);
+		setStake(balance);
+
+		console.log("Bla bla:", reward);
+	}, [contract, ethereumAddress, web3]);
+
+	useEffect(() => {
+		const tm = setInterval(updateData, 60000);
+		return () => clearInterval(tm);
+	}, [contract, updateData]);
+
+	useEffect(() => {
+		if (active) {
+			updateData();
+		}
+	}, [active, updateData]);
 
 	return (
 		<>
