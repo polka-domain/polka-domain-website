@@ -12,3 +12,7 @@ export function isValidEmail(value: string): string | undefined {
 export function isValidUsername(value: string): string | undefined {
 	return value.startsWith("@") ? undefined : "Start your input with @";
 }
+
+export function isDecimalNumber(value: string): string | undefined {
+	return value.match(/[^\d^.]/) ? "Should be a number" : undefined;
+}

@@ -5,8 +5,8 @@ import { Header } from "../header";
 import { Content } from "../content";
 import { Button } from "../../../../ui/button";
 import { Input } from "../../../../ui/input";
-import { Form } from "react-final-form";
-import { isRequired } from "../../../../utils/page/validation";
+import { Form, FormProps } from "react-final-form";
+import { composeValidators, isDecimalNumber, isRequired } from "../../../../utils/page/validation";
 import { Body3 } from "../../../../ui/typography";
 import { getConvertedAmount } from "../../utils/converted-amount";
 import { FailedPopUp } from "../failed";
@@ -65,17 +65,34 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 		}
 	}, [active, updateData]);
 
-	const stakeAction = async () => {
-		try {
-			setOperation(OPERATION.loading);
-			const stakeResult = await stake(contract, 1, account);
-			console.log(stakeResult);
-			setOperation(OPERATION.completed);
-		} catch (e) {
-			console.error(e);
-			setOperation(OPERATION.failed);
-		} finally {
-			// close modal
+	const [lastOperation, setLastOperation] = useState<(() => void) | null>(null);
+
+	const stakeAction: FormProps["onSubmit"] = async (values) => {
+		const operation = async () => {
+			try {
+				setOperation(OPERATION.loading);
+				const stakeResult = await stake(contract, values.amount, account);
+				console.log(stakeResult);
+				setOperation(OPERATION.completed);
+				setLastOperation(null);
+			} catch (e) {
+				console.error(e);
+				setOperation(OPERATION.failed);
+				return {
+					// report to final form
+					error: "error",
+				};
+			} finally {
+				// close modal
+			}
+		};
+		setLastOperation(() => operation);
+		return operation();
+	};
+
+	const tryAgain = () => {
+		if (lastOperation) {
+			lastOperation();
 		}
 	};
 
@@ -95,19 +112,16 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 	useEffect(() => {
 		if (operation === OPERATION.failed) {
 			failedOpen();
+		} else {
+			failedClose();
 		}
-	}, [operation, failedOpen]);
+	}, [operation, failedOpen, failedClose]);
 
 	return (
 		<>
 			<div className={styles.component}>
 				<Header title="Stake LPT" onBack={onBack} />
 				<Content className={styles.content}>
-					{chainId}
-					<br />
-					{getLPAddress(chainId)}
-					<br />
-					{getStakeAddress(chainId)}
 					<Form
 						noValidate
 						onSubmit={stakeAction}
@@ -124,7 +138,7 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 									type="text"
 									required
 									placeholder="Enter Amount"
-									validate={isRequired}
+									validate={composeValidators(isRequired, isDecimalNumber)}
 									after={
 										<Body3 className={styles.max} Component="span" color="pink">
 											Max
@@ -158,7 +172,7 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 				</Content>
 			</div>
 			{failedPopUp.defined ? (
-				<FailedPopUp control={failedPopUp} close={failedClose} onClick={stakeAction} />
+				<FailedPopUp control={failedPopUp} close={failedClose} onClick={tryAgain} />
 			) : null}
 			{successPopUp.defined ? (
 				<SuccessPopUp

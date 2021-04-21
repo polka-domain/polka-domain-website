@@ -1,7 +1,7 @@
 import { MAINNET_STAKE_ADDRESS, TESTED_STAKE_ADDRESS } from "../const/const";
 import Contract, { Contract as ContractType } from "web3-eth-contract";
 import StakingPool from "./tokens/StakingPool.json";
-import { AbiItem } from "web3-utils";
+import { AbiItem, toWei } from "web3-utils";
 import { useMemo } from "react";
 
 export const getStakeAddress = (chainId: number) => {
@@ -15,7 +15,7 @@ export const getStakeAddress = (chainId: number) => {
 	}
 };
 
-export const factoryContract = (provider: string, chainId: number): ContractType => {
+const factoryContract = (provider: string, chainId: number): ContractType => {
 	// @ts-ignore
 	const poolContract = new Contract(StakingPool.abi as AbiItem[], getStakeAddress(chainId));
 	if (provider) {
@@ -25,7 +25,7 @@ export const factoryContract = (provider: string, chainId: number): ContractType
 };
 
 export const useContract = (provider?: string, chainId?: number) => {
-	return useMemo(() => factoryContract(provider, chainId), [provider]);
+	return useMemo(() => factoryContract(provider, chainId), [chainId, provider]);
 };
 
 export const getAPYInfo = (contract: ContractType): Promise<any> => {
@@ -44,8 +44,8 @@ export const claimRewards = async (contract: ContractType, address: string) => {
 	return contract.methods.getReward().send({ from: address });
 };
 
-export const stake = async (contract: ContractType, amount: number, address: string) => {
-	return contract.methods.stake(amount).send({ from: address });
+export const stake = async (contract: ContractType, amount: string, address: string) => {
+	return contract.methods.stake(toWei(amount)).send({ from: address });
 };
 
 export const withdraw = async (contract: ContractType, amount: number, address: string) => {

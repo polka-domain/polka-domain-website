@@ -23,10 +23,15 @@ type DefaultType = {
 	onUnStake(): void;
 };
 
+const traceable = <T extends unknown>(name: string, x: Promise<T>): Promise<T> => {
+	x.catch((e) => console.error(`${name} failed`, e));
+	return x;
+};
+
 const fetchInformation = async (contract: Contract, web3: Web3, ethereumAddress: string) => {
-	const pAPYInfo = getAPYInfo(contract);
-	const pReward = getRewardInfo(contract, ethereumAddress);
-	const pBalance = getBalanceInfo(contract, ethereumAddress);
+	const pAPYInfo = Promise.resolve(42); //traceable("getAPYInfo", getAPYInfo(contract));
+	const pReward = traceable("getRewardInfo", getRewardInfo(contract, ethereumAddress));
+	const pBalance = traceable("getBalanceInfo", getBalanceInfo(contract, ethereumAddress));
 
 	const [apyInfo, reward, balance] = await Promise.all([pAPYInfo, pReward, pBalance]);
 	return {
@@ -56,13 +61,15 @@ export const Default: FC<DefaultType> = ({ onClaim, onStake, onUnStake }) => {
 		if (!contract) {
 			return;
 		}
-		const { apyInfo, reward, balance } = await fetchInformation(contract, web3, ethereumAddress);
+		try {
+			const { apyInfo, reward, balance } = await fetchInformation(contract, web3, ethereumAddress);
 
-		setPercentage(apyInfo);
-		setOption(reward);
-		setStake(balance);
-
-		console.log("Bla bla:", reward);
+			setPercentage(apyInfo);
+			setOption(+reward);
+			setStake(+balance);
+		} catch (e) {
+			console.error("failed to update data", e);
+		}
 	}, [contract, ethereumAddress, web3]);
 
 	useEffect(() => {
