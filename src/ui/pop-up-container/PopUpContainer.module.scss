@@ -56,7 +56,9 @@
 .container {
   position: relative;
 
+  width: 100%;
   max-height: calc(86vh - 2.5rem);
+  margin: 0 auto;
 
   border: 1px solid rgba(var(--pink), 1);
   border-radius: 3.0625rem;
@@ -77,6 +79,10 @@
 
 .sm {
   grid-column: 5/11;
+}
+
+.lg {
+  grid-column: 3/13;
 }
 
 .header {

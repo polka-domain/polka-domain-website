@@ -2,7 +2,9 @@
 @use "../../../../helper/style/media";
 
 .component {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 
   border: 2px solid #E6E6E6;
   border-radius: 3rem;

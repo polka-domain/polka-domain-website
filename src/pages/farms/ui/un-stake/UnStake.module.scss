@@ -2,14 +2,15 @@
 @use "../../../../helper/style/media";
 
 .component {
-  display: grid;
-  grid-template-rows: auto 1fr;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .content {
-  display: grid;
-  grid-template-rows: auto auto;
-  align-content: space-between;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 
   padding-top: calc(var(--spacing-unit) * 6);
 }
@@ -45,4 +46,12 @@
 .description span {
   font-size: 1.25rem;
   color: rgba(var(--text), 1);
+}
+
+.button {
+  margin-top: auto;
+}
+
+.spinner {
+  margin-right: var(--spacing-unit);
 }

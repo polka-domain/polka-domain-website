@@ -15,6 +15,8 @@ type InputType = {
 	initialValue?: any;
 	required?: boolean;
 	validate?: (value: string) => any;
+	before?: string | ReactNode;
+	after?: string | ReactNode;
 };
 
 export const Input: FC<InputType & MaybeWithClassName> = ({
@@ -27,22 +29,35 @@ export const Input: FC<InputType & MaybeWithClassName> = ({
 	initialValue,
 	required,
 	validate,
+	before,
+	after,
 }) => {
 	return (
 		<Field name={name} initialValue={initialValue} validate={validate}>
 			{({ input, meta }) => (
 				<div className={classNames(className, styles.component)}>
-					<label className={styles.label}>
-						{label}
-						<input
-							{...input}
-							className={styles.input}
-							type={type}
-							placeholder={placeholder}
-							readOnly={readOnly}
-							required={required}
-						/>
-					</label>
+					<div className={styles.field}>
+						<label htmlFor={name}>{label}</label>
+						<div
+							className={classNames(
+								styles.input,
+								before && styles.before,
+								after && styles.after,
+								before && after && styles.beforeAndAfter
+							)}
+						>
+							{before}
+							<input
+								{...input}
+								id={name}
+								type={type}
+								placeholder={placeholder}
+								readOnly={readOnly}
+								required={required}
+							/>
+							{after}
+						</div>
+					</div>
 					<div className={styles.error}>
 						{meta.error && meta.touched && <TextColor color="pink">{meta.error}</TextColor>}
 						{meta.submitError && <TextColor color="pink">{meta.submitError}</TextColor>}

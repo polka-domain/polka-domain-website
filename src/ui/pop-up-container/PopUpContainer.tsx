@@ -21,6 +21,7 @@ type PopUpContainerType = {
 	size: "sm" | "lg";
 	withoutClose?: boolean;
 	focusLock?: boolean;
+	maxWidth?: number;
 	onClose(): void;
 };
 
@@ -57,6 +58,7 @@ export const PopUpContainer: FC<ComponentType & MaybeWithClassName> = ({
 	size,
 	withoutClose,
 	focusLock,
+	maxWidth,
 }) => {
 	const windowHeight = useWindowSize()[1];
 
@@ -85,7 +87,10 @@ export const PopUpContainer: FC<ComponentType & MaybeWithClassName> = ({
 						onClick={onClose}
 						style={{ "--window-height": `${windowHeight}px` } as CSSProperties}
 					>
-						<div className={classNames(styles.container, styles[size])}>
+						<div
+							className={classNames(styles.container, styles[size])}
+							style={{ maxWidth: maxWidth ? `${maxWidth / 16}rem` : "none" }}
+						>
 							<div className={styles.header}>
 								<Logo className={styles.logo} />
 								{!withoutClose && (
