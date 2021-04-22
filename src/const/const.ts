@@ -41,6 +41,7 @@ export const PROVIDER_POLLING_INTERVAL = 12000;
 export const RPC_URLS = {
 	1: "https://eth-mainnet.alchemyapi.io/v2/JM8nesyHFYIHF6vWjCORATB9NUpCsXVH",
 	4: "https://eth-rinkeby.alchemyapi.io/v2/BOMvDIMuDKSqyJ6eGwOXRbUEVwtmP2yK",
+	56: "https://bsc-dataseed.binance.org",
 };
 
 export const NAME = "NAME";
