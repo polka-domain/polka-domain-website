@@ -2,8 +2,9 @@
 @use "../../../../helper/style/media";
 
 .component {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .header {
