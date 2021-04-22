@@ -66,17 +66,30 @@ export const UnStake: FC<{ onBack(): void }> = ({ onBack }) => {
 
 	const [operation, setOperation] = useState<OPERATION>(OPERATION.default);
 
+	const [lastOperation, setLastOperation] = useState<(() => void) | null>(null);
+
 	const unStakeAction = async () => {
-		try {
-			setOperation(OPERATION.loading);
-			const unStakeResult = await withdraw(contract, unclaimedAmount, account);
-			console.log(unStakeResult);
-			setOperation(OPERATION.completed);
-		} catch (e) {
-			console.error(e);
-			setOperation(OPERATION.failed);
-		} finally {
-			// close modal
+		const operation = async () => {
+			try {
+				setOperation(OPERATION.loading);
+				const unStakeResult = await withdraw(contract, unclaimedAmount, account);
+				console.log(unStakeResult);
+				setOperation(OPERATION.completed);
+				setLastOperation(null);
+			} catch (e) {
+				console.error("failed to withdraw", e);
+				setOperation(OPERATION.failed);
+			} finally {
+				// close modal
+			}
+		};
+		setLastOperation(() => operation);
+		return operation();
+	};
+
+	const tryAgainAction = () => {
+		if (lastOperation) {
+			lastOperation();
 		}
 	};
 
@@ -96,8 +109,10 @@ export const UnStake: FC<{ onBack(): void }> = ({ onBack }) => {
 	useEffect(() => {
 		if (operation === OPERATION.failed) {
 			failedOpen();
+		} else {
+			failedClose();
 		}
-	}, [operation, failedOpen]);
+	}, [operation, failedOpen, failedClose]);
 
 	return (
 		<>
@@ -133,7 +148,7 @@ export const UnStake: FC<{ onBack(): void }> = ({ onBack }) => {
 				</Content>
 			</div>
 			{failedPopUp.defined ? (
-				<FailedPopUp control={failedPopUp} close={failedClose} onClick={unStakeAction} />
+				<FailedPopUp control={failedPopUp} close={failedClose} onClick={tryAgainAction} />
 			) : null}
 			{successPopUp.defined ? (
 				<SuccessPopUp

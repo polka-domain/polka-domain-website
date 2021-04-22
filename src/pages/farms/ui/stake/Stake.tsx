@@ -35,20 +35,15 @@ enum OPERATION {
 	failed = "failed",
 }
 
-const traceable = <T extends unknown>(name: string, x: Promise<T>): Promise<T> => {
-	x.catch((e) => console.error(`${name} failed`, e));
-	return x;
-};
-
 const fetchInformation = async (
 	contract: Contract,
 	lpContract: Contract,
 	account: string,
 	chainId: number
 ) => {
-	const pApprovedAmount = traceable("getAPYInfo", getApprovedAmount(lpContract, account, chainId));
-	const pBalance = traceable("getBalanceInfo", getMyBalance(lpContract, account));
-	const pStakedAmount = traceable("getBalanceInfo", getBalanceInfo(contract, account));
+	const pApprovedAmount = getApprovedAmount(lpContract, account, chainId);
+	const pBalance = getMyBalance(lpContract, account);
+	const pStakedAmount = getBalanceInfo(contract, account);
 
 	const [approvedAmount, balance, stakedAmount] = await Promise.all([
 		pApprovedAmount,
@@ -175,7 +170,7 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 				setOperation(OPERATION.completed);
 				setLastOperation(null);
 			} catch (e) {
-				console.error(e);
+				console.error("failed to stake", e);
 				setOperation(OPERATION.failed);
 				return {
 					// report to final form
