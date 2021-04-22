@@ -3,6 +3,7 @@ import Contract, { Contract as ContractType } from "web3-eth-contract";
 import StakingPool from "./tokens/StakingPool.json";
 import { AbiItem, toWei } from "web3-utils";
 import { useMemo } from "react";
+import Web3 from "web3";
 
 export const getStakeAddress = (chainId: number) => {
 	switch (chainId) {

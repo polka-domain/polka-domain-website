@@ -3,6 +3,7 @@ import Contract, { Contract as ContractType } from "web3-eth-contract";
 import IERC from "./tokens/IERC20.json";
 import { AbiItem, toWei } from "web3-utils";
 import { useMemo } from "react";
+import Web3 from "web3";
 
 export const getLPAddress = (chainId: number) => {
 	switch (chainId) {
@@ -28,7 +29,11 @@ export const useContract = (provider?: string, chainId?: number) => {
 	return useMemo(() => factoryContract(provider, chainId), [provider]);
 };
 
-export const getApprovedAmount = (contract: ContractType, account: string, chainId: number) => {
+export const getApprovedAmount = (
+	contract: ContractType,
+	account: string,
+	chainId: number
+): Promise<string> => {
 	return contract.methods.allowance(account, getLPAddress(chainId)).call();
 };
 
@@ -39,4 +44,8 @@ export const approve = async (
 	chainId: number
 ) => {
 	return contract.methods.approve(getLPAddress(chainId), toWei(amount)).send({ from: account });
+};
+
+export const getMyBalance = (web3: Web3, address: string): Promise<string> => {
+	return web3.eth.getBalance(address);
 };

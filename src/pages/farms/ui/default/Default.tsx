@@ -15,7 +15,7 @@ import {
 } from "../../../../web3/farms-contract";
 import { useWeb3, useWeb3Provider } from "../../../../web3/web3";
 import { useWeb3React } from "@web3-react/core";
-import { fromWei, toBN, toWei } from "web3-utils";
+import { fromWei } from "web3-utils";
 
 type DefaultType = {
 	onClaim(): void;
@@ -29,7 +29,7 @@ const traceable = <T extends unknown>(name: string, x: Promise<T>): Promise<T> =
 };
 
 const fetchInformation = async (contract: Contract, web3: Web3, ethereumAddress: string) => {
-	const pAPYInfo = Promise.resolve(42); //traceable("getAPYInfo", getAPYInfo(contract));
+	const pAPYInfo = traceable("getAPYInfo", getAPYInfo(contract));
 	const pReward = traceable("getRewardInfo", getRewardInfo(contract, ethereumAddress));
 	const pBalance = traceable("getBalanceInfo", getBalanceInfo(contract, ethereumAddress));
 

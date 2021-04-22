@@ -17,13 +17,15 @@ import { stake, useContract } from "../../../../web3/farms-contract";
 import {
 	approve,
 	getApprovedAmount,
+	getMyBalance,
 	useContract as useLpContract,
 } from "../../../../web3/lp-contract";
-import { useWeb3Provider } from "../../../../web3/web3";
+import { useWeb3, useWeb3Provider } from "../../../../web3/web3";
 import { useWeb3React } from "@web3-react/core";
 import { Contract } from "web3-eth-contract";
 import BigNumber from "bn.js";
-import { toWei } from "web3-utils";
+import { fromWei, toWei } from "web3-utils";
+import Web3 from "web3";
 
 enum OPERATION {
 	default = "",
@@ -34,26 +36,58 @@ enum OPERATION {
 	failed = "failed",
 }
 
-const fetchInformation = async (contract: Contract, account: string, chainId: number) => {
-	return await getApprovedAmount(contract, account, chainId);
+const traceable = <T extends unknown>(name: string, x: Promise<T>): Promise<T> => {
+	x.catch((e) => console.error(`${name} failed`, e));
+	return x;
+};
+
+const fetchInformation = async (
+	contract: Contract,
+	web3: Web3,
+	account: string,
+	chainId: number
+) => {
+	const pApprovedAmount = traceable("getAPYInfo", getApprovedAmount(contract, account, chainId));
+	const pBalance = traceable("getBalance", getMyBalance(web3, account));
+
+	const [approvedAmount, balance] = await Promise.all([pApprovedAmount, pBalance]);
+	return {
+		approvedAmount,
+		balance,
+	};
 };
 
 export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
-	const [approvedAmount, setApprovedAmount] = useState<string>("");
-	const [balance, setBalance] = useState<number>(100);
+	const [approvedAmount, setApprovedAmount] = useState<string>("0");
+	const [balance, setBalance] = useState<string>("0");
 	const [stakedAmount, setStakedAmount] = useState<number>(100);
 
 	const [operation, setOperation] = useState<OPERATION>(OPERATION.default);
 
 	const provider = useWeb3Provider();
 	const { active, account, chainId } = useWeb3React();
+	const web3 = useWeb3();
 	const contract = useContract(provider, chainId);
 	const lpContract = useLpContract(provider, chainId);
 
 	const updateData = useCallback(async () => {
-		const myApprovedAmount = await fetchInformation(lpContract, account, chainId);
-		setApprovedAmount(myApprovedAmount);
-	}, [lpContract, account, chainId]);
+		if (!lpContract) {
+			return;
+		}
+		try {
+			const { approvedAmount, balance } = await fetchInformation(
+				lpContract,
+				web3,
+				account,
+				chainId
+			);
+
+			setApprovedAmount(approvedAmount);
+			setBalance(fromWei(balance));
+		} catch (e) {
+			console.error("failed to update data", e);
+		}
+	}, [lpContract, web3, account, chainId]);
 
 	useEffect(() => {
 		const tm = setInterval(updateData, 60000);
