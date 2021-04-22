@@ -34,7 +34,7 @@ export const getAPYInfo = (contract: ContractType): Promise<any> => {
 };
 
 export const getRewardInfo = (contract: ContractType, address: string): Promise<any> => {
-	return contract.methods.rewards(address).call();
+	return contract.methods.earned(address).call();
 };
 
 export const getBalanceInfo = (contract: ContractType, address: string): Promise<any> => {
