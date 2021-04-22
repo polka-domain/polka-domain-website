@@ -48,6 +48,6 @@ export const stake = async (contract: ContractType, amount: string, address: str
 	return contract.methods.stake(toWei(amount)).send({ from: address });
 };
 
-export const withdraw = async (contract: ContractType, amount: number, address: string) => {
-	return contract.methods.withdraw(amount).send({ from: address });
+export const withdraw = async (contract: ContractType, amount: string, address: string) => {
+	return contract.methods.withdraw(toWei(amount)).send({ from: address });
 };

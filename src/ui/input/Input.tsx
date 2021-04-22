@@ -17,6 +17,7 @@ type InputType = {
 	validate?: (value: string) => any;
 	before?: string | ReactNode;
 	after?: string | ReactNode;
+	value?: any;
 };
 
 export const Input: FC<InputType & MaybeWithClassName> = ({
@@ -31,9 +32,10 @@ export const Input: FC<InputType & MaybeWithClassName> = ({
 	validate,
 	before,
 	after,
+	value,
 }) => {
 	return (
-		<Field name={name} initialValue={initialValue} validate={validate}>
+		<Field name={name} initialValue={initialValue} validate={validate} value={value}>
 			{({ input, meta }) => (
 				<div className={classNames(className, styles.component)}>
 					<div className={styles.field}>

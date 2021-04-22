@@ -1,7 +1,7 @@
 import { MAINNET_LP_ADDRESS, TESTED_LP_ADDRESS } from "../const/const";
 import Contract, { Contract as ContractType } from "web3-eth-contract";
 import IERC from "./tokens/IERC20.json";
-import { AbiItem } from "web3-utils";
+import { AbiItem, toWei } from "web3-utils";
 import { useMemo } from "react";
 
 export const getLPAddress = (chainId: number) => {
@@ -28,15 +28,15 @@ export const useContract = (provider?: string, chainId?: number) => {
 	return useMemo(() => factoryContract(provider, chainId), [provider]);
 };
 
-export const getApproval = (contract: ContractType, address: string, chainId: number) => {
-	return contract.methods.allowance(address, getLPAddress(chainId)).call();
+export const getApprovedAmount = (contract: ContractType, account: string, chainId: number) => {
+	return contract.methods.allowance(account, getLPAddress(chainId)).call();
 };
 
 export const approve = async (
 	contract: ContractType,
-	amount: number,
-	address: string,
+	amount: string,
+	account: string,
 	chainId: number
 ) => {
-	return contract.methods.approve(getLPAddress(chainId), amount).send({ from: address });
+	return contract.methods.approve(getLPAddress(chainId), toWei(amount)).send({ from: account });
 };

@@ -15,7 +15,7 @@ import {
 } from "../../../../web3/farms-contract";
 import { useWeb3, useWeb3Provider } from "../../../../web3/web3";
 import { useWeb3React } from "@web3-react/core";
-import { fromWei, toBN } from "web3-utils";
+import { fromWei, toBN, toWei } from "web3-utils";
 
 type DefaultType = {
 	onClaim(): void;
@@ -45,12 +45,12 @@ export const Default: FC<DefaultType> = ({ onClaim, onStake, onUnStake }) => {
 	const currency = "LPT";
 
 	const [percentage, setPercentage] = useState<number>(0);
-	const [option, setOption] = useState<number>(0);
-	const [totalStake, setTotalStake] = useState<number>(0);
-	const [totalRewards, setTotalRewards] = useState<number>(0);
+	const [option, setOption] = useState<string>("0");
+	const [totalStake, setTotalStake] = useState<string>("0");
+	const [totalRewards, setTotalRewards] = useState<string>("0");
 
-	const [stake, setStake] = useState<number>(0);
-	const [balance, setBalance] = useState<number>(0);
+	const [stake, setStake] = useState<string>("0");
+	const [balance, setBalance] = useState<string>("0");
 
 	const provider = useWeb3Provider();
 	const { active, account: ethereumAddress, chainId } = useWeb3React();
@@ -65,8 +65,8 @@ export const Default: FC<DefaultType> = ({ onClaim, onStake, onUnStake }) => {
 			const { apyInfo, reward, balance } = await fetchInformation(contract, web3, ethereumAddress);
 
 			setPercentage(apyInfo);
-			setOption(+reward);
-			setStake(+balance);
+			setOption(fromWei(reward));
+			setStake(fromWei(balance));
 		} catch (e) {
 			console.error("failed to update data", e);
 		}

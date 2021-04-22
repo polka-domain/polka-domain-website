@@ -1,3 +1,3 @@
-export const getConvertedAmount = (amount: number) => {
-	return amount.toFixed(2);
+export const getConvertedAmount = (amount: string) => {
+	return parseFloat(amount).toFixed(2);
 };
