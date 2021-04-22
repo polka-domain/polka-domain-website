@@ -6,16 +6,16 @@ import { NAME } from "../../../../const/const";
 import { Button } from "../../../../ui/button";
 import { getConvertedAmount } from "../../utils/converted-amount";
 import { Contract } from "web3-eth-contract";
-import Web3 from "web3";
 import {
 	useContract,
 	getAPYInfo,
 	getRewardInfo,
 	getBalanceInfo,
 } from "../../../../web3/farms-contract";
-import { useWeb3, useWeb3Provider } from "../../../../web3/web3";
+import { useWeb3Provider } from "../../../../web3/web3";
 import { useWeb3React } from "@web3-react/core";
 import { fromWei } from "web3-utils";
+import { getMyBalance, useContract as useLpContract } from "../../../../web3/lp-contract";
 
 type DefaultType = {
 	onClaim(): void;
@@ -28,15 +28,22 @@ const traceable = <T extends unknown>(name: string, x: Promise<T>): Promise<T> =
 	return x;
 };
 
-const fetchInformation = async (contract: Contract, web3: Web3, ethereumAddress: string) => {
-	const pAPYInfo = traceable("getAPYInfo", getAPYInfo(contract));
-	const pReward = traceable("getRewardInfo", getRewardInfo(contract, ethereumAddress));
-	const pBalance = traceable("getBalanceInfo", getBalanceInfo(contract, ethereumAddress));
+const fetchInformation = async (contract: Contract, lpContract: Contract, account: string) => {
+	const pAPYInfo = Promise.resolve(42); //traceable("getAPYInfo", getAPYInfo(contract));
+	const pReward = getRewardInfo(contract, account);
+	const pStakedAmount = getBalanceInfo(contract, account);
+	const pBalance = getMyBalance(lpContract, account);
 
-	const [apyInfo, reward, balance] = await Promise.all([pAPYInfo, pReward, pBalance]);
+	const [apyInfo, reward, stakedAmount, balance] = await Promise.all([
+		pAPYInfo,
+		pReward,
+		pStakedAmount,
+		pBalance,
+	]);
 	return {
 		apyInfo,
 		reward,
+		stakedAmount,
 		balance,
 	};
 };
@@ -53,24 +60,33 @@ export const Default: FC<DefaultType> = ({ onClaim, onStake, onUnStake }) => {
 	const [balance, setBalance] = useState<string>("0");
 
 	const provider = useWeb3Provider();
-	const { active, account: ethereumAddress, chainId } = useWeb3React();
-	const web3 = useWeb3();
+	const { active, account, chainId } = useWeb3React();
 	const contract = useContract(provider, chainId);
+	const lpContract = useLpContract(provider, chainId);
 
 	const updateData = useCallback(async () => {
+		if (!lpContract) {
+			return;
+		}
 		if (!contract) {
 			return;
 		}
 		try {
-			const { apyInfo, reward, balance } = await fetchInformation(contract, web3, ethereumAddress);
+			const { apyInfo, reward, stakedAmount, balance } = await fetchInformation(
+				contract,
+				lpContract,
+				account
+			);
 
 			setPercentage(apyInfo);
 			setOption(fromWei(reward));
-			setStake(fromWei(balance));
+			setStake(fromWei(stakedAmount));
+			setTotalStake(fromWei(stakedAmount));
+			setBalance(fromWei(balance));
 		} catch (e) {
 			console.error("failed to update data", e);
 		}
-	}, [contract, ethereumAddress, web3]);
+	}, [contract, account, lpContract]);
 
 	useEffect(() => {
 		const tm = setInterval(updateData, 60000);

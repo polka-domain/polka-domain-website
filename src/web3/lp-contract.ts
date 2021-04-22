@@ -4,6 +4,7 @@ import IERC from "./tokens/IERC20.json";
 import { AbiItem, toWei } from "web3-utils";
 import { useMemo } from "react";
 import Web3 from "web3";
+import { getStakeAddress } from "./farms-contract";
 
 export const getLPAddress = (chainId: number) => {
 	switch (chainId) {
@@ -34,7 +35,7 @@ export const getApprovedAmount = (
 	account: string,
 	chainId: number
 ): Promise<string> => {
-	return contract.methods.allowance(account, getLPAddress(chainId)).call();
+	return contract.methods.allowance(account, getStakeAddress(chainId)).call();
 };
 
 export const approve = async (
@@ -43,9 +44,9 @@ export const approve = async (
 	account: string,
 	chainId: number
 ) => {
-	return contract.methods.approve(getLPAddress(chainId), toWei(amount)).send({ from: account });
+	return contract.methods.approve(getStakeAddress(chainId), toWei(amount)).send({ from: account });
 };
 
-export const getMyBalance = (web3: Web3, address: string): Promise<string> => {
-	return web3.eth.getBalance(address);
+export const getMyBalance = (contract: ContractType, address: string): Promise<any> => {
+	return contract.methods.balanceOf(address).call();
 };

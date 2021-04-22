@@ -13,19 +13,18 @@ import { FailedPopUp } from "../failed";
 import { SuccessPopUp } from "../success";
 import { useControlPopUp } from "../../../../ui/pop-up-container";
 import { Spinner } from "../../../../ui/spinner";
-import { stake, useContract } from "../../../../web3/farms-contract";
+import { getBalanceInfo, stake, useContract } from "../../../../web3/farms-contract";
 import {
 	approve,
 	getApprovedAmount,
 	getMyBalance,
 	useContract as useLpContract,
 } from "../../../../web3/lp-contract";
-import { useWeb3, useWeb3Provider } from "../../../../web3/web3";
+import { useWeb3Provider } from "../../../../web3/web3";
 import { useWeb3React } from "@web3-react/core";
 import { Contract } from "web3-eth-contract";
 import BigNumber from "bn.js";
 import { fromWei, toWei } from "web3-utils";
-import Web3 from "web3";
 
 enum OPERATION {
 	default = "",
@@ -43,30 +42,35 @@ const traceable = <T extends unknown>(name: string, x: Promise<T>): Promise<T> =
 
 const fetchInformation = async (
 	contract: Contract,
-	web3: Web3,
+	lpContract: Contract,
 	account: string,
 	chainId: number
 ) => {
-	const pApprovedAmount = traceable("getAPYInfo", getApprovedAmount(contract, account, chainId));
-	const pBalance = traceable("getBalance", getMyBalance(web3, account));
+	const pApprovedAmount = traceable("getAPYInfo", getApprovedAmount(lpContract, account, chainId));
+	const pBalance = traceable("getBalanceInfo", getMyBalance(lpContract, account));
+	const pStakedAmount = traceable("getBalanceInfo", getBalanceInfo(contract, account));
 
-	const [approvedAmount, balance] = await Promise.all([pApprovedAmount, pBalance]);
+	const [approvedAmount, balance, stakedAmount] = await Promise.all([
+		pApprovedAmount,
+		pBalance,
+		pStakedAmount,
+	]);
 	return {
 		approvedAmount,
 		balance,
+		stakedAmount,
 	};
 };
 
 export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 	const [approvedAmount, setApprovedAmount] = useState<string>("0");
 	const [balance, setBalance] = useState<string>("0");
-	const [stakedAmount, setStakedAmount] = useState<number>(100);
+	const [stakedAmount, setStakedAmount] = useState<string>("0");
 
 	const [operation, setOperation] = useState<OPERATION>(OPERATION.default);
 
 	const provider = useWeb3Provider();
 	const { active, account, chainId } = useWeb3React();
-	const web3 = useWeb3();
 	const contract = useContract(provider, chainId);
 	const lpContract = useLpContract(provider, chainId);
 
@@ -74,20 +78,24 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 		if (!lpContract) {
 			return;
 		}
+		if (!contract) {
+			return;
+		}
 		try {
-			const { approvedAmount, balance } = await fetchInformation(
+			const { approvedAmount, balance, stakedAmount } = await fetchInformation(
+				contract,
 				lpContract,
-				web3,
 				account,
 				chainId
 			);
 
 			setApprovedAmount(approvedAmount);
 			setBalance(fromWei(balance));
+			setStakedAmount(fromWei(stakedAmount));
 		} catch (e) {
 			console.error("failed to update data", e);
 		}
-	}, [lpContract, web3, account, chainId]);
+	}, [lpContract, contract, account, chainId]);
 
 	useEffect(() => {
 		const tm = setInterval(updateData, 60000);
@@ -210,24 +218,31 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 					<Form
 						noValidate
 						onSubmit={stakeAction}
-						render={({ handleSubmit }) => (
+						render={({ handleSubmit, form }) => (
 							<form className={styles.form} onSubmit={handleSubmit} noValidate>
 								<Input
 									className={classNames(styles.input, styles.full)}
 									name="amount"
 									label={
 										<p className={styles.label}>
-											Amount <span>Balance: {balance} NAMES</span>
+											Amount <span>Balance: {balance} LPT</span>
 										</p>
 									}
 									type="text"
 									required
 									placeholder="Enter Amount"
 									validate={composeValidators(isRequired, isDecimalNumber)}
+									initialValue={value && value !== undefined && value}
 									after={
-										<Body3 className={styles.max} Component="span" color="pink">
+										// eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+										<span
+											className={styles.max}
+											onClick={() => {
+												form.change("amount", balance);
+											}}
+										>
 											Max
-										</Body3>
+										</span>
 									}
 									value={value}
 								/>
