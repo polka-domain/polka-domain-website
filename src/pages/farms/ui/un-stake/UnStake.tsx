@@ -72,9 +72,10 @@ export const UnStake: FC<{ onBack(): void }> = ({ onBack }) => {
 		const operation = async () => {
 			try {
 				setOperation(OPERATION.loading);
-				const unStakeResult = await withdraw(contract, unclaimedAmount, account);
+				const unStakeResult = await withdraw(contract, stakedAmount, account);
 				console.log(unStakeResult);
 				setOperation(OPERATION.completed);
+				await updateData();
 				setLastOperation(null);
 			} catch (e) {
 				console.error("failed to withdraw", e);

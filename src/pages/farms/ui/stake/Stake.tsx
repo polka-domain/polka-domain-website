@@ -168,6 +168,7 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 				const stakeResult = await stake(contract, values.amount, account);
 				console.log(stakeResult);
 				setOperation(OPERATION.completed);
+				await updateData();
 				setLastOperation(null);
 			} catch (e) {
 				console.error("failed to stake", e);

@@ -23,13 +23,9 @@ type DefaultType = {
 	onUnStake(): void;
 };
 
-const traceable = <T extends unknown>(name: string, x: Promise<T>): Promise<T> => {
-	x.catch((e) => console.error(`${name} failed`, e));
-	return x;
-};
-
 const fetchInformation = async (contract: Contract, lpContract: Contract, account: string) => {
-	const pAPYInfo = Promise.resolve(42); //traceable("getAPYInfo", getAPYInfo(contract));
+	const pAPYInfo = Promise.resolve(42);
+	// const pAPYInfo = getAPYInfo(contract);
 	const pReward = getRewardInfo(contract, account);
 	const pStakedAmount = getBalanceInfo(contract, account);
 	const pBalance = getMyBalance(lpContract, account);

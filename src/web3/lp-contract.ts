@@ -3,12 +3,11 @@ import Contract, { Contract as ContractType } from "web3-eth-contract";
 import IERC from "./tokens/IERC20.json";
 import { AbiItem, toWei } from "web3-utils";
 import { useMemo } from "react";
-import Web3 from "web3";
 import { getStakeAddress } from "./farms-contract";
 
 export const getLPAddress = (chainId: number) => {
 	switch (chainId) {
-		case 1:
+		case 56:
 			return MAINNET_LP_ADDRESS;
 		case 4:
 			return TESTED_LP_ADDRESS;

@@ -14,10 +14,13 @@ export enum NETWORK {
 	BSC = "BSC",
 	HEC0 = "HEC0",
 	ETH = "ETH",
+	TESTED = "TESTED",
 }
 
 export const getNetworkByChainId = (chainId: number) => {
 	switch (chainId) {
+		case 4:
+			return NETWORK.TESTED;
 		case 56:
 			return NETWORK.BSC;
 		case 128:
@@ -42,13 +45,15 @@ export const Flow: FC<MaybeWithClassName> = ({ className }) => {
 	};
 
 	const content = () => {
+		const MAINNET = network !== NETWORK.TESTED;
+		const BSC_NET = network === NETWORK.BSC;
 		switch (action) {
 			case ACTION.default:
 				return (
 					<Default
-						onClaim={network !== NETWORK.ETH ? networkOpen : () => setAction(ACTION.claim)}
-						onStake={network !== NETWORK.ETH ? networkOpen : () => setAction(ACTION.stake)}
-						onUnStake={network !== NETWORK.ETH ? networkOpen : () => setAction(ACTION.unStake)}
+						onClaim={MAINNET && !BSC_NET ? networkOpen : () => setAction(ACTION.claim)}
+						onStake={MAINNET && !BSC_NET ? networkOpen : () => setAction(ACTION.stake)}
+						onUnStake={MAINNET && !BSC_NET ? networkOpen : () => setAction(ACTION.unStake)}
 					/>
 				);
 

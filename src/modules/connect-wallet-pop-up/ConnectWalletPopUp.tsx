@@ -14,12 +14,12 @@ export const ConnectWalletPopUp: RC<{
 	close(): void;
 }> = ({ close, control, withoutClose }) => {
 	const [connecting, setConnectionStatus] = useState(false);
-	const connect = useWalletConnector();
+	const connectWallet = useWalletConnector();
 
 	const connectMetamask = async () => {
 		try {
 			setConnectionStatus(true);
-			await connect("MetaMask");
+			await connectWallet("MetaMask");
 		} catch (e) {
 			console.error(e);
 		} finally {
@@ -30,7 +30,7 @@ export const ConnectWalletPopUp: RC<{
 	const connectWalletConnect = async () => {
 		try {
 			setConnectionStatus(true);
-			await connect("WalletConnect");
+			await connectWallet("WalletConnect");
 		} catch (e) {
 			console.error(e);
 		} finally {

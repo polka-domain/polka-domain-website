@@ -74,6 +74,7 @@ export const Claim: FC<{ onBack(): void }> = ({ onBack }) => {
 				const claimResult = await claimRewards(contract, account);
 				console.log(claimResult);
 				setOperation(OPERATION.completed);
+				await updateData();
 				setLastOperation(null);
 			} catch (e) {
 				console.error("failed to claim", e);

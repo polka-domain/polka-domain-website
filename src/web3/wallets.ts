@@ -4,7 +4,7 @@ import { PROVIDER_POLLING_INTERVAL, RPC_URLS } from "../const/const";
 
 const metaMaskFactory = () =>
 	new InjectedConnector({
-		supportedChainIds: [1, 3, 4, 5, 42, 31337],
+		supportedChainIds: [1, 3, 4, 5, 42, 56, 128],
 	});
 
 const walletConnectFactory = () =>
