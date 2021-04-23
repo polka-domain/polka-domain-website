@@ -11,7 +11,12 @@ import { SuccessPopUp } from "../success";
 import { useControlPopUp } from "../../../../ui/pop-up-container";
 import { Spinner } from "../../../../ui/spinner";
 import { Contract } from "web3-eth-contract";
-import { getBalanceInfo, useContract, withdraw } from "../../../../web3/farms-contract";
+import {
+	getBalanceInfo,
+	getRewardInfo,
+	useContract,
+	withdraw,
+} from "../../../../web3/farms-contract";
 import { useWeb3Provider } from "../../../../web3/web3";
 import { useWeb3React } from "@web3-react/core";
 import { fromWei, toWei } from "web3-utils";
@@ -26,10 +31,12 @@ enum OPERATION {
 
 const fetchInformation = async (contract: Contract, account: string) => {
 	const pStakedAmount = getBalanceInfo(contract, account);
+	const pReward = getRewardInfo(contract, account);
 
-	const [stakedAmount] = await Promise.all([pStakedAmount]);
+	const [stakedAmount, reward] = await Promise.all([pStakedAmount, pReward]);
 	return {
 		stakedAmount,
+		reward,
 	};
 };
 
@@ -46,9 +53,10 @@ export const UnStake: FC<{ onBack(): void }> = ({ onBack }) => {
 			return;
 		}
 		try {
-			const { stakedAmount } = await fetchInformation(contract, account);
+			const { stakedAmount, reward } = await fetchInformation(contract, account);
 
 			setStakedAmount(fromWei(stakedAmount));
+			setUnclaimedAmount(fromWei(reward));
 		} catch (e) {
 			console.error("failed to update data", e);
 		}
@@ -125,7 +133,7 @@ export const UnStake: FC<{ onBack(): void }> = ({ onBack }) => {
 				<Content className={styles.content}>
 					<dl className={styles.list}>
 						<Body3 className={styles.term} Component="dt" weight="medium">
-							Unclaimed +MATTER($1)
+							Unclaimed + LP Token($1)
 						</Body3>
 						<Body3 className={styles.description} Component="dd" weight="medium" lighten={80}>
 							<span>{getConvertedAmount(unclaimedAmount)}</span> NAMES
