@@ -14,7 +14,8 @@ import { Contract } from "web3-eth-contract";
 import { claimRewards, getRewardInfo, useContract } from "../../../../web3/farms-contract";
 import { useWeb3Provider } from "../../../../web3/web3";
 import { useWeb3React } from "@web3-react/core";
-import { fromWei } from "web3-utils";
+import { fromWei, toWei } from "web3-utils";
+import BigNumber from "bn.js";
 
 enum OPERATION {
 	default = "",
@@ -114,6 +115,8 @@ export const Claim: FC<{ onBack(): void }> = ({ onBack }) => {
 		}
 	}, [operation, failedOpen, failedClose]);
 
+	const claimIsAvailable = amount ? new BigNumber(toWei(amount)).gtn(0) : false;
+
 	return (
 		<>
 			<section className={styles.component}>
@@ -132,22 +135,33 @@ export const Claim: FC<{ onBack(): void }> = ({ onBack }) => {
 						variant="contained"
 						color="pink"
 						size="large"
+						disabled={!claimIsAvailable}
 						onClick={claimAction}
 					>
 						{operation === OPERATION.loading && (
 							<Spinner className={styles.spinner} color="white" size="small" />
 						)}
-						Claim Rewards
+						{operation === OPERATION.loading ? "Claiming..." : "Claim Rewards"}
 					</Button>
 				</Content>
 			</section>
 			{failedPopUp.defined ? (
-				<FailedPopUp control={failedPopUp} close={failedClose} onClick={tryAgainAction} />
+				<FailedPopUp
+					control={failedPopUp}
+					close={() => {
+						failedClose();
+						setOperation(OPERATION.default);
+					}}
+					onClick={tryAgainAction}
+				/>
 			) : null}
 			{successPopUp.defined ? (
 				<SuccessPopUp
 					control={successPopUp}
-					close={successClose}
+					close={() => {
+						successClose();
+						setOperation(OPERATION.default);
+					}}
 					text="You've successfully claimed rewards"
 				/>
 			) : null}

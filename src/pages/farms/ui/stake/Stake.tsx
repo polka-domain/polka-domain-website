@@ -27,7 +27,7 @@ import BigNumber from "bn.js";
 import { fromWei, toWei } from "web3-utils";
 
 enum OPERATION {
-	default = "",
+	default = "default",
 	loading = "loading",
 	approved = "approved",
 	approvalFailed = "approved-failed",
@@ -161,7 +161,7 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 
 	const [lastOperation, setLastOperation] = useState<(() => void) | null>(null);
 
-	const stakeAction: FormProps["onSubmit"] = async (values) => {
+	const stakeAction: FormProps["onSubmit"] = async (values, form) => {
 		const operation = async () => {
 			try {
 				setOperation(OPERATION.loading);
@@ -169,6 +169,7 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 				console.log(stakeResult);
 				setOperation(OPERATION.completed);
 				await updateData();
+				form.change("amount", undefined);
 				setLastOperation(null);
 			} catch (e) {
 				console.error("failed to stake", e);
@@ -263,13 +264,16 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 									submit={value !== undefined && amountIsApproved}
 									onClick={value !== undefined && amountIsNotApproved ? approveAction : undefined}
 								>
-									{(operation === OPERATION.loading || value === undefined) && (
+									{operation === OPERATION.loading && (
 										<Spinner className={styles.spinner} color="white" size="small" />
 									)}
-									{value !== undefined && amountIsApproved && "Stake LPT"}
+									{value === undefined && "Enter Amount"}
+									{value !== undefined &&
+										amountIsApproved &&
+										(operation === OPERATION.loading ? "Staking..." : "Stake LPT")}
 									{value !== undefined &&
 										amountIsNotApproved &&
-										(operation === OPERATION.loading ? "Approving" : "Approve")}
+										(operation === OPERATION.loading ? "Approving..." : "Approve")}
 								</Button>
 							</form>
 						)}
@@ -279,24 +283,40 @@ export const Stake: FC<{ onBack(): void }> = ({ onBack }) => {
 			{approvalFailedPopUp.defined ? (
 				<FailedPopUp
 					control={approvalFailedPopUp}
-					close={approvalFailedClose}
+					close={() => {
+						approvalFailedClose();
+						setOperation(OPERATION.default);
+					}}
 					onClick={approveAction}
 				/>
 			) : null}
 			{approvedPopUp.defined ? (
 				<SuccessPopUp
 					control={approvedPopUp}
-					close={approvedClose}
+					close={() => {
+						approvedClose();
+						setOperation(OPERATION.default);
+					}}
 					text="You've successfully approved LPT"
 				/>
 			) : null}
 			{failedPopUp.defined ? (
-				<FailedPopUp control={failedPopUp} close={failedClose} onClick={tryAgainAction} />
+				<FailedPopUp
+					control={failedPopUp}
+					close={() => {
+						failedClose();
+						setOperation(OPERATION.default);
+					}}
+					onClick={tryAgainAction}
+				/>
 			) : null}
 			{successPopUp.defined ? (
 				<SuccessPopUp
 					control={successPopUp}
-					close={successClose}
+					close={() => {
+						successClose();
+						setOperation(OPERATION.default);
+					}}
 					text="You've successfully staked LPT"
 				/>
 			) : null}

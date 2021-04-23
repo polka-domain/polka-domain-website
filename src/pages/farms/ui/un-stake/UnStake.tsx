@@ -14,10 +14,11 @@ import { Contract } from "web3-eth-contract";
 import { getBalanceInfo, useContract, withdraw } from "../../../../web3/farms-contract";
 import { useWeb3Provider } from "../../../../web3/web3";
 import { useWeb3React } from "@web3-react/core";
-import { fromWei } from "web3-utils";
+import { fromWei, toWei } from "web3-utils";
+import BigNumber from "bn.js";
 
 enum OPERATION {
-	default = "",
+	default = "default",
 	loading = "loading",
 	completed = "completed",
 	failed = "failed",
@@ -115,6 +116,8 @@ export const UnStake: FC<{ onBack(): void }> = ({ onBack }) => {
 		}
 	}, [operation, failedOpen, failedClose]);
 
+	const unStakeIsAvailable = stakedAmount ? new BigNumber(toWei(stakedAmount)).gtn(0) : false;
+
 	return (
 		<>
 			<div className={styles.component}>
@@ -139,22 +142,33 @@ export const UnStake: FC<{ onBack(): void }> = ({ onBack }) => {
 						variant="contained"
 						color="pink"
 						size="large"
+						disabled={!unStakeIsAvailable}
 						onClick={unStakeAction}
 					>
 						{operation === OPERATION.loading && (
 							<Spinner className={styles.spinner} color="white" size="small" />
 						)}
-						Unstake LPT
+						{operation === OPERATION.loading ? "Unstaking..." : "Unstake LPT"}
 					</Button>
 				</Content>
 			</div>
 			{failedPopUp.defined ? (
-				<FailedPopUp control={failedPopUp} close={failedClose} onClick={tryAgainAction} />
+				<FailedPopUp
+					control={failedPopUp}
+					close={() => {
+						failedClose();
+						setOperation(OPERATION.default);
+					}}
+					onClick={tryAgainAction}
+				/>
 			) : null}
 			{successPopUp.defined ? (
 				<SuccessPopUp
 					control={successPopUp}
-					close={successClose}
+					close={() => {
+						successClose();
+						setOperation(OPERATION.default);
+					}}
 					text="You've successfully unstaked LPT"
 				/>
 			) : null}
