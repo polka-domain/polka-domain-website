@@ -48,9 +48,9 @@ export const NAME = "NAME";
 
 export const HEADER_LINKS = {
 	// Whitelist: WHITELIST_PATH,
-	Farms: FARMS_PATH,
+	// Farms: FARMS_PATH,
 	// Tokens: TOKENS_PATH,
-	Airdrop: AIRDROP_PATH,
+	// Airdrop: AIRDROP_PATH,
 	Docs: "/Flowchart Polkadomain.pdf",
 	Social: SOCIAL,
 	Testnet: TESTNET_PATH,
@@ -58,9 +58,9 @@ export const HEADER_LINKS = {
 
 export const MOBILE_HEADER_LINKS = {
 	// Whitelist: WHITELIST_PATH,
-	Farms: FARMS_PATH,
+	// Farms: FARMS_PATH,
 	// Tokens: TOKENS_PATH,
-	Airdrop: AIRDROP_PATH,
+	// Airdrop: AIRDROP_PATH,
 	Docs: "/Flowchart Polkadomain.pdf",
 	Testnet: TESTNET_PATH,
 };
