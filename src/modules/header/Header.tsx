@@ -10,6 +10,7 @@ import { FocusOn } from "react-focus-on";
 import { useScatteredContinuousState } from "../../hooks/use-continuous-state";
 import { MobileNavigation } from "./ui/mobile-navigation";
 import { Toggle, Close } from "../../ui/icons/Icons";
+import { APP_PATH } from "../../const/const";
 
 type HeaderType = {
 	fixed?: boolean;
@@ -42,7 +43,7 @@ export const Header: FC<HeaderType & MaybeWithClassName> = ({ className, fixed }
 				</NavLink>
 				<Navigation className={styles.navigation} />
 				<div className={styles.launch}>
-					<NavLink size="medium" variant="contained" color="grey" href="" disabled>
+					<NavLink size="medium" variant="contained" color="grey" href={APP_PATH} disabled>
 						Launch App
 					</NavLink>
 				</div>

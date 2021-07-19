@@ -3,7 +3,7 @@ import classNames from "classnames";
 import styles from "./MobileNavigation.module.scss";
 import { MaybeWithClassName } from "../../../../helper/react/types";
 import { NavLink } from "../../../../ui/button";
-import { SOCIAL, MOBILE_HEADER_LINKS } from "../../../../const/const";
+import { APP_PATH, SOCIAL, MOBILE_HEADER_LINKS } from "../../../../const/const";
 import { GitHub, Medium, Telegram, Twitter } from "../../../../ui/icons/Icons";
 import React from "react";
 import { useWindowSize } from "../../../../hooks/use-window-size";
@@ -58,7 +58,7 @@ export const MobileNavigation: FC<ComponentType> = ({
 					);
 				})}
 			</ul>
-			<NavLink className={styles.launch} variant="contained" color="grey" href="" disabled>
+			<NavLink className={styles.launch} variant="contained" color="grey" href={APP_PATH} disabled>
 				Launch App
 			</NavLink>
 			<ul className={styles.socialList}>
