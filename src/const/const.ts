@@ -1,6 +1,6 @@
 export const APP_PATH = "https://app.polkadomain.org";
 export const TESTNET_PATH =
-	"https://testnet.polkadomain.org/?rpc=wss://testnet-a-rpc.polkadomain.org#/explorer";
+	"https://polkadot.js.org/apps/?rpc=wss://testnet-a-rpc.polkadomain.org#/explorer";
 export const MEDIUM_PATH = "https://medium.com/@polkadomain";
 export const GITHUB_PATH = "https://github.com/polka-domain";
 export const TELEGRAM_PATH = "https://t.me/PolkaDomain";
